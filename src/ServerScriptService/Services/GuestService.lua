@@ -327,6 +327,10 @@ function GuestService.trySpawn(island)
 	end
 	local gtype = pickGuestType(island)
 	local size = rng:NextInteger(gtype.party[1], gtype.party[2])
+	local maxParty = Stars.Levels[island.rest.stars].maxParty
+	if maxParty then
+		size = math.min(size, maxParty) -- в маленьких заведениях компании меньше
+	end
 	local cap = GuestService.seatCap(island)
 	local rt
 	if seatedGuests(island) + size <= cap then
