@@ -17,6 +17,7 @@ local Minigames = require(Controllers.Minigames)
 local Build = require(Controllers.BuildController)
 local Heli = require(Controllers.HeliController)
 local Effects = require(Controllers.Effects)
+local Localizer = require(Controllers.Localizer)
 
 local player = Players.LocalPlayer
 
@@ -24,6 +25,7 @@ pcall(function()
 	StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
 end)
 
+Localizer.init()
 UI.screen()
 MenusMain.build()
 MenusShop.build()

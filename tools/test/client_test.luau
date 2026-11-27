@@ -268,6 +268,77 @@ check(#Mock.errors == errorsBefore, "all effects run without errors", Mock.error
 RS.Remotes.Toast.OnClientEvent:Fire("hello", "success")
 Mock.advance(6)
 
+print("== Language switch")
+local function textsWith(pattern)
+	local n = 0
+	for _, d in ipairs(gui:GetDescendants()) do
+		if (d.ClassName == "TextLabel" or d.ClassName == "TextButton") and string.find(d.Text, pattern) then
+			n += 1
+		end
+	end
+	return n
+end
+local langBtn = gui:FindFirstChild("Language", true)
+check(langBtn ~= nil, "language button exists in side menu")
+local wasRu = textsWith("Профессии") > 0
+if langBtn then
+	langBtn.Activated:Fire()
+	Mock.advance(1)
+end
+check(wasRu and textsWith("Профессии") == 0 and textsWith("Professions") > 0, "side menu switches to English")
+local cyr = 0
+for _, d in ipairs(gui:GetDescendants()) do
+	if (d.ClassName == "TextLabel" or d.ClassName == "TextButton") and d.Visible ~= false and string.find(d.Text, "[\208\209]") then
+		cyr += 1
+		if cyr <= 5 then
+			print("  untranslated: " .. d.Text)
+		end
+	end
+end
+check(cyr <= 3, "almost no Russian text left in English mode (" .. cyr .. ")")
+push("player", states.player)
+push("restaurant", states.restaurant)
+local leftovers, seen = {}, {}
+for _, id in ipairs(windows) do
+	local win = UI.windows[id]
+	local tabs = win.tabsList or { { id = win.tab } }
+	for _, tab in ipairs(tabs) do
+		win.tab = tab.id
+		UI.open(id)
+		win:refresh()
+		Mock.advance(0.1)
+		for _, d in ipairs(win.frame and win.frame:GetDescendants() or win.content:GetDescendants()) do
+			if (d.ClassName == "TextLabel" or d.ClassName == "TextButton") and string.find(d.Text, "[\208\209]") and not seen[d.Text] then
+				seen[d.Text] = true
+				table.insert(leftovers, id .. ": " .. d.Text:gsub("\n", " | "))
+			end
+		end
+		UI.close(id)
+	end
+end
+for i, t in ipairs(leftovers) do
+	if i <= 40 then
+		print("  untranslated: " .. t)
+	end
+end
+if process.args[1] == "en" then
+	UI.open("restaurant")
+	Mock.advance(0.1)
+	for _, d in ipairs(UI.windows.restaurant.content:GetDescendants()) do
+		if (d.ClassName == "TextLabel" or d.ClassName == "TextButton") and d.Text ~= "" then
+			print("   EN: " .. d.Text:gsub("\n", " | "))
+		end
+	end
+	UI.close("restaurant")
+end
+check(#leftovers <= 5, "all windows are in English (" .. #leftovers .. " leftovers)")
+if langBtn then
+	langBtn.Activated:Fire()
+	Mock.advance(1)
+end
+check(textsWith("Профессии") > 0, "switches back to Russian")
+check(#Mock.errors == errorsBefore, "language switch runs without errors", Mock.errors[errorsBefore + 1])
+
 check(#Mock.warnings == 0, "no warnings (render errors are reported as warnings)", Mock.warnings[1])
 for i, w in ipairs(Mock.warnings) do
 	if i > 10 then

@@ -197,7 +197,8 @@ end
 local DEFAULTS = {
 	BasePart = { Transparency = 0, Size = Vector3.new(4, 1, 2), CFrame = CFrame.new(), Anchored = false, CanCollide = true, CanQuery = true, CanTouch = true, Massless = false, Color = Color3.new(0.6, 0.6, 0.6), AssemblyLinearVelocity = Vector3.zero, AssemblyAngularVelocity = Vector3.zero, LocalTransparencyModifier = 0 },
 	Humanoid = { WalkSpeed = 16, Sit = false, Health = 100, JumpPower = 50 },
-	GuiObject = { Visible = true, BackgroundTransparency = 0, Rotation = 0, TextTransparency = 0, Text = "", ZIndex = 1, LayoutOrder = 0, AbsoluteSize = roblox.Vector2.new(100, 30), AbsolutePosition = roblox.Vector2.new(0, 0) },
+	Player = { LocaleId = "ru-ru" },
+	GuiObject = { PlaceholderText = "", Visible = true, BackgroundTransparency = 0, Rotation = 0, TextTransparency = 0, Text = "", ZIndex = 1, LayoutOrder = 0, AbsoluteSize = roblox.Vector2.new(100, 30), AbsolutePosition = roblox.Vector2.new(0, 0) },
 	ProximityPrompt = { Enabled = true, ActionText = "", ObjectText = "", HoldDuration = 0, MaxActivationDistance = 10 },
 	LayerCollector = { Enabled = true },
 	Camera = { ViewportSize = roblox.Vector2.new(1280, 720), CFrame = CFrame.new(0, 10, 0) },
@@ -598,6 +599,21 @@ MT.__newindex = function(self, key, value)
 			table.insert(DATA[value].children, self)
 			if DATA[value].props.ChildAdded then
 				DATA[value].props.ChildAdded:Fire(self)
+			end
+			-- DescendantAdded on every ancestor, for the instance and its subtree
+			local added = { self }
+			for _, x in ipairs(self:GetDescendants()) do
+				table.insert(added, x)
+			end
+			local anc = value
+			while anc do
+				local sig = DATA[anc].props.DescendantAdded
+				if sig then
+					for _, x in ipairs(added) do
+						sig:Fire(x)
+					end
+				end
+				anc = DATA[anc].parent
 			end
 		end
 		return

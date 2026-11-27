@@ -124,6 +124,31 @@ function HUD.build()
 		end)
 	end
 
+	-- language switch (RU / EN)
+	local Localizer = require(script.Parent.Localizer)
+	local langBtn = UI.new("TextButton", {
+		Name = "Language",
+		Text = "",
+		BackgroundColor3 = T.card,
+		AutoButtonColor = true,
+		Size = UDim2.fromOffset(72, 62),
+		LayoutOrder = #MENU + 1,
+		Parent = side,
+	})
+	UI.corner(langBtn, 12)
+	UI.label(langBtn, "🌐", 24, { align = Enum.TextXAlignment.Center, sizeUDim = UDim2.new(1, 0, 0, 34) }).Position = UDim2.fromOffset(0, 4)
+	local langL = UI.label(langBtn, "", 11, { align = Enum.TextXAlignment.Center, font = UI.Font, sizeUDim = UDim2.new(1, 0, 0, 18), color = T.sub })
+	langL.Position = UDim2.fromOffset(0, 40)
+	local function showLang()
+		langL.Text = Localizer.current() == "en" and "English" or "RU"
+	end
+	showLang()
+	Localizer.onChanged(showLang)
+	langBtn.Activated:Connect(function()
+		UI.click()
+		Localizer.toggle()
+	end)
+
 	-- ===== quick actions (bottom centre) =====
 	local quick = UI.new("Frame", {
 		Name = "Quick",
