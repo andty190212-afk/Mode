@@ -419,26 +419,17 @@ local swordPrompt = Workspace.Map.Islands.Island2.WeaponStand.starter_sword.Take
 swordPrompt.Triggered:Fire(bob)
 check(pb.data.equipped ~= "", "Bob took the free sword")
 do
-	-- give Bob a real shoulder joint and check the SERVER plays the swing on it
-	local E = Mock.env
-	local torso = E.Instance.new("Part")
-	torso.Name = "UpperTorso"
-	torso.Parent = bob.Character
-	local upper = E.Instance.new("Part")
-	upper.Name = "RightUpperArm"
-	upper.Parent = bob.Character
-	local sh = E.Instance.new("Motor6D")
-	sh.Name = "RightShoulder"
-	sh.C0 = E.CFrame.new(1, 0.5, 0)
-	sh.Parent = upper
-	local grip = bob.Character:FindFirstChild("WeaponGrip", true)
-	check(grip ~= nil and grip:IsA("Motor6D"), "weapon hangs on a WeaponGrip joint")
-	local shBase, gripBase = sh.C0, grip and grip.C0
+	-- the swing is played through the Animator (joints can be read-only in new avatars)
+	local Config = Mock.env.require(RS.Shared.Config)
+	local hold = Combat.lastAnim and Combat.lastAnim[bob]
+	check(hold == Config.WeaponAnimations.R15.hold or hold == Config.WeaponAnimations.R6.hold, "holding a weapon plays the hold animation", hold)
 	moveTo(bob, Vector3.new(0, MapLayout.BridgeY + 3, 40))
+	Mock.advance(1.2)
 	attack(bob, carol)
-	Mock.advance(0.15)
-	check(sh.C0 ~= shBase, "server swing moves the shoulder (seen by everyone)")
-	check(grip and grip.C0 ~= gripBase, "server swing flicks the weapon")
+	Mock.advance(0.1)
+	local a = Combat.lastAnim[bob]
+	check(a == Config.WeaponAnimations.R15.slash or a == Config.WeaponAnimations.R6.slash, "attack plays the swing animation", a)
+	check(bob.Character:FindFirstChild("WeaponGrip", true) ~= nil, "weapon attached to the hand")
 	Mock.advance(1)
 end
 Mock.advance(0.5)

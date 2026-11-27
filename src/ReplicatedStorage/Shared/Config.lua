@@ -6,7 +6,7 @@
 local Config = {}
 
 Config.GameName = "Restaurant Island Tycoon"
-Config.Version = "2.2.2"
+Config.Version = "2.3.0"
 
 -- ===================== MONETIZATION =====================
 Config.GamePasses = {
@@ -100,6 +100,29 @@ Config.NPC = {
 		Waiter = { shirt = 0, pants = 0 },
 		Bartender = { shirt = 0, pants = 0 },
 	},
+}
+
+-- ===================== WEAPON ANIMATIONS =====================
+-- Стандартные публичные анимации Roblox (такие же, как у инструментов в скрипте Animate).
+-- Хотите свои уникальные: загрузите анимацию в Roblox и впишите ID в PerAbility[ид способности].
+Config.WeaponAnimations = {
+	R15 = {
+		hold = "rbxassetid://507768375", -- toolnone: держать оружие
+		slash = "rbxassetid://522635514", -- toolslash: удар
+		lunge = "rbxassetid://522638767", -- toollunge: выпад
+		point = "rbxassetid://507770453", -- указать
+		cheer = "rbxassetid://507770677", -- руки вверх
+		eat = "rbxassetid://507770239", -- взмах рукой (поедание)
+	},
+	R6 = {
+		hold = "rbxassetid://182393478",
+		slash = "rbxassetid://129967390",
+		lunge = "rbxassetid://129967478",
+		point = "rbxassetid://128853357",
+		cheer = "rbxassetid://129423030",
+		eat = "rbxassetid://128777973",
+	},
+	PerAbility = {}, -- [ability id] = "rbxassetid://..."
 }
 
 -- ===================== WORLD =====================

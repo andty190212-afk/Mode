@@ -563,12 +563,15 @@ local function setArms(char, raised, store)
 		local arm = char:FindFirstChild(name)
 		local motor = arm and arm:FindFirstChildWhichIsA("Motor6D")
 		if motor then
-			if raised then
-				store[motor] = motor.C0
-				motor.C0 = motor.C0 * CFrame.Angles(math.rad(90), 0, 0)
-			elseif store[motor] then
-				motor.C0 = store[motor]
-			end
+			-- joints can be read-only in newer avatars: never let that break the theft
+			pcall(function()
+				if raised then
+					store[motor] = motor.C0
+					motor.C0 = motor.C0 * CFrame.Angles(math.rad(90), 0, 0)
+				elseif store[motor] then
+					motor.C0 = store[motor]
+				end
+			end)
 		end
 	end
 end

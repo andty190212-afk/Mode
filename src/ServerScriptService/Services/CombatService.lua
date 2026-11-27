@@ -14,7 +14,6 @@ local Data = Shared.Data
 local Weapons = require(Data.Weapons)
 local Creatures = require(Data.Creatures)
 local Rarities = require(Data.Rarities)
-local Poses = require(Shared.WeaponPoses)
 
 local CombatService = {}
 local S
@@ -906,14 +905,116 @@ A.midas_shockwave = function(ctx)
 	end
 end
 
+-- ===================== WEAPON ANIMATIONS =====================
+-- Played through the character's Animator (works with every avatar joint system; changing
+-- joints directly is read-only in newer avatars). Uses Roblox's own public tool animations;
+-- your own uploaded animations can be set per ability in Config.WeaponAnimations.PerAbility.
+local animTracks = {} -- [Humanoid] = { [animId] = AnimationTrack }
+
+local STYLE_SPEED = { fast = 1.8, heavy = 0.75, ranged = 1.3, magic = 1.1, defense = 1.1, control = 1.2, summon = 1.15, mobility = 1.5, mass = 1.0 }
+-- every ability gets its own combination of motion + speed (+ the unique effect)
+local ABILITY_MOTION = {
+	home_run = { "slash", 0.6 }, guard = { "hold", 0.5 }, spin = { "slash", 2.2 }, coconut_bomb = { "lunge", 0.9 },
+	charge = { "lunge", 1.6 }, bubble_trap = { "point", 1.2 }, flame_wave = { "slash", 1.4 }, ice_field = { "lunge", 0.7 },
+	hook_pull = { "lunge", 1.2 }, static_shock = { "point", 1.5 }, tidal_wave = { "slash", 0.85 }, reflect = { "hold", 0.8 },
+	bee_swarm = { "point", 0.9 }, updraft = { "cheer", 1.4 }, meteor = { "cheer", 0.8 }, shadow_step = { "lunge", 2.0 },
+	thorn_traps = { "slash", 1.7 }, plasma_beam = { "point", 0.7 }, storm_aura = { "slash", 2.5 }, fire_rain = { "cheer", 1.1 },
+	summon_golem = { "lunge", 0.55 }, rewind = { "slash", 0.45 }, black_hole = { "cheer", 0.6 }, mirage = { "lunge", 1.3 },
+	dragon_breath = { "point", 0.5 }, guardian_dome = { "cheer", 0.9 }, starfall = { "cheer", 1.25 }, soul_chains = { "lunge", 1.05 },
+	blink_barrage = { "slash", 2.8 }, midas_shockwave = { "lunge", 0.65 },
+}
+
+local function animId(hum, name)
+	local set = Config.WeaponAnimations
+	local rig = hum.RigType == Enum.HumanoidRigType.R15 and set.R15 or set.R6
+	return rig[name] or set.R15[name]
+end
+
+local function playAnim(player, id, opts)
+	opts = opts or {}
+	local _, _, hum = charParts(player)
+	if not hum or not id or id == "" then
+		return nil
+	end
+	local ok, track = pcall(function()
+		local animator = hum:FindFirstChildOfClass("Animator")
+		if not animator then
+			animator = Instance.new("Animator")
+			animator.Parent = hum
+		end
+		local cache = animTracks[hum]
+		if not cache then
+			cache = {}
+			animTracks[hum] = cache
+			hum.Destroying:Connect(function()
+				animTracks[hum] = nil
+			end)
+		end
+		local t = cache[id]
+		if not t then
+			local a = Instance.new("Animation")
+			a.AnimationId = id
+			t = animator:LoadAnimation(a)
+			t.Priority = opts.priority or Enum.AnimationPriority.Action
+			t.Looped = opts.looped == true
+			cache[id] = t
+		end
+		if opts.stop then
+			t:Stop(0.2)
+			return t
+		end
+		t:Play(0.08, 1, opts.speed or 1)
+		return t
+	end)
+	if not ok then
+		warn("[CombatService] animation: " .. tostring(track))
+		return nil
+	end
+	CombatService.lastAnim = CombatService.lastAnim or {}
+	CombatService.lastAnim[player] = id
+	return track
+end
+
+local function setHoldAnim(player, on)
+	local _, _, hum = charParts(player)
+	if not hum then
+		return
+	end
+	playAnim(player, animId(hum, "hold"), { looped = true, priority = Enum.AnimationPriority.Action, stop = not on })
+end
+
+function CombatService.playAttackAnim(player, def)
+	local _, _, hum = charParts(player)
+	if hum then
+		local name = def.kind == "ranged" and def.style ~= "magic" and "lunge" or "slash"
+		if def.style == "heavy" or def.style == "fast" then
+			name = "slash"
+		end
+		playAnim(player, animId(hum, name), { speed = STYLE_SPEED[def.style] or 1.2, priority = Enum.AnimationPriority.Action2 })
+	end
+end
+
+function CombatService.playAbilityAnim(player, def)
+	local _, _, hum = charParts(player)
+	if not hum then
+		return
+	end
+	local custom = Config.WeaponAnimations.PerAbility[def.ability.id]
+	if custom and custom ~= "" then
+		playAnim(player, custom, { priority = Enum.AnimationPriority.Action2 })
+		return
+	end
+	local m = ABILITY_MOTION[def.ability.id] or { "lunge", 1 }
+	playAnim(player, animId(hum, m[1]), { speed = m[2], priority = Enum.AnimationPriority.Action2 })
+end
+
 -- ===================== WEAPON MODEL =====================
 local function unequipModel(player)
 	local char = player.Character
 	local old = char and char:FindFirstChild("EquippedWeapon")
 	if old then
 		old:Destroy()
-		Poses.interrupt(char)
-		Poses.setIdle(char, false)
+		setHoldAnim(player, false)
 	end
 end
 
@@ -960,16 +1061,13 @@ local function equipModel(player, def)
 			w.Parent = p
 		end
 	end
-	-- the handle hangs on a Motor6D so the server can flick the weapon on every swing
-	local grip = Instance.new("Motor6D")
-	grip.Name = "WeaponGrip"
-	grip.Part0, grip.Part1 = hand, handle
-	grip.C0 = hand.CFrame:ToObjectSpace(handle.CFrame)
-	grip.C1 = CFrame.new()
-	grip.Parent = handle
+	local w = Instance.new("WeldConstraint")
+	w.Name = "WeaponGrip"
+	w.Part0, w.Part1 = hand, handle
+	w.Parent = handle
 	m:SetAttribute("WeaponId", def.id)
 	m.Parent = char
-	Poses.setIdle(char, true)
+	setHoldAnim(player, true)
 end
 
 -- ===================== STATE PUSH =====================
@@ -1088,8 +1186,10 @@ local function registerRemotes()
 		p.data.pvp.dishesEaten += 1
 		local _, root = charParts(player)
 		if player.Character then
-			Poses.interrupt(player.Character)
-			Poses.play(player.Character, Poses.EAT)
+			local _, _, hum = charParts(player)
+			if hum then
+				playAnim(player, animId(hum, "eat"), { speed = 1.2, priority = Enum.AnimationPriority.Action2 })
+			end
 		end
 		if root then
 			Net.fxAll("eatDish", { userId = player.UserId, dish = dish.id, pos = root.Position })
@@ -1158,7 +1258,7 @@ local function registerRemotes()
 			return
 		end
 		s.cd.attack = now + def.cooldown
-		Poses.play(player.Character, Poses.attackFrames(def)) -- swing animation (replicates to all)
+		CombatService.playAttackAnim(player, def) -- swing animation (Animator replicates to all)
 		local dir = aimOf(root, payload)
 		local origin = root.Position
 		Net.fxAll("swing", { userId = player.UserId, weapon = def.id, kind = def.kind, dir = dir, from = origin, range = def.range, projectile = def.projectile, color = def.color })
@@ -1222,11 +1322,7 @@ local function registerRemotes()
 			return fail("Способность недоступна")
 		end
 		s.cd.ability = now + def.ability.cooldown
-		local frames = Poses.ABILITY_ANIM[def.ability.id]
-		if frames then
-			Poses.interrupt(player.Character)
-			Poses.play(player.Character, frames)
-		end
+		CombatService.playAbilityAnim(player, def)
 		local dir = aimOf(root, payload)
 		local point = typeof(payload.point) == "Vector3" and payload.point or (root.Position + dir * 25)
 		local maxRange = 55
