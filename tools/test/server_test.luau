@@ -290,6 +290,14 @@ end
 check(tcount == 5, "furniture re-registered after rebuild", tcount)
 check(island.building:FindFirstChild("PassPrompt", true) ~= nil, "kitchen prompts rebound after rebuild")
 
+local ds = Mock.request(alice, "DebugSetStars", { stars = 5 })
+check(ds.ok and rest.stars == 5 and island.building:GetAttribute("Tier") == 5, "Studio: set restaurant to 5 stars instantly", ds.err)
+ds = Mock.request(alice, "DebugSetStars", { stars = 2 })
+check(ds.ok and rest.stars == 2 and island.building:GetAttribute("Tier") == 2, "Studio: back to 2 stars", ds.err)
+Mock.isStudio = false
+check(not Mock.request(alice, "DebugSetStars", { stars = 5 }).ok, "star selector disabled on live servers")
+Mock.isStudio = true
+
 section("Director & NPC staff")
 check(Mock.request(alice, "ChooseRole", { role = "Director" }).ok, "Alice switches to Director (Studio pass grant)")
 local hire = Mock.request(alice, "HireStaff", { role = "Cook" })

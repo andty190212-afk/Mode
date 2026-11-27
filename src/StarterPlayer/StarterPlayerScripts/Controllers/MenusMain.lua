@@ -165,6 +165,13 @@ local function renderRestaurant(c, win)
 			UI.button(c, "🧪 Studio: ускорить тест (+100 гостей, +$250k, репутация)", T.purple, function()
 				UI.request(Net, "DebugBoost", {}, "Тестовые показатели добавлены")
 			end, { size = UDim2.fromOffset(460, 36), textSize = 13 })
+			UI.label(c, "🧪 Studio: выбрать уровень ресторана (сразу, без условий и взноса)", 14, { color = T.purple })
+			local starRow = UI.row(c, 42)
+			for n = 1, 5 do
+				UI.button(starRow, string.rep("★", n), n == r.stars and T.gold or T.purple, function()
+					UI.request(Net, "DebugSetStars", { stars = n }, "Уровень ресторана: " .. n .. "★")
+				end, { size = UDim2.fromOffset(108, 36), textSize = 14, order = n, textColor = n == r.stars and Color3.fromRGB(40, 30, 10) or nil })
+			end
 		end
 	elseif win.tab == "menu" then
 		UI.label(c, canManage and "Включайте блюда и задавайте наценку. Высокая цена = больше прибыли, но меньше заказов и ниже удовлетворённость." or "Меню управляет владелец или директор.", 14, { color = T.sub, auto = true })
