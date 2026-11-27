@@ -787,11 +787,11 @@ function GuestService.finishParty(island, party)
 		g = party.type.id,
 		s = starsGiven,
 		txt = pickReview(sat),
-		food = Util.round(food * 5, 0.1),
-		service = Util.round(service * 5, 0.1),
-		interior = Util.round(ambience * 5, 0.1),
-		speed = Util.round(speed * 5, 0.1),
-		price = Util.round(price * 5, 0.1),
+		food = math.floor(food * 50 + 0.5) / 10,
+		service = math.floor(service * 50 + 0.5) / 10,
+		interior = math.floor(ambience * 50 + 0.5) / 10,
+		speed = math.floor(speed * 50 + 0.5) / 10,
+		price = math.floor(price * 50 + 0.5) / 10,
 	}
 	-- reputation
 	local repDelta = (sat - 0.55) * 3.2 * party.type.rep

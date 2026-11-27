@@ -281,7 +281,7 @@ function Effects.init(Minigames, HUD)
 				sparkle(data.pos)
 			end
 		elseif name == "ding" or name == "place" or name == "purchase" or name == "upgrade" then
-			UI.sound(Config.Sounds.Buy, 0.4)
+			UI.sound(Config.Sounds.Buy, Config.SoundTuning.Buy.volume, Config.SoundTuning.Buy.pitch)
 			if name == "purchase" then
 				confetti()
 			end

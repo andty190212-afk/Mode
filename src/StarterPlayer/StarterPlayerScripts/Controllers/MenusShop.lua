@@ -372,7 +372,11 @@ local function renderStore(c)
 		UI.label(card, "<b>" .. prod.title .. "</b>  <font color='#A5AFD2'>" .. desc .. "</font>", 15, { sizeUDim = UDim2.new(1, -220, 1, 0) }).Position = UDim2.fromOffset(10, 0)
 		local b = UI.button(card, "💎 " .. prod.robux .. " R$", T.gold, function()
 			if prod.id == 0 then
-				UI.toast("Продукт не настроен (Config.Products → id)", "warn")
+				if p.passes and p.passes.studio then
+					UI.request(Net, "StudioTestProduct", { key = prod.key }, "🧪 Studio: тестовая покупка выдана (Robux не списаны)")
+				else
+					UI.toast("Товар ещё не настроен: создайте Developer Product на сайте Roblox и впишите ID в Config.Products", "warn")
+				end
 				return
 			end
 			MarketplaceService:PromptProductPurchase(player, prod.id)

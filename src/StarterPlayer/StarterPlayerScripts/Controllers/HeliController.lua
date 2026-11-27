@@ -120,7 +120,11 @@ local function startPiloting(model)
 		engineSound.Parent = root
 		engineSound:Play()
 	end
-	UI.toast("🚁 W/S — вперёд/назад, A/D — поворот, Пробел/E — вверх, Shift/Q — вниз. Прыжок — выйти.", "info")
+	if model:GetAttribute("Vehicle") == "Boat" then
+		UI.toast("🚤 W/S — вперёд/назад, A/D — поворот. Прыжок — выйти.", "info")
+	else
+		UI.toast("🚁 W/S — вперёд/назад, A/D — поворот, Пробел/E — вверх, Shift/Q — вниз. Прыжок — выйти.", "info")
+	end
 end
 
 local function stopPiloting()
@@ -128,8 +132,13 @@ local function stopPiloting()
 		local root = piloting.PrimaryPart
 		local lift = root:FindFirstChild("Lift")
 		local gyro = root:FindFirstChild("Gyro")
+		if piloting:GetAttribute("Vehicle") == "Boat" then
+			-- лодка: остановиться на воде (сервер поставит её на якорь)
+			if lift then
+				lift.VectorVelocity = Vector3.zero
+			end
 		-- плавная посадка: держим небольшую вертикальную скорость вниз
-		if lift then
+		elseif lift then
 			lift.VectorVelocity = Vector3.new(0, -6, 0)
 			task.delay(3, function()
 				if lift.Parent and piloting == nil then
@@ -190,6 +199,28 @@ local function step(dt)
 	local turn = piloting:GetAttribute("Turn") or 1.2
 	local accel = piloting:GetAttribute("Accel") or 0.8
 	throttle, yawInput, liftInput = readInput()
+	if piloting:GetAttribute("Vehicle") == "Boat" then
+		-- лодка: только по воде, держим высоту поверхности
+		yaw += yawInput * turn * dt * math.clamp(math.abs(throttle) + 0.35, 0, 1)
+		local fwd = Vector3.new(-math.sin(yaw), 0, -math.cos(yaw))
+		local floatY = piloting:GetAttribute("FloatY") or 0.2
+		local p = root.Position
+		local tgt = fwd * throttle * maxSpeed * (throttle < 0 and 0.4 or 1)
+		local fl = Vector3.new(p.X, 0, p.Z)
+		if fl.Magnitude > Config.WorldRadius then
+			tgt = -fl.Unit * maxSpeed * 0.5
+		end
+		velocity = velocity:Lerp(tgt, math.clamp(dt * 1.5, 0, 1))
+		if lift then
+			lift.VectorVelocity = Vector3.new(velocity.X, (floatY - p.Y) * 4, velocity.Z)
+		end
+		if gyro then
+			local roll = -yawInput * math.rad(8) * math.clamp(velocity.Magnitude / maxSpeed, 0, 1)
+			local pitch = math.rad(4) * math.clamp(velocity.Magnitude / maxSpeed, 0, 1)
+			gyro.CFrame = CFrame.Angles(0, yaw, 0) * CFrame.Angles(pitch, 0, roll)
+		end
+		return
+	end
 	yaw += yawInput * turn * dt
 	local forward = Vector3.new(-math.sin(yaw), 0, -math.cos(yaw))
 	local target = forward * throttle * maxSpeed + Vector3.new(0, liftInput * climb, 0)
@@ -227,9 +258,9 @@ function Heli.init()
 		end
 		hum:GetPropertyChangedSignal("SeatPart"):Connect(function()
 			local seat = hum.SeatPart
-			if seat and seat.Name == "PilotSeat" then
+			if seat and (seat.Name == "PilotSeat" or seat.Name == "BoatSeat") then
 				local model = seat:FindFirstAncestorOfClass("Model")
-				while model and not model:GetAttribute("Helicopter") do
+				while model and not (model:GetAttribute("Helicopter") or model:GetAttribute("Vehicle")) do
 					model = model.Parent and model.Parent:FindFirstAncestorOfClass("Model")
 				end
 				if model then

@@ -122,9 +122,17 @@ Config.MaxProfLevel = 50
 -- ===================== SOUNDS =====================
 -- Встроенные звуки движка (rbxasset://) работают всегда.
 -- Для музыки/вертолёта/природы впишите ID аудио из Creator Store (см. docs/EXTERNAL_RESOURCES.md).
+-- громкость и тон звуков интерфейса
+Config.SoundTuning = {
+	Click = { volume = 0.3, pitch = 1.25 },
+	Buy = { volume = 0.4, pitch = 1.5 },
+	Error = { volume = 0.35, pitch = 0.7 },
+}
+
 Config.Sounds = {
-	Click = "rbxasset://sounds/electronicpingshort.wav",
-	Buy = "rbxasset://sounds/electronicpingshort.wav",
+	-- мягкий щелчок (встроенный звук Roblox). Можно заменить на любой "rbxassetid://ID" из Creator Store
+	Click = "rbxasset://sounds/button.wav",
+	Buy = "rbxasset://sounds/button.wav",
 	Error = "rbxasset://sounds/button.wav",
 	Cash = "", -- кассовый аппарат
 	Upgrade = "", -- улучшение

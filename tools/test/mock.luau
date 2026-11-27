@@ -486,7 +486,7 @@ function methods:IsFocused()
 	return data(self).focused == true
 end
 function methods:Sit(hum)
-	data(self).props.Occupant = hum
+	self.Occupant = hum
 end
 function methods:Kick(msg)
 	print("[MOCK] kicked " .. tostring(data(self).props.Name) .. ": " .. tostring(msg))

@@ -216,7 +216,7 @@ local function renderRestaurant(c, win)
 			local g = Guests.ById[rv.g]
 			local card = UI.card(c, 62)
 			UI.label(card, string.format("%s <b>%s</b> (%s)  <font color='#FFCD46'>%s</font>%s", g and g.icon or "🙂", rv.n or "Гость", g and g.name or "", stars(rv.s), rv.critic and "  📝 КРИТИК" or ""), 15, { sizeUDim = UDim2.new(1, -20, 0, 26) }).Position = UDim2.fromOffset(10, 4)
-			UI.label(card, "«" .. rv.txt .. "»  <font color='#A5AFD2'>Еда " .. rv.food .. " • Сервис " .. rv.service .. " • Интерьер " .. rv.interior .. " • Скорость " .. rv.speed .. " • Цена " .. rv.price .. "</font>", 13, { sizeUDim = UDim2.new(1, -20, 0, 26) }).Position = UDim2.fromOffset(10, 32)
+			UI.label(card, string.format("«%s»  <font color='#A5AFD2'>Еда %.1f • Сервис %.1f • Интерьер %.1f • Скорость %.1f • Цена %.1f</font>", rv.txt, rv.food or 0, rv.service or 0, rv.interior or 0, rv.speed or 0, rv.price or 0), 13, { sizeUDim = UDim2.new(1, -20, 0, 26) }).Position = UDim2.fromOffset(10, 32)
 		end
 	elseif win.tab == "finance" then
 		local st = r.stats

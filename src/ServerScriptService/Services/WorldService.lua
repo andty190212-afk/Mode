@@ -40,8 +40,11 @@ local function buildTerrain()
 		local r = MapLayout.IslandRadius + MapLayout.BeachWidth
 		-- lagoon floor 4 studs under the surface
 		terrain:FillCylinder(CFrame.new(x, -10, z), 12, r + 70, Enum.Material.Sand)
-		-- sand shelf rising to just above the water next to the island beach
-		terrain:FillCylinder(CFrame.new(x, -2, z), 6, r + 18, Enum.Material.Sand)
+		-- smooth sandy slope from the beach down into the water (no steps, no gaps)
+		terrain:FillCylinder(CFrame.new(x, -2.5, z), 9, r + 8, Enum.Material.Sand) -- top -> +2
+		terrain:FillCylinder(CFrame.new(x, -2.5, z), 7, r + 14, Enum.Material.Sand) -- top -> +1
+		terrain:FillCylinder(CFrame.new(x, -3, z), 6, r + 20, Enum.Material.Sand) -- top ->  0
+		terrain:FillCylinder(CFrame.new(x, -4, z), 6, r + 26, Enum.Material.Sand) -- top -> -1
 		-- a few coral rocks in the lagoon
 		local rng = Random.new(i * 97)
 		for _ = 1, 6 do

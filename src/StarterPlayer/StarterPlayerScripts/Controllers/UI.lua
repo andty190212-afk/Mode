@@ -124,19 +124,22 @@ function UI.click()
 	if not clickSound then
 		clickSound = Instance.new("Sound")
 		clickSound.SoundId = Config.Sounds.Click
-		clickSound.Volume = 0.4
+		local tune = Config.SoundTuning and Config.SoundTuning.Click or {}
+		clickSound.Volume = tune.volume or 0.3
+		clickSound.PlaybackSpeed = tune.pitch or 1
 		clickSound.Parent = SoundService
 	end
 	clickSound:Play()
 end
 
-function UI.sound(id, volume)
+function UI.sound(id, volume, pitch)
 	if not id or id == "" then
 		return
 	end
 	local s = Instance.new("Sound")
 	s.SoundId = id
 	s.Volume = volume or 0.5
+	s.PlaybackSpeed = pitch or 1
 	s.Parent = SoundService
 	s:Play()
 	s.Ended:Connect(function()
@@ -511,7 +514,7 @@ function UI.toast(text, kind)
 	local l = UI.label(f, text, 15, { auto = true, sizeUDim = UDim2.new(1, 0, 0, 0) })
 	l.ZIndex = 51
 	if kind == "error" or kind == "warn" then
-		UI.sound(Config.Sounds.Error, 0.3)
+		UI.sound(Config.Sounds.Error, Config.SoundTuning.Error.volume, Config.SoundTuning.Error.pitch)
 	end
 	local children = toastHolder:GetChildren()
 	if #children > 7 then

@@ -64,6 +64,6 @@ function MapLayout.reservedIslandRects()
 	}
 end
 
-MapLayout.DockLength = 46
+MapLayout.DockLength = 58
 
 return MapLayout

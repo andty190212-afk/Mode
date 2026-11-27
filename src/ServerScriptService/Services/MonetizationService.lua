@@ -165,6 +165,20 @@ function Monetization.Start()
 		passCache[player] = nil
 	end)
 
+	-- Только в Roblox Studio: проверить выдачу товара без настоящей покупки (ID ещё не настроены)
+	Net.onRequest("StudioTestProduct", function(player, payload)
+		if not RunService:IsStudio() then
+			return { ok = false, err = "Доступно только в Roblox Studio" }
+		end
+		for _, p in ipairs(Config.Products) do
+			if p.key == (payload and payload.key) then
+				local ok, err = pcall(grantProduct, player, p)
+				return { ok = ok, err = not ok and tostring(err) or nil }
+			end
+		end
+		return { ok = false, err = "Нет такого товара" }
+	end)
+
 	Net.onRequest("RefreshPasses", function(player)
 		Monetization.refreshPasses(player)
 		return { ok = true }

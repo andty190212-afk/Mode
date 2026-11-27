@@ -32,9 +32,9 @@ function HelicopterService.vehicleOf(player)
 	local char = player.Character
 	local hum = char and char:FindFirstChildOfClass("Humanoid")
 	local seat = hum and hum.SeatPart
-	if seat and seat.Name == "PilotSeat" then
+	if seat and (seat.Name == "PilotSeat" or seat.Name == "BoatSeat") then
 		local model = seat:FindFirstAncestorOfClass("Model")
-		if model and model:GetAttribute("Helicopter") then
+		if model and (model:GetAttribute("Helicopter") or model:GetAttribute("Vehicle")) then
 			return model
 		end
 	end

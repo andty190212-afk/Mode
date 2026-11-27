@@ -399,6 +399,21 @@ do
 	fs.writeFile("build/test_states.json", serde.encode("json", dump, true))
 end
 
+section("Boats")
+local boatsFolder = game.Workspace:FindFirstChild("Boats")
+check(boatsFolder ~= nil and #boatsFolder:GetChildren() == 8, "a boat at every island dock", boatsFolder and #boatsFolder:GetChildren())
+local boat = boatsFolder:GetChildren()[1]
+local bseat = boat:FindFirstChild("BoatSeat", true)
+check(boat.PrimaryPart.Anchored == true, "parked boat is anchored")
+Mock.call(function()
+	bseat.BoatPrompt.Triggered:Fire(dave)
+end)
+Mock.advance(0.5)
+check(bseat.Occupant ~= nil and boat.PrimaryPart.Anchored == false, "player sits and the boat is released for driving")
+bseat.Occupant = nil
+Mock.advance(3)
+check(boat.PrimaryPart.Anchored == true, "boat parks again when the driver leaves")
+
 section("Robux purchases (ProcessReceipt)")
 local MS = game:GetService("MarketplaceService")
 local process_ = MS.ProcessReceipt
@@ -412,6 +427,12 @@ local d3 = Mock.call(process_, { PlayerId = alice.UserId, ProductId = 555555, Pu
 check(d3 == roblox.Enum.ProductPurchaseDecision.PurchaseGranted and Services.EconomyService.boostMult(alice) == 2, "x2 boost active")
 local d4 = Mock.call(process_, { PlayerId = 999999, ProductId = 111111, PurchaseId = "P-3", CurrencySpent = 25 })
 check(d4 == roblox.Enum.ProductPurchaseDecision.NotProcessedYet, "offline buyer -> NotProcessedYet")
+
+local st0 = Services.DataService.get(alice).data.money
+check(Mock.request(alice, "StudioTestProduct", { key = "cash_medium" }).ok and Services.DataService.get(alice).data.money > st0, "Studio: test product purchase without a real ID")
+Mock.isStudio = false
+check(not Mock.request(alice, "StudioTestProduct", { key = "cash_medium" }).ok, "test purchases disabled on live servers")
+Mock.isStudio = true
 
 section("Quests & rewards")
 local daily = Mock.request(alice, "ClaimDaily", {})
