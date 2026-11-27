@@ -137,16 +137,7 @@ function HUD.build()
 	refs.quick = quick
 
 	-- hotkeys
-	UserInputService.InputBegan:Connect(function(input, processed)
-		if processed then
-			return
-		end
-		for _, m in ipairs(MENU) do
-			if input.KeyCode == m.key then
-				UI.toggle(m.id)
-			end
-		end
-	end)
+	-- меню открываются только кнопками (мышь / касание), горячих клавиш нет
 
 	State.Changed:Connect(function()
 		HUD.update()

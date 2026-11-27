@@ -339,7 +339,7 @@ function GuestService.trySpawn(island)
 		end
 	end
 	local slot = queueCount(island) + 1
-	if not rt and slot > Config.QueueMax then
+	if not rt and slot > (Config.QueueMax[island.rest.stars] or 2) then
 		return -- мест нет и очередь заполнена
 	end
 	if #menuAvailable(island) == 0 then

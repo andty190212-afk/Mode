@@ -500,6 +500,14 @@ function NPCUtil.spawn(kind, cf, opts)
 		return spawnFallback(kind, cf, opts, rng)
 	end
 	model.PrimaryPart = root
+	-- стандартное лицо Roblox (у аватара по умолчанию его может не быть)
+	if not head:FindFirstChildOfClass("Decal") then
+		local face = Instance.new("Decal")
+		face.Name = "face"
+		face.Face = Enum.NormalId.Front
+		face.Texture = "rbxasset://textures/face.png"
+		face.Parent = head
+	end
 	-- корень аватара может стоять не на высоте 3 (зависит от пропорций тела)
 	local hum = model:FindFirstChildOfClass("Humanoid")
 	local groundOffset = (hum and hum.HipHeight or 2) + root.Size.Y / 2

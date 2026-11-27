@@ -3,9 +3,9 @@
 local Stars = {}
 
 Stars.Levels = {
-	[1] = { name = "Дешёвая забегаловка", maxGuestsSeats = 12, spawnMult = 1.0, guestBudget = 1.0, staffSlots = 2,
+	[1] = { name = "Дешёвая забегаловка", maxGuestsSeats = 12, spawnMult = 0.75, guestBudget = 1.0, staffSlots = 2,
 		desc = "Маленькое помещение, простая кухня, обычные посетители." },
-	[2] = { name = "Небольшое кафе", maxGuestsSeats = 18, spawnMult = 1.15, guestBudget = 1.6, staffSlots = 3,
+	[2] = { name = "Небольшое кафе", maxGuestsSeats = 18, spawnMult = 0.95, guestBudget = 1.6, staffSlots = 3,
 		desc = "Красивее интерьер, новые столы и блюда, гости богаче." },
 	[3] = { name = "Хороший ресторан", maxGuestsSeats = 26, spawnMult = 1.3, guestBudget = 2.6, staffSlots = 4,
 		desc = "Просторный зал, профессиональная кухня, вертолёты." },
