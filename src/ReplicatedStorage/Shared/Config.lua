@@ -61,8 +61,10 @@ Config.FerryTicket = 60
 
 -- ===================== GUESTS =====================
 Config.GuestTickRate = 1 -- seconds per restaurant simulation tick
-Config.BaseSpawnInterval = 16 -- секунд между группами гостей при репутации 50
-Config.MaxGuestsGlobal = 90 -- NPC-аватары тяжелее простых моделей
+Config.BaseSpawnInterval = 11 -- секунд между группами гостей при репутации 50
+Config.QueueMax = 4 -- групп в очереди у входа, когда нет свободных столов
+Config.QueuePatience = 70 -- сколько секунд гости ждут в очереди
+Config.MaxGuestsGlobal = 110 -- NPC-аватары тяжелее простых моделей
 Config.OrderAutoDelay = 14 -- через сколько гость сам закажет через планшет (если нет официанта)
 Config.AutoCookTime = 24 -- автокухня (если нет повара)
 Config.AutoCookSlots = { 1, 1, 2, 2, 2 } -- одновременно готовящихся блюд по уровню звёзд

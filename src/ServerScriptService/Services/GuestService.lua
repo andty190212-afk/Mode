@@ -151,7 +151,7 @@ function GuestService.liveState(island)
 	if not g then
 		return {}
 	end
-	local guests, waitOrder, waitFood, eating, dirtyTables, seats, tables = 0, 0, 0, 0, 0, 0, 0
+	local guests, waitOrder, waitFood, eating, dirtyTables, seats, tables, queued = 0, 0, 0, 0, 0, 0, 0, 0
 	for _, rt in pairs(g.tables) do
 		tables += 1
 		seats += #rt.seats
@@ -167,6 +167,8 @@ function GuestService.liveState(island)
 			waitFood += 1
 		elseif p.state == "eat" then
 			eating += 1
+		elseif p.state == "queue" then
+			queued += 1
 		end
 	end
 	local carry = {}
@@ -185,6 +187,7 @@ function GuestService.liveState(island)
 		dirtyTables = dirtyTables,
 		seats = seats,
 		tables = tables,
+		queue = queued,
 		carrying = carry,
 	}
 end
@@ -255,9 +258,63 @@ end
 local function seatedGuests(island)
 	local n = 0
 	for _, p in pairs(island.guest.parties) do
-		n += p.size
+		if p.state ~= "queue" then
+			n += p.size
+		end
 	end
 	return n
+end
+
+local function queueCount(island)
+	local n = 0
+	for _, p in pairs(island.guest.parties) do
+		if p.state == "queue" then
+			n += 1
+		end
+	end
+	return n
+end
+GuestService.queueCount = queueCount
+
+-- queue spots in front of the door (building local coords)
+local function queuePoint(island, slot, member)
+	return buildingPoint(island, -2.2 + (member - 1) * 1.6, 5 + slot * 3.2)
+end
+
+-- send the party from where it stands to its table
+local function walkToTable(island, party, rt, firstPoints)
+	local g = island.guest
+	party.table = rt
+	rt.state = "reserved"
+	rt.party = party
+	party.state = "walk"
+	party.spawnedAt = os.clock()
+	local door = buildingPoint(island, 0, 2)
+	local inside = buildingPoint(island, 0, -5)
+	local arrived = 0
+	for i, model in ipairs(party.models) do
+		local seatCf = rt.seats[i] or rt.seats[1]
+		local approach = (seatCf * CFrame.new(0, 0, 2.2)).Position
+		local points = {}
+		for _, pt in ipairs(firstPoints(i)) do
+			table.insert(points, pt)
+		end
+		for _, pt in ipairs({ door, inside, approach, seatCf.Position }) do
+			table.insert(points, pt)
+		end
+		task.delay((i - 1) * 0.5, function()
+			party.walkHandle = NPCUtil.walk(model, points, 11, function()
+				if g.parties[party.id] ~= party then
+					return
+				end
+				NPCUtil.sit(model, seatCf * CFrame.new(0, 2.4, 0))
+				arrived += 1
+				if arrived >= #party.models then
+					GuestService.seat(island, party)
+				end
+			end)
+		end)
+	end
 end
 
 function GuestService.trySpawn(island)
@@ -271,19 +328,19 @@ function GuestService.trySpawn(island)
 	local gtype = pickGuestType(island)
 	local size = rng:NextInteger(gtype.party[1], gtype.party[2])
 	local cap = GuestService.seatCap(island)
-	if seatedGuests(island) + size > cap then
-		size = math.max(1, cap - seatedGuests(island))
-		if seatedGuests(island) + size > cap then
-			return
+	local rt
+	if seatedGuests(island) + size <= cap then
+		rt = findTable(island, size)
+	end
+	if not rt and seatedGuests(island) + 1 <= cap and gtype.party[1] <= 1 and rng:NextNumber() < 0.5 then
+		rt = findTable(island, 1)
+		if rt then
+			size = math.min(size, #rt.seats, cap - seatedGuests(island))
 		end
 	end
-	local rt = findTable(island, size)
-	if not rt then
-		rt = findTable(island, 1)
-		if not rt then
-			return
-		end
-		size = math.min(size, #rt.seats)
+	local slot = queueCount(island) + 1
+	if not rt and slot > Config.QueueMax then
+		return -- мест нет и очередь заполнена
 	end
 	if #menuAvailable(island) == 0 then
 		if not island.warnedNoMenu or os.clock() - island.warnedNoMenu > 60 then
@@ -300,7 +357,7 @@ function GuestService.trySpawn(island)
 		id = id,
 		type = gtype,
 		size = size,
-		table = rt,
+		table = nil,
 		models = {},
 		state = "walk",
 		stateStart = os.clock(),
@@ -308,40 +365,40 @@ function GuestService.trySpawn(island)
 		name = Guests.Names[rng:NextInteger(1, #Guests.Names)],
 		spawnedAt = os.clock(),
 	}
-	rt.state = "reserved"
-	rt.party = party
 	g.parties[id] = party
 	totalGuests += size
 
 	local dock = island.model:FindFirstChild("DockEnd")
 	local start = dock and dock.Position or worldPoint(island, 0, MapLayout.IslandRadius + 20)
 	local pathOut = worldPoint(island, 0, MapLayout.BuildingOffsetZ + 12)
-	local door = buildingPoint(island, 0, 2)
-	local inside = buildingPoint(island, 0, -5)
-	local arrived = 0
+	local offsets = {}
 	for i = 1, size do
-		local seatCf = rt.seats[i]
-		local offset = Vector3.new((i - 1) * 2.2 - (size - 1) * 1.1, 0, 0)
-		local model = NPCUtil.spawn("Guest", CFrame.new(start + offset + Vector3.new(0, 3, 0)), {
+		offsets[i] = Vector3.new((i - 1) * 2.2 - (size - 1) * 1.1, 0, 0)
+		local model = NPCUtil.spawn("Guest", CFrame.new(start + offsets[i] + Vector3.new(0, 3, 0)), {
 			vip = gtype.vip,
 			critic = gtype.critic,
+			guestType = gtype.id,
+			stars = island.rest.stars,
 			rng = rng,
 		})
 		model.Name = "Guest_" .. gtype.id
 		table.insert(party.models, model)
-		local approach = (seatCf * CFrame.new(0, 0, 2.2)).Position
-		task.delay((i - 1) * 0.5, function()
-			party.walkHandle = NPCUtil.walk(model, { start + offset, pathOut + offset * 0.5, door, inside, approach, seatCf.Position }, 11, function()
-				if g.parties[id] ~= party then
-					return
-				end
-				NPCUtil.sit(model, seatCf * CFrame.new(0, 2.4, 0))
-				arrived += 1
-				if arrived >= size then
-					GuestService.seat(island, party)
-				end
-			end)
+	end
+	if rt then
+		walkToTable(island, party, rt, function(i)
+			return { start + offsets[i], pathOut + offsets[i] * 0.5 }
 		end)
+	else
+		-- ждать в очереди у входа
+		party.state = "queue"
+		party.queueSlot = slot
+		party.stateStart = os.clock()
+		NPCUtil.bubble(party.models[1], gtype.icon .. " ⏳ Жду столик", Color3.fromRGB(150, 150, 170))
+		for i, model in ipairs(party.models) do
+			task.delay((i - 1) * 0.5, function()
+				party.walkHandle = NPCUtil.walk(model, { start + offsets[i], queuePoint(island, slot, i) }, 11)
+			end)
+		end
 	end
 	if gtype.critic then
 		for _, m in ipairs(S.RestaurantService.membersOf(island)) do
@@ -354,6 +411,52 @@ function GuestService.trySpawn(island)
 	end
 	S.RestaurantService.markDirty(island)
 end
+
+-- queued parties take freed tables (first come, first served) or give up
+local function processQueue(island, now)
+	local g = island.guest
+	local queued = {}
+	for _, p in pairs(g.parties) do
+		if p.state == "queue" then
+			table.insert(queued, p)
+		end
+	end
+	table.sort(queued, function(a, b)
+		return a.stateStart < b.stateStart
+	end)
+	local cap = GuestService.seatCap(island)
+	for _, party in ipairs(queued) do
+		if now - party.stateStart > Config.QueuePatience then
+			NPCUtil.bubble(party.models[1], "😕 Долго ждать...", Color3.fromRGB(200, 120, 60))
+			GuestService.partyLeave(island, party, "queue")
+		elseif seatedGuests(island) + party.size <= cap then
+			local rt = findTable(island, party.size)
+			if rt then
+				NPCUtil.bubble(party.models[1], nil)
+				walkToTable(island, party, rt, function(i)
+					return {}
+				end)
+			end
+		end
+	end
+	-- подтянуть очередь вперёд
+	local slot = 0
+	for _, party in ipairs(queued) do
+		if party.state == "queue" and g.parties[party.id] == party then
+			slot += 1
+			if party.queueSlot ~= slot then
+				party.queueSlot = slot
+				for i, model in ipairs(party.models) do
+					if party.walkHandle then
+						party.walkHandle:Cancel()
+					end
+					party.walkHandle = NPCUtil.walk(model, { queuePoint(island, slot, i) }, 8)
+				end
+			end
+		end
+	end
+end
+GuestService.processQueue = processQueue
 
 -- ===================== PARTY STATES =====================
 local function patienceFor(island, party, stage)
@@ -753,6 +856,10 @@ function GuestService.partyLeave(island, party, reason, instant, paid)
 			S.KitchenService.cancelItem(island, it)
 		end
 	end
+	local wasQueued = party.state == "queue"
+	if reason == "queue" then
+		rest.reputation = Util.clamp(rest.reputation - 0.2, 0, 100) -- не дождались столика
+	end
 	if reason == "angry" or reason == "nostock" or reason == "price" then
 		rest.stats.lost += party.size
 		local penalty = (reason == "price" and 0.8 or 2.2) * party.type.rep
@@ -806,7 +913,11 @@ function GuestService.partyLeave(island, party, reason, instant, paid)
 					return
 				end
 				local approach = (rt and rt.seats[i] and (rt.seats[i] * CFrame.new(0, 0, 2.2)).Position) or inside
-				NPCUtil.walk(m, { approach, inside, door, pathOut, endPoint }, 12, function()
+				local route = { approach, inside, door, pathOut, endPoint }
+				if wasQueued then
+					route = { pathOut, endPoint }
+				end
+				NPCUtil.walk(m, route, 12, function()
 					NPCUtil.destroy(m)
 				end)
 				task.delay(40, function()
@@ -1041,6 +1152,7 @@ function GuestService.tick(island, dt)
 		g.nextSpawn = now + GuestService.spawnInterval(island) * rng:NextNumber(0.7, 1.3)
 		GuestService.trySpawn(island)
 	end
+	processQueue(island, now)
 	local waiterPresent = hasWaiter(island)
 	for _, party in pairs(g.parties) do
 		local elapsed = now - party.stateStart
@@ -1061,7 +1173,7 @@ function GuestService.tick(island, dt)
 				party.state = "pay"
 				GuestService.finishParty(island, party)
 			end
-		elseif party.state == "walk" then
+		elseif party.state == "walk" and party.table then
 			if now - party.spawnedAt > 60 then
 				-- застрял в пути
 				GuestService.seat(island, party)

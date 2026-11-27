@@ -732,12 +732,32 @@ methods.CreateHumanoidModelFromDescription = function(self, desc, rigType)
 	root.Name = "HumanoidRootPart"
 	root.Size = Vector3.new(2, 2, 1)
 	root.Parent = rig
-	for _, n in ipairs({ "Head", "UpperTorso", "LowerTorso", "LeftUpperArm", "LeftLowerArm", "LeftHand", "RightUpperArm", "RightLowerArm", "RightHand", "LeftUpperLeg", "LeftLowerLeg", "LeftFoot", "RightUpperLeg", "RightLowerLeg", "RightFoot" }) do
+	-- default R15 proportions; root centre is 3 studs above the ground
+	local layout = {
+		Head = { 0, 2.35, 0, 1.2, 1.2, 1.2 },
+		UpperTorso = { 0, 0.9, 0, 2, 1.6, 1 },
+		LowerTorso = { 0, -0.1, 0, 2, 0.4, 1 },
+		LeftUpperArm = { -1.5, 1.1, 0, 1, 1.2, 1 },
+		LeftLowerArm = { -1.5, 0, 0, 1, 1, 1 },
+		LeftHand = { -1.5, -0.65, 0, 1, 0.3, 1 },
+		RightUpperArm = { 1.5, 1.1, 0, 1, 1.2, 1 },
+		RightLowerArm = { 1.5, 0, 0, 1, 1, 1 },
+		RightHand = { 1.5, -0.65, 0, 1, 0.3, 1 },
+		LeftUpperLeg = { -0.5, -0.9, 0, 1, 1.2, 1 },
+		LeftLowerLeg = { -0.5, -2.1, 0, 1, 1.2, 1 },
+		LeftFoot = { -0.5, -2.85, 0, 1, 0.3, 1 },
+		RightUpperLeg = { 0.5, -0.9, 0, 1, 1.2, 1 },
+		RightLowerLeg = { 0.5, -2.1, 0, 1, 1.2, 1 },
+		RightFoot = { 0.5, -2.85, 0, 1, 0.3, 1 },
+	}
+	for n, l in pairs(layout) do
 		local p = Instance.new("Part")
 		p.Name = n
-		p.Size = n == "Head" and Vector3.new(1.2, 1.2, 1.2) or Vector3.new(1, 1, 1)
+		p.Size = Vector3.new(l[4], l[5], l[6])
+		p.CFrame = CFrame.new(l[1], l[2], l[3])
 		p.Parent = rig
 	end
+	root.Transparency = 1
 	local hum = Instance.new("Humanoid")
 	hum.HipHeight = 2
 	hum.Parent = rig

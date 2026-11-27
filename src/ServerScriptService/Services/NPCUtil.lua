@@ -144,6 +144,7 @@ local function weldTo(part, target, c0)
 	w.Part1 = part
 	w.C0 = c0
 	w.Parent = part
+	part.CFrame = target.CFrame * c0
 	part.Anchored = false
 	part.CanCollide = false
 	part.CanQuery = false
@@ -210,30 +211,25 @@ local function addClothing(model, shirtId, pantsId)
 	end
 end
 
+-- hair sits on the crown and slightly back, never over the face
 local function addHair(model, head, color, style)
 	local hs = head.Size
+	local function cap(scaleY, y)
+		local c = newPart("Hair", Vector3.new(hs.X * 1.06, hs.Y * scaleY, hs.Z * 1.06), color, Enum.Material.SmoothPlastic, Enum.PartType.Ball)
+		weldTo(c, head, CFrame.new(0, hs.Y * y, hs.Z * 0.08))
+	end
 	if style == 1 then
-		-- short rounded hair
-		local cap = newPart("Hair", Vector3.new(hs.X * 1.08, hs.Y * 0.55, hs.Z * 1.1), color, Enum.Material.SmoothPlastic, Enum.PartType.Ball)
-		weldTo(cap, head, CFrame.new(0, hs.Y * 0.3, hs.Z * 0.04))
+		cap(0.5, 0.38) -- короткая
 	elseif style == 2 then
-		-- long hair
-		local cap = newPart("Hair", Vector3.new(hs.X * 1.1, hs.Y * 0.6, hs.Z * 1.12), color, Enum.Material.SmoothPlastic, Enum.PartType.Ball)
-		weldTo(cap, head, CFrame.new(0, hs.Y * 0.28, hs.Z * 0.05))
-		local back = newPart("HairBack", Vector3.new(hs.X * 1.0, hs.Y * 1.0, hs.Z * 0.35), color)
-		weldTo(back, head, CFrame.new(0, -hs.Y * 0.1, hs.Z * 0.45))
+		cap(0.55, 0.36) -- длинная
+		local back = newPart("HairBack", Vector3.new(hs.X * 1.0, hs.Y * 0.95, hs.Z * 0.3), color)
+		weldTo(back, head, CFrame.new(0, -hs.Y * 0.05, hs.Z * 0.42))
 	elseif style == 3 then
-		-- bun
-		local cap = newPart("Hair", Vector3.new(hs.X * 1.06, hs.Y * 0.5, hs.Z * 1.08), color, Enum.Material.SmoothPlastic, Enum.PartType.Ball)
-		weldTo(cap, head, CFrame.new(0, hs.Y * 0.32, hs.Z * 0.04))
-		local bun = newPart("HairBun", Vector3.new(hs.X * 0.45, hs.X * 0.45, hs.X * 0.45), color, Enum.Material.SmoothPlastic, Enum.PartType.Ball)
-		weldTo(bun, head, CFrame.new(0, hs.Y * 0.55, hs.Z * 0.35))
+		cap(0.5, 0.38) -- пучок
+		local bun = newPart("HairBun", Vector3.new(hs.X * 0.42, hs.X * 0.42, hs.X * 0.42), color, Enum.Material.SmoothPlastic, Enum.PartType.Ball)
+		weldTo(bun, head, CFrame.new(0, hs.Y * 0.6, hs.Z * 0.32))
 	elseif style == 4 then
-		-- cap (baseball)
-		local cap = newPart("Cap", Vector3.new(hs.X * 1.08, hs.Y * 0.45, hs.Z * 1.08), color, Enum.Material.SmoothPlastic, Enum.PartType.Ball)
-		weldTo(cap, head, CFrame.new(0, hs.Y * 0.34, 0))
-		local visor = newPart("CapVisor", Vector3.new(hs.X * 0.8, 0.08, hs.Z * 0.5), color)
-		weldTo(visor, head, CFrame.new(0, hs.Y * 0.28, -hs.Z * 0.6))
+		cap(0.45, 0.42) -- коротко стриженные (под кепку)
 	end
 end
 
@@ -297,6 +293,137 @@ local function addUniformDetails(model, u)
 		local sc = newPart("Neckerchief", Vector3.new(ts.X * 0.45, 0.22, ts.Z * 1.05), u.scarf, Enum.Material.Fabric)
 		weldTo(sc, torso, CFrame.new(0, ts.Y * 0.47, 0))
 	end
+end
+
+local function c3(t)
+	return Color3.fromRGB(t[1], t[2], t[3])
+end
+
+local function addExtras(model, head, look, rng)
+	local torso = model:FindFirstChild("UpperTorso")
+	local lower = model:FindFirstChild("LowerTorso")
+	if not torso then
+		return
+	end
+	local hs, ts = head.Size, torso.Size
+	local front = -(ts.Z / 2 + 0.03)
+	local hfront = -(hs.Z / 2 + 0.03)
+	local set = {}
+	for _, e in ipairs(look.extras or {}) do
+		set[e] = true
+	end
+	if set.shirtFront or set.blazer then
+		local sf = newPart("ShirtFront", Vector3.new(ts.X * 0.32, ts.Y * 0.92, 0.06), c3(look.shirt or { 245, 245, 245 }))
+		weldTo(sf, torso, CFrame.new(0, 0.02, front))
+	end
+	if set.tie then
+		local col = c3(look.tie or { 150, 20, 40 })
+		local knot = newPart("TieKnot", Vector3.new(0.18, 0.16, 0.08), col)
+		weldTo(knot, torso, CFrame.new(0, ts.Y * 0.4, front - 0.05))
+		local tie = newPart("Tie", Vector3.new(0.2, ts.Y * 0.62, 0.06), col)
+		weldTo(tie, torso, CFrame.new(0, ts.Y * 0.04, front - 0.05))
+	end
+	if set.bow then
+		for _, x in ipairs({ -0.15, 0.15 }) do
+			local b = newPart("Bow", Vector3.new(0.28, 0.2, 0.08), BLACK)
+			weldTo(b, torso, CFrame.new(x, ts.Y * 0.42, front - 0.05) * CFrame.Angles(0, 0, math.rad(x < 0 and 15 or -15)))
+		end
+	end
+	if set.glasses or set.sunglasses then
+		local col = set.sunglasses and Color3.fromRGB(15, 15, 20) or Color3.fromRGB(40, 40, 45)
+		local bar = newPart("Glasses", Vector3.new(hs.X * 0.82, 0.06, 0.05), col)
+		weldTo(bar, head, CFrame.new(0, hs.Y * 0.14, hfront - 0.02))
+		for _, x in ipairs({ -0.2, 0.2 }) do
+			local lens = newPart("Lens", Vector3.new(0.3, 0.22, 0.04), col)
+			lens.Transparency = set.sunglasses and 0 or 0.6
+			weldTo(lens, head, CFrame.new(x * hs.X / 1.2, hs.Y * 0.1, hfront - 0.03))
+		end
+	end
+	if set.backpack then
+		local bp = newPart("Backpack", Vector3.new(ts.X * 0.7, ts.Y * 0.85, 0.6), pick({ Color3.fromRGB(200, 60, 50), Color3.fromRGB(40, 90, 170), Color3.fromRGB(60, 60, 65) }, rng), Enum.Material.Fabric)
+		weldTo(bp, torso, CFrame.new(0, -0.05, ts.Z / 2 + 0.3))
+	end
+	if set.camera then
+		local cam = newPart("Camera", Vector3.new(0.55, 0.38, 0.3), Color3.fromRGB(25, 25, 25))
+		weldTo(cam, torso, CFrame.new(0.3, -ts.Y * 0.2, front - 0.15))
+		local lens = newPart("CameraLens", Vector3.new(0.18, 0.26, 0.26), Color3.fromRGB(90, 90, 95), Enum.Material.SmoothPlastic, Enum.PartType.Cylinder)
+		weldTo(lens, torso, CFrame.new(0.3, -ts.Y * 0.2, front - 0.36) * CFrame.Angles(0, math.rad(90), 0))
+	end
+	if set.flowerShirt then
+		local colors = { Color3.fromRGB(250, 220, 60), Color3.fromRGB(250, 120, 150), Color3.fromRGB(255, 255, 255) }
+		for i = 1, 6 do
+			local dot = newPart("Flower", Vector3.new(0.22, 0.22, 0.05), colors[(i % 3) + 1], Enum.Material.SmoothPlastic, Enum.PartType.Ball)
+			weldTo(dot, torso, CFrame.new(((i % 3) - 1) * 0.55, (i > 3 and -0.35 or 0.3), front - 0.02))
+		end
+	end
+	if set.cap then
+		local col = pick({ Color3.fromRGB(200, 40, 40), Color3.fromRGB(30, 30, 35), Color3.fromRGB(40, 90, 180) }, rng)
+		local capTop = newPart("Cap", Vector3.new(hs.X * 1.1, hs.Y * 0.48, hs.Z * 1.1), col, Enum.Material.SmoothPlastic, Enum.PartType.Ball)
+		weldTo(capTop, head, CFrame.new(0, hs.Y * 0.42, hs.Z * 0.04))
+		local visor = newPart("CapVisor", Vector3.new(hs.X * 0.75, 0.08, hs.Z * 0.45), col)
+		weldTo(visor, head, CFrame.new(0, hs.Y * 0.3, -hs.Z * 0.62))
+	end
+	if set.beanie then
+		local col = pick({ Color3.fromRGB(240, 230, 200), Color3.fromRGB(180, 40, 50), Color3.fromRGB(60, 90, 140) }, rng)
+		local b = newPart("Beanie", Vector3.new(hs.X * 1.12, hs.Y * 0.62, hs.Z * 1.12), col, Enum.Material.Fabric, Enum.PartType.Ball)
+		weldTo(b, head, CFrame.new(0, hs.Y * 0.42, hs.Z * 0.03))
+	end
+	if set.headband then
+		local hb = newPart("Headband", Vector3.new(0.14, hs.X * 1.06, hs.X * 1.06), Color3.fromRGB(240, 90, 130), Enum.Material.SmoothPlastic, Enum.PartType.Cylinder)
+		weldTo(hb, head, CFrame.new(0, hs.Y * 0.36, hs.Z * 0.05) * CFrame.Angles(0, 0, math.rad(90)))
+	end
+	if set.scarf then
+		local sc = newPart("Scarf", Vector3.new(ts.X * 0.6, 0.35, ts.Z * 1.15), Color3.fromRGB(200, 50, 50), Enum.Material.Fabric)
+		weldTo(sc, torso, CFrame.new(0, ts.Y * 0.47, 0))
+		local tail = newPart("ScarfTail", Vector3.new(0.3, ts.Y * 0.5, 0.08), Color3.fromRGB(200, 50, 50), Enum.Material.Fabric)
+		weldTo(tail, torso, CFrame.new(0.35, ts.Y * 0.15, front - 0.03))
+	end
+	if set.necklace then
+		local nk = newPart("Necklace", Vector3.new(ts.X * 0.4, 0.08, 0.06), Color3.fromRGB(230, 195, 80), Enum.Material.Metal)
+		weldTo(nk, torso, CFrame.new(0, ts.Y * 0.36, front - 0.03))
+		local gem = newPart("Gem", Vector3.new(0.16, 0.16, 0.08), Color3.fromRGB(80, 200, 255), Enum.Material.Glass, Enum.PartType.Ball)
+		weldTo(gem, torso, CFrame.new(0, ts.Y * 0.3, front - 0.05))
+	end
+	if set.watch then
+		local hand = model:FindFirstChild("LeftLowerArm") or model:FindFirstChild("LeftHand")
+		if hand then
+			local w = newPart("Watch", Vector3.new(hand.Size.X * 1.05, 0.18, hand.Size.Z * 1.05), Color3.fromRGB(212, 175, 55), Enum.Material.Metal)
+			weldTo(w, hand, CFrame.new(0, -hand.Size.Y * 0.4, 0))
+		end
+	end
+	if set.purse and lower then
+		local pc = c3(look.skirt or look.torso)
+		local pu = newPart("Purse", Vector3.new(0.3, 0.6, 0.8), pc:Lerp(Color3.new(0, 0, 0), 0.3), Enum.Material.Fabric)
+		weldTo(pu, lower, CFrame.new(1.15, -0.3, 0))
+	end
+	if set.skirt and lower then
+		local ls = lower.Size
+		local len = look.long and 2.7 or 1.5
+		local sk = newPart("Skirt", Vector3.new(ls.X * 1.12, len, ls.Z * 1.3), c3(look.skirt or look.torso), Enum.Material.Fabric)
+		weldTo(sk, lower, CFrame.new(0, -len / 2 + ls.Y / 2, 0))
+	end
+end
+
+local GuestLooks = require(Shared.Data.GuestLooks)
+
+local function chooseLook(opts, rng)
+	local stars = opts.stars or 1
+	if opts.vip then
+		local formal = {}
+		for _, id in ipairs({ "black_suit", "tuxedo", "evening_gown", "white_suit", "navy_suit" }) do
+			table.insert(formal, GuestLooks.ById[id])
+		end
+		return pick(formal, rng)
+	elseif opts.critic then
+		return GuestLooks.ById.smart_casual
+	elseif opts.look then
+		return GuestLooks.ById[opts.look]
+	end
+	local typed, any = GuestLooks.pool(stars, opts.guestType)
+	if typed ~= any and rng:NextNumber() < 0.7 then
+		return pick(typed, rng)
+	end
+	return pick(any, rng)
 end
 
 local function fallbackTemplate(kind)
@@ -394,29 +521,32 @@ function NPCUtil.spawn(kind, cf, opts)
 			addClothing(model, c.shirt, c.pants)
 		end
 	elseif not useUserRig then
-		local shirt = pick(SHIRTS, rng)
-		local pants = pick(PANTS, rng)
-		if opts.vip then
-			shirt, pants = Color3.fromRGB(30, 30, 40), Color3.fromRGB(30, 30, 40)
-		elseif opts.critic then
-			shirt, pants = Color3.fromRGB(110, 110, 115), Color3.fromRGB(50, 50, 55)
-		end
-		setBodyColors(model, skin, shirt, rng:NextNumber() < 0.5 and shirt or skin, pants)
+		local look = chooseLook(opts, rng)
+		local torsoC = c3(look.torso)
+		local arms = look.arms == "skin" and skin or (look.arms == "torso" and torsoC or c3(look.arms))
+		local legs = look.legs == "skin" and skin or c3(look.legs)
+		setBodyColors(model, skin, torsoC, arms, legs)
+		model:SetAttribute("Look", look.id)
 		local shirts = clothing.guestShirts or {}
 		local pantsIds = clothing.guestPants or {}
-		if #shirts > 0 and rng:NextNumber() < 0.7 then
+		if #shirts > 0 and (opts.stars or 1) <= 2 and rng:NextNumber() < 0.5 then
 			addClothing(model, pick(shirts, rng), #pantsIds > 0 and pick(pantsIds, rng) or 0)
 		end
+		local set = {}
+		for _, e in ipairs(look.extras or {}) do
+			set[e] = true
+		end
+		if not (set.cap or set.beanie) then
+			addHair(model, head, pick(HAIR, rng), look.hair or 1)
+		end
+		addExtras(model, head, look, rng)
 		if opts.vip then
-			addHair(model, head, pick(HAIR, rng), 1)
 			addTopHat(model, head, Color3.fromRGB(212, 175, 55))
 		elseif opts.critic then
-			addHair(model, head, pick(HAIR, rng), 1)
 			addTopHat(model, head, BLACK)
-			local glasses = newPart("Glasses", Vector3.new(head.Size.X * 0.8, 0.18, 0.06), BLACK)
-			weldTo(glasses, head, CFrame.new(0, head.Size.Y * 0.1, -(head.Size.Z / 2 + 0.03)))
-		else
-			addHair(model, head, pick(HAIR, rng), rng:NextInteger(1, 4))
+			if not set.glasses then
+				addExtras(model, head, { extras = { "glasses" }, torso = look.torso }, rng)
+			end
 		end
 	end
 	-- physics off: anchored root, everything else follows through Motor6D/Weld

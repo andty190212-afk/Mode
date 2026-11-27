@@ -58,10 +58,13 @@ end
 
 -- Мебель, выдаваемая новому ресторану (локальные координаты зала)
 Furniture.StartLayout = {
-	{ id = "table_wood_2", x = -8, z = 0, r = 0 },
-	{ id = "table_wood_2", x = 0, z = 0, r = 0 },
-	{ id = "table_wood_4", x = 8, z = 0, r = 0 },
-	{ id = "plant_small", x = -12, z = 5, r = 0 },
+	-- z = -1 -> в сохранении -11 (ряд столов в глубине зала, вход свободен)
+	{ id = "table_wood_2", x = -13, z = -1, r = 0 },
+	{ id = "table_wood_2", x = -7, z = -1, r = 0 },
+	{ id = "table_wood_2", x = -1, z = -1, r = 0 },
+	{ id = "table_wood_4", x = 6, z = -1, r = 0 },
+	{ id = "table_wood_2", x = 13, z = -1, r = 0 },
+	{ id = "plant_small", x = -13, z = 5, r = 0 },
 }
 
 return Furniture

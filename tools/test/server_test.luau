@@ -59,7 +59,7 @@ local tables = 0
 for _ in pairs(island.guest.tables) do
 	tables += 1
 end
-check(tables == 3, "starter tables registered as guest seats", tables)
+check(tables == 5, "starter tables registered as guest seats", tables)
 
 section("Professions & invites")
 local bob = Mock.addPlayer("Bob")
@@ -217,10 +217,10 @@ check(not Mock.request(alice, "BuyIngredient", { id = "tomato", packs = 999 }).o
 local dep = Mock.request(bob, "Deposit", { amount = 50 })
 check(dep.ok, "friend can deposit", dep.err)
 check(not Mock.request(bob, "Withdraw", { amount = 10 }).ok, "friend cannot withdraw (no stealing)")
-local spendFriend = Mock.request(bob, "PlaceItem", { kind = "furniture", id = "plant_small", x = 10, z = -15, r = 0 })
+local spendFriend = Mock.request(bob, "PlaceItem", { kind = "furniture", id = "plant_small", x = 14, z = -5, r = 0 })
 check(not spendFriend.ok, "friend cannot spend budget without permission", spendFriend.err)
 check(Mock.request(alice, "SetFriendSpend", { allow = true }).ok, "owner grants spending permission")
-spendFriend = Mock.request(bob, "PlaceItem", { kind = "furniture", id = "plant_small", x = 10, z = -15, r = 0 })
+spendFriend = Mock.request(bob, "PlaceItem", { kind = "furniture", id = "plant_small", x = 14, z = -5, r = 0 })
 check(spendFriend.ok, "friend can now buy furniture", spendFriend.err)
 check(Mock.request(alice, "UpgradeEquipment", { id = "stove" }).ok == false, "equipment level capped by stars (stove already 1)")
 check(Mock.request(alice, "UpgradeEquipment", { id = "coffee" }).ok, "buy coffee machine level 1")
@@ -231,11 +231,11 @@ Mock.request(alice, "SetMenu", { id = "burger", price = 1 })
 
 section("Build mode")
 island.rest.budget += 5000
-local place = Mock.request(alice, "PlaceItem", { kind = "furniture", id = "table_wood_2", x = -13, z = -10, r = 0 })
-check(place.ok, "place a table inside the dining room", place.err)
+local place = Mock.request(alice, "PlaceItem", { kind = "furniture", id = "lamp_floor", x = -10, z = -5, r = 0 })
+check(place.ok, "place a floor lamp inside the dining room", place.err)
 local outside = Mock.request(alice, "PlaceItem", { kind = "furniture", id = "table_wood_4", x = 0, z = 40, r = 0 })
 check(not outside.ok, "cannot place furniture outside the restaurant", outside.err)
-local overlap = Mock.request(alice, "PlaceItem", { kind = "furniture", id = "table_wood_4", x = -12, z = -10, r = 0 })
+local overlap = Mock.request(alice, "PlaceItem", { kind = "furniture", id = "table_wood_4", x = -7, z = -12, r = 0 })
 check(not overlap.ok, "cannot overlap furniture", overlap.err)
 local door = Mock.request(alice, "PlaceItem", { kind = "furniture", id = "plant_small", x = 0, z = -4, r = 0 })
 check(not door.ok, "cannot block the entrance", door.err)
@@ -251,7 +251,7 @@ local tcount = 0
 for _ in pairs(island.guest.tables) do
 	tcount += 1
 end
-check(tcount == 4, "new table registered for guests", tcount)
+check(tcount == 5, "tables registered for guests", tcount)
 
 section("Star rating")
 local promo = Mock.request(alice, "PromoteStar", {})
@@ -287,7 +287,7 @@ tcount = 0
 for _ in pairs(island.guest.tables) do
 	tcount += 1
 end
-check(tcount == 4, "furniture re-registered after rebuild", tcount)
+check(tcount == 5, "furniture re-registered after rebuild", tcount)
 check(island.building:FindFirstChild("PassPrompt", true) ~= nil, "kitchen prompts rebound after rebuild")
 
 section("Director & NPC staff")
