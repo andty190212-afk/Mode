@@ -235,11 +235,15 @@ function UI.progress(parent, fraction, color, props)
 	return bg
 end
 
+-- введённый текст сохраняется между перерисовками окна (props.key)
+UI.boxValues = {}
+
 function UI.textbox(parent, placeholder, props)
 	props = props or {}
+	local saved = props.key and UI.boxValues[props.key]
 	local box = UI.new("TextBox", {
 		PlaceholderText = placeholder or "",
-		Text = props.text or "",
+		Text = saved or props.text or "",
 		TextColor3 = T.text,
 		PlaceholderColor3 = T.sub,
 		BackgroundColor3 = Color3.fromRGB(22, 26, 42),
@@ -252,6 +256,15 @@ function UI.textbox(parent, placeholder, props)
 	})
 	UI.corner(box, 8)
 	UI.stroke(box, T.accent2, 1, 0.6)
+	if props.key then
+		box:GetPropertyChangedSignal("Text"):Connect(function()
+			UI.boxValues[props.key] = box.Text
+		end)
+	end
+	-- после окончания ввода выполнить отложенную перерисовку
+	box.FocusLost:Connect(function()
+		task.delay(0.1, UI.refreshOpen)
+	end)
 	return box
 end
 
@@ -386,6 +399,12 @@ function UI.window(id, title, icon, opts)
 	function win:refresh()
 		if not frame.Visible or not self.render then
 			return
+		end
+		-- не перерисовывать окно, пока игрок печатает в поле ввода
+		for _, d in ipairs(content:GetDescendants()) do
+			if d:IsA("TextBox") and d:IsFocused() then
+				return
+			end
 		end
 		local pos = content.CanvasPosition
 		UI.clear(content)

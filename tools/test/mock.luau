@@ -482,6 +482,9 @@ function methods:Stop()
 	data(self).props.Playing = false
 end
 function methods:MoveTo() end
+function methods:IsFocused()
+	return data(self).focused == true
+end
 function methods:Sit(hum)
 	data(self).props.Occupant = hum
 end

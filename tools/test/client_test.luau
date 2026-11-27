@@ -114,6 +114,33 @@ for _, id in ipairs({ "team", "professions", "restaurant", "barrier", "staff" })
 end
 check(#Mock.errors == errorsBefore, "friend view renders without errors", Mock.errors[errorsBefore + 1])
 
+print("== Typing in a text box survives refreshes")
+UI.windows.restaurant.tab = "overview"
+UI.open("restaurant")
+Mock.advance(0.2)
+local box
+for _, d in ipairs(UI.windows.restaurant.content:GetDescendants()) do
+	if d.ClassName == "TextBox" and d.PlaceholderText == "Сумма" then
+		box = d
+	end
+end
+check(box ~= nil, "deposit box found")
+Mock.data(box).focused = true
+box.Text = "250"
+push("restaurant", states.restaurant)
+Mock.advance(2)
+check(box.Parent ~= nil and box.Text == "250", "focused box is not destroyed by state updates")
+Mock.data(box).focused = false
+UI.windows.restaurant:refresh()
+local box2
+for _, d in ipairs(UI.windows.restaurant.content:GetDescendants()) do
+	if d.ClassName == "TextBox" and d.PlaceholderText == "Сумма" then
+		box2 = d
+	end
+end
+check(box2 ~= nil and box2.Text == "250", "typed amount kept after redraw", box2 and box2.Text)
+UI.close("restaurant")
+
 print("== Buttons")
 -- press every button in the restaurant window (requests go to the fake server)
 push("player", states.player)
