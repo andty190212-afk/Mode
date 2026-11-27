@@ -314,6 +314,50 @@ do
 		RS.Remotes.Fx.OnClientEvent:Fire("theft", { kind = "alarm", name = "Крошкокраб", thief = "Bob", thiefId = 0 })
 		RS.Remotes.Fx.OnClientEvent:Fire("ability", { ability = "meteor", from = Mock.env.Vector3.new(0, 0, 0), point = Mock.env.Vector3.new(0, 0, 5), color = { 255, 100, 0 }, delay = 0.5 })
 		RS.Remotes.Fx.OnClientEvent:Fire("hit", { pos = Mock.env.Vector3.new(0, 0, 0), amount = 12, by = 1, victim = 2 })
+		-- real joints so the animation code is exercised (R15 and R6)
+		local E = Mock.env
+		local function rig(char, r6)
+			local function joint(partName, motorName, c0)
+				local part = char:FindFirstChild(partName) or E.Instance.new("Part")
+				part.Name = partName
+				part.Parent = char
+				local m = E.Instance.new("Motor6D")
+				m.Name = motorName
+				m.C0 = c0
+				m.Parent = part
+				return m
+			end
+			if r6 then
+				return joint("Torso", "Right Shoulder", E.CFrame.new(1, 0.5, 0))
+			end
+			joint("UpperTorso", "Waist", E.CFrame.new(0, 0.2, 0))
+			joint("LeftUpperArm", "LeftShoulder", E.CFrame.new(-1, 0.5, 0))
+			joint("RightLowerArm", "RightElbow", E.CFrame.new(0, -0.3, 0))
+			return joint("RightUpperArm", "RightShoulder", E.CFrame.new(1, 0.5, 0))
+		end
+		local shoulder = rig(me.Character, false)
+		local base0 = shoulder.C0
+		local wm = E.Instance.new("Model")
+		wm.Name = "EquippedWeapon"
+		wm:SetAttribute("WeaponId", "starter_bat")
+		local wh = E.Instance.new("Part")
+		wh.Name = "Handle"
+		wh.Parent = wm
+		wm.Parent = me.Character
+		Mock.advance(0.7)
+		check(shoulder.C0 ~= base0, "idle pose: arm raised while holding a weapon (R15)")
+		local idleC0 = shoulder.C0
+		RS.Remotes.Fx.OnClientEvent:Fire("swing", { userId = me.UserId, weapon = "starter_bat", kind = "melee", dir = E.Vector3.new(0, 0, -1), from = E.Vector3.new(0, 0, 0), range = 8, color = { 255, 200, 0 } })
+		Mock.advance(0.18)
+		check(shoulder.C0 ~= idleC0, "swing animation moves the arm (R15)")
+		Mock.advance(1)
+		local bot = Mock.addPlayer("R6Bot")
+		local r6Shoulder = rig(bot.Character, true)
+		local r6Base = r6Shoulder.C0
+		RS.Remotes.Fx.OnClientEvent:Fire("swing", { userId = bot.UserId, weapon = "coconut_sling", kind = "ranged", dir = E.Vector3.new(0, 0, -1), from = E.Vector3.new(0, 0, 0), range = 30, color = { 255, 200, 0 } })
+		Mock.advance(0.12)
+		check(r6Shoulder.C0 ~= r6Base, "swing animation works on R6 characters too")
+		Mock.advance(1)
 		for _, w in ipairs({ "starter_bat", "spiky_ladle", "coconut_sling", "starfall_baton" }) do
 			RS.Remotes.Fx.OnClientEvent:Fire("swing", { userId = me.UserId, weapon = w, kind = "melee", dir = Mock.env.Vector3.new(0, 0, -1), from = Mock.env.Vector3.new(0, 0, 0), range = 8, color = { 255, 200, 0 } })
 			Mock.advance(0.6)

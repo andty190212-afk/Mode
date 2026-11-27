@@ -934,7 +934,8 @@ local function equipModel(player, def)
 	-- "grip" frame whose +Y is the shaft and put that frame into the hand: shaft forward,
 	-- slightly up, the grip in the palm. Parts are moved BEFORE welding.
 	local grip = handle.CFrame * CFrame.Angles(0, 0, math.rad(-90))
-	local target = hand.CFrame * CFrame.new(0, -0.35, -0.15) * CFrame.Angles(math.rad(-75), 0, 0)
+	local gripY = hand.Name == "Right Arm" and -0.95 or -0.35 -- R6 arm is 2 studs long
+	local target = hand.CFrame * CFrame.new(0, gripY, -0.15) * CFrame.Angles(math.rad(-75), 0, 0)
 	local delta = target * grip:Inverse()
 	local parts = {}
 	for _, p in ipairs(m:GetDescendants()) do

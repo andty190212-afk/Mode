@@ -17,57 +17,87 @@ local Rarities = require(Data.Rarities)
 local WeaponAnim = {}
 
 local rad = math.rad
+-- poses are stored as angles in degrees (x = raise forward, y = twist, z = sideways)
 local function ang(x, y, z)
-	return CFrame.Angles(rad(x or 0), rad(y or 0), rad(z or 0))
+	return Vector3.new(x or 0, y or 0, z or 0)
 end
 
 local IDLE = ang(35, 0, 8) -- weapon arm slightly raised and forward
 
+local baseC0 = setmetatable({}, { __mode = "k" }) -- [Motor6D] = original C0 (plain table: no attributes needed)
+local animating = setmetatable({}, { __mode = "k" }) -- [character] = true
+
+-- R15 and R6 rigs are both supported
 local function motors(char)
 	local function m(part, name)
 		local p = char:FindFirstChild(part)
 		return p and p:FindFirstChild(name)
 	end
+	if char:FindFirstChild("UpperTorso") then
+		return {
+			rs = m("RightUpperArm", "RightShoulder"),
+			ls = m("LeftUpperArm", "LeftShoulder"),
+			re = m("RightLowerArm", "RightElbow"),
+			waist = m("UpperTorso", "Waist"),
+		}, false
+	end
 	return {
-		rs = m("RightUpperArm", "RightShoulder"),
-		ls = m("LeftUpperArm", "LeftShoulder"),
-		re = m("RightLowerArm", "RightElbow"),
-		waist = m("UpperTorso", "Waist"),
-	}
+		rs = m("Torso", "Right Shoulder"),
+		ls = m("Torso", "Left Shoulder"),
+		waist = m("HumanoidRootPart", "RootJoint"),
+	}, true
+end
+
+-- convert a pose (degrees) into a C0 offset for the given joint
+local function toCF(key, v, r6)
+	if not r6 then
+		return CFrame.Angles(rad(v.X), rad(v.Y), rad(v.Z))
+	end
+	-- R6 joints are rotated: the shoulder swings around its local Z, the root twists around Z
+	if key == "rs" then
+		return CFrame.Angles(-rad(v.Z) * 0.5, 0, rad(v.X))
+	elseif key == "ls" then
+		return CFrame.Angles(rad(v.Z) * 0.5, 0, -rad(v.X))
+	elseif key == "waist" then
+		return CFrame.Angles(0, 0, rad(v.Y))
+	end
+	return CFrame.new()
 end
 
 local function base(motor)
 	if not motor then
 		return nil
 	end
-	local b = motor:GetAttribute("BaseC0")
+	local b = baseC0[motor]
 	if not b then
 		b = motor.C0
-		motor:SetAttribute("BaseC0", b)
+		baseC0[motor] = b
 	end
 	return b
 end
 
--- play keyframes: list of { time, { rs = CFrame, ls = ..., re = ..., waist = ... } }
+-- play keyframes: list of { time, { rs = ang, ls = ..., re = ..., waist = ... } }
 local function play(char, frames)
-	local mo = motors(char)
-	if not mo.rs or char:GetAttribute("Animating") then
+	local mo, r6 = motors(char)
+	if not mo.rs or animating[char] then
 		return
 	end
-	char:SetAttribute("Animating", true)
+	animating[char] = true
 	task.spawn(function()
-		for _, f in ipairs(frames) do
-			local dur, pose = f[1], f[2]
-			for key, motor in pairs(mo) do
-				local b = base(motor)
-				if b then
-					local target = pose[key] or (key == "rs" and IDLE or CFrame.new())
-					TweenService:Create(motor, TweenInfo.new(dur, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { C0 = b * target }):Play()
+		pcall(function()
+			for _, f in ipairs(frames) do
+				local dur, pose = f[1], f[2]
+				for key, motor in pairs(mo) do
+					local b = base(motor)
+					if b then
+						local v = pose[key] or (key == "rs" and IDLE or ang())
+						TweenService:Create(motor, TweenInfo.new(dur, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { C0 = b * toCF(key, v, r6) }):Play()
+					end
 				end
+				task.wait(dur)
 			end
-			task.wait(dur)
-		end
-		char:SetAttribute("Animating", nil)
+		end)
+		animating[char] = nil
 	end)
 end
 
@@ -314,7 +344,7 @@ function WeaponAnim.ability(userId, abilityId)
 	if not frames then
 		return
 	end
-	char:SetAttribute("Animating", nil) -- abilities interrupt a running swing
+	animating[char] = nil -- abilities interrupt a running swing
 	play(char, frames)
 	local model = weaponModel(char)
 	local id = model and model:GetAttribute("WeaponId")
@@ -342,20 +372,19 @@ local function idleLoop()
 	for _, p in ipairs(Players:GetPlayers()) do
 		local char = p.Character
 		if char then
-			local mo = motors(char)
+			local mo, r6 = motors(char)
 			local model = weaponModel(char)
-			local holding = model ~= nil and not char:GetAttribute("CarryingFrom")
-			if mo.rs and not char:GetAttribute("Animating") then
-				if holding then
-					local b = base(mo.rs)
-					mo.rs.C0 = b * IDLE
+			local carrying = char:GetAttribute("CarryingFrom") ~= nil
+			if mo.rs and not animating[char] and not carrying then
+				if model then
+					mo.rs.C0 = base(mo.rs) * toCF("rs", IDLE, r6)
 					local id = model:GetAttribute("WeaponId")
 					local def = id and Weapons.ById[id]
 					if def then
 						ensureAura(model, def)
 					end
-				elseif mo.rs:GetAttribute("BaseC0") and not char:GetAttribute("CarryingFrom") then
-					mo.rs.C0 = mo.rs:GetAttribute("BaseC0")
+				elseif baseC0[mo.rs] then
+					mo.rs.C0 = baseC0[mo.rs]
 				end
 			end
 		end
