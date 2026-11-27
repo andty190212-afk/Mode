@@ -405,14 +405,14 @@ local function renderStaff(c)
 	local slots = Stars.Levels[r.stars].staffSlots
 	local hired = 0
 	for _, m in ipairs(r.staff) do
-		if not m.isChef then
+		if not m.isChef and not m.isHouse and not m.isRobot then
 			hired += 1
 		end
 	end
 	UI.label(c, string.format("Сотрудники: <b>%d/%d</b> (лимит растёт с рейтингом). Зарплата списывается из бюджета каждую минуту.", hired, slots), 15, { auto = true })
 	if isDirector then
 		local row = UI.row(c, 46)
-		for _, role in ipairs({ "Cook", "Waiter", "Bartender" }) do
+		for _, role in ipairs({ "Cook", "Waiter" }) do
 			local def = Staff.Roles[role]
 			UI.button(row, "Нанять " .. def.icon .. " " .. def.name .. " (" .. money(def.hireCost) .. ")", T.blue, function()
 				UI.request(Net, "HireStaff", { role = role })
@@ -423,28 +423,32 @@ local function renderStaff(c)
 	else
 		UI.label(c, "Нанимать и управлять персоналом может игрок с профессией «Директор ресторана».", 14, { color = T.sub, auto = true })
 	end
+	UI.label(c, "🍹 Бармен работает всегда и бесплатно. 🧑‍💼 Если в ресторане нет официанта, бесплатный NPC-официант работает сам.", 13, { color = T.accent2, auto = true })
 	if #r.staff == 0 then
 		emptyNote(c, "Персонала пока нет.")
 	end
 	local stateNames = { idle = "ожидает", cooking = "готовит", order = "принимает заказ", serve = "разносит", clean = "убирает", off = "не на смене" }
 	for _, m in ipairs(r.staff) do
 		local def = Staff.Roles[m.role]
-		local card = UI.card(c, 92)
-		UI.label(card, string.format("%s <b>%s</b> — %s%s  •  <font color='#FFCD46'>%s (ур. %d)</font>", def.icon, m.name, def.name, m.isChef and " шефа" or "", m.levelName, m.level), 16, { sizeUDim = UDim2.new(1, -330, 0, 26) }).Position = UDim2.fromOffset(12, 6)
-		UI.label(card, string.format("Зарплата %s/мин (x%.1f) • Мотивация %d%% • Сейчас: %s", money(m.wage), m.wageMult or 1, math.floor((m.morale or 1) * 100), stateNames[m.state] or m.state), 13, { color = T.sub, sizeUDim = UDim2.new(1, -330, 0, 22) }).Position = UDim2.fromOffset(12, 34)
+		local icon = m.isRobot and "🤖" or def.icon
+		local roleName = m.isRobot and "готовит вместо повара" or (def.name .. (m.isChef and " шефа" or ""))
+		local card = UI.card(c, 92, { color = (m.isHouse or m.isRobot) and Color3.fromRGB(40, 66, 72) or nil })
+		UI.label(card, string.format("%s <b>%s</b> — %s  •  <font color='#FFCD46'>%s%s</font>", icon, m.name, roleName, m.levelName, m.isRobot and "" or (" (ур. " .. m.level .. ")")), 16, { sizeUDim = UDim2.new(1, -330, 0, 26) }).Position = UDim2.fromOffset(12, 6)
+		local payText = (m.isHouse or m.isRobot) and "<font color='#7CE08A'>Бесплатно, работает всегда</font>" or string.format("Зарплата %s/мин (x%.1f) • Мотивация %d%%", money(m.wage), m.wageMult or 1, math.floor((m.morale or 1) * 100))
+		UI.label(card, payText .. " • Сейчас: " .. (stateNames[m.state] or m.state), 13, { color = T.sub, sizeUDim = UDim2.new(1, -330, 0, 22) }).Position = UDim2.fromOffset(12, 34)
 		if m.xpNeed > 0 then
 			UI.label(card, string.format("Опыт: %d / %d • Обучение: %s", math.floor(m.xp), m.xpNeed, money(m.trainCost)), 13, { color = T.sub, sizeUDim = UDim2.new(1, -330, 0, 20) }).Position = UDim2.fromOffset(12, 56)
 			UI.progress(card, m.xp / m.xpNeed, T.accent, { size = UDim2.new(1, -360, 0, 6), position = UDim2.fromOffset(12, 78) })
 		else
 			UI.label(card, "Максимальный уровень — Мастер", 13, { color = T.gold, sizeUDim = UDim2.new(1, -330, 0, 20) }).Position = UDim2.fromOffset(12, 56)
 		end
-		if isDirector or (isChef and m.isChef) then
+		if not m.isRobot and (isDirector or (isChef and m.isChef) or (m.isHouse and State.isOwner())) then
 			local train = UI.button(card, "🎓 Обучить", T.good, function()
 				UI.request(Net, "TrainStaff", { uid = m.uid })
 			end, { size = UDim2.fromOffset(110, 34), textSize = 14 })
 			train.Position = UDim2.new(1, -320, 0, 10)
 		end
-		if isDirector and not m.isChef then
+		if isDirector and not m.isChef and not m.isHouse and not m.isRobot then
 			local minus = UI.button(card, "З/П −", T.card, function()
 				UI.request(Net, "SetWage", { uid = m.uid, mult = (m.wageMult or 1) - 0.1 })
 			end, { size = UDim2.fromOffset(64, 34), textSize = 13 })

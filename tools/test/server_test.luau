@@ -60,6 +60,8 @@ for _ in pairs(island.guest.tables) do
 	tables += 1
 end
 check(tables == 5, "starter tables registered as guest seats", tables)
+check(island.staff.npcs.bartender ~= nil, "free NPC bartender works from the start")
+check(island.staff.npcs.house_waiter ~= nil, "free NPC waiter works while nobody is a waiter")
 
 section("Professions & invites")
 local bob = Mock.addPlayer("Bob")
@@ -79,6 +81,7 @@ local r1 = Mock.request(bob, "ChooseRole", { role = "Cook" })
 check(not r1.ok, "Bob cannot take the Cook job held by Alice", r1.err)
 check(Mock.request(bob, "ChooseRole", { role = "Waiter" }).ok, "Bob becomes Waiter")
 check(R.roleOf(bob) == "Waiter" and R.roleOf(alice) == "Cook", "roles assigned uniquely")
+check(island.staff.npcs.house_waiter == nil, "free NPC waiter leaves when a player becomes waiter")
 -- paid jobs without a pass (outside Studio)
 Mock.isStudio = false
 Services.MonetizationService.refreshPasses(carl)
@@ -302,8 +305,9 @@ section("Director & NPC staff")
 check(Mock.request(alice, "ChooseRole", { role = "Director" }).ok, "Alice switches to Director (Studio pass grant)")
 local hire = Mock.request(alice, "HireStaff", { role = "Cook" })
 check(hire.ok, "hire NPC cook", hire.err)
-check(Mock.request(alice, "HireStaff", { role = "Bartender" }).ok, "hire NPC bartender")
-check(Mock.request(alice, "HireStaff", { role = "Waiter" }).ok, "hire NPC waiter (3 slots at 2 stars)")
+check(not Mock.request(alice, "HireStaff", { role = "Bartender" }).ok, "bartender cannot be hired (always present)")
+check(Mock.request(alice, "HireStaff", { role = "Waiter" }).ok, "hire NPC waiter")
+check(Mock.request(alice, "HireStaff", { role = "Cook" }).ok, "hire second NPC cook (3 slots at 2 stars)")
 check(not Mock.request(alice, "HireStaff", { role = "Waiter" }).ok, "staff limit by stars")
 check(not Mock.request(bob, "HireStaff", { role = "Cook" }).ok, "only the director hires")
 Mock.request(bob, "ChooseRole", { role = "Chef" })
@@ -332,6 +336,14 @@ end
 check(avatarGuests > 0, "NPCs are R15 avatars (" .. avatarGuests .. ")")
 check(chefHats >= 1, "NPC cooks wear a chef hat", chefHats)
 check(bows >= 1, "NPC waiter/bartender wear a bow tie", bows)
+-- kitchen robot
+check(not Mock.request(alice, "BuyKitchenRobot", {}).ok, "robot needs a level-5 stove")
+rest.equipment.stove = 5
+rest.budget += 200000
+local robot = Mock.request(alice, "BuyKitchenRobot", {})
+check(robot.ok and island.staff.npcs.robot ~= nil, "kitchen robot bought and cooking", robot.err)
+check(island.staff.npcs.robot.model:FindFirstChild("Visor") ~= nil, "robot has a robot look (visor)")
+rest.equipment.stove = 2
 local staffList = Services.StaffService.staffState(island)
 check(#staffList >= 4, "staff state lists NPCs", #staffList)
 local cookNpc = rest.staff[1]

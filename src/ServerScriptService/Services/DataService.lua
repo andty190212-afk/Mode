@@ -38,6 +38,9 @@ local function defaultRestaurant()
 		decor = {}, -- {uid, id, x, z, r}
 		staff = {}, -- {uid, role, name, level, xp, wageMult, morale}
 		chefNpc = { level = 1, xp = 0 },
+		bartenderNpc = { level = 1, xp = 0 }, -- бесплатный бармен (есть всегда)
+		houseWaiterNpc = { level = 1, xp = 0 }, -- официант на замену, если нет официанта
+		kitchenRobot = false, -- куплен ли кухонный робот
 		nextUid = 1,
 		barrierOn = false,
 		whitelist = {}, -- [tostring(userId)] = name

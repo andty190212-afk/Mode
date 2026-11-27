@@ -524,6 +524,7 @@ function RS.buildState(island)
 		decor = rest.decor,
 		staff = S.StaffService.staffState(island),
 		chefNpc = rest.chefNpc,
+		kitchenRobot = rest.kitchenRobot == true,
 		stats = rest.stats,
 		reviews = rest.reviews,
 		ledger = rest.ledger,

@@ -142,6 +142,40 @@ function ShopService.Start()
 		return { ok = true }
 	end)
 
+	Net.onRequest("BuyKitchenRobot", function(player)
+		local island = S.RestaurantService.islandOf(player)
+		if not island then
+			return { ok = false, err = "Вы не в ресторане" }
+		end
+		local rest = island.rest
+		if rest.kitchenRobot then
+			return { ok = false, err = "Робот уже работает на кухне" }
+		end
+		if (rest.equipment.stove or 0) < Equipment.MaxLevel then
+			return { ok = false, err = "Сначала улучшите плиту до " .. Equipment.MaxLevel .. " уровня" }
+		end
+		local role = S.RestaurantService.roleOf(player)
+		local cost = Config.KitchenRobotPrice
+		local okSpend, why
+		if role == "Cook" or role == "Chef" or role == "Director" then
+			okSpend = S.Economy.budgetSpend(island, cost, "equipment", player.DisplayName, "Кухонный робот", "upgrades")
+			why = "Нужно $" .. cost .. " в бюджете ресторана"
+		else
+			okSpend, why = S.Economy.playerSpendBudget(player, island, cost, "equipment", "Кухонный робот", "upgrades")
+		end
+		if not okSpend then
+			return { ok = false, err = why }
+		end
+		rest.kitchenRobot = true
+		S.StaffService.refreshRoles(island)
+		Net.fx(player, "upgrade", {})
+		for _, m in ipairs(S.RestaurantService.membersOf(island)) do
+			Net.toast(m, "🤖 Кухонный робот готовит заказы вместо повара!", "success")
+		end
+		S.RestaurantService.markDirty(island)
+		return { ok = true }
+	end)
+
 	Net.onRequest("UpgradeEquipment", function(player, payload)
 		local island = S.RestaurantService.islandOf(player)
 		if not island then
@@ -159,7 +193,15 @@ function ShopService.Start()
 			return { ok = false, err = "Следующий уровень откроется на " .. nextLevel .. "★" }
 		end
 		local cost = Equipment.costFor(id, nextLevel)
-		local okSpend, why = S.Economy.playerSpendBudget(player, island, cost, "equipment", def.name .. " ур." .. nextLevel, "upgrades")
+		local role = S.RestaurantService.roleOf(player)
+		local okSpend, why
+		if Equipment.Kitchen[id] and (role == "Cook" or role == "Chef") then
+			-- повар улучшает свою кухню без отдельного разрешения владельца
+			okSpend = S.Economy.budgetSpend(island, cost, "equipment", player.DisplayName, def.name .. " ур." .. nextLevel, "upgrades")
+			why = "Недостаточно денег в бюджете ресторана"
+		else
+			okSpend, why = S.Economy.playerSpendBudget(player, island, cost, "equipment", def.name .. " ур." .. nextLevel, "upgrades")
+		end
 		if not okSpend then
 			return { ok = false, err = why }
 		end

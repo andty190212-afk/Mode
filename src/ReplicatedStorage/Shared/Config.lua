@@ -57,6 +57,7 @@ Config.FurnitureRefund = 0.5
 Config.MaxFurniture = 80
 Config.MaxDecor = 120
 Config.VisitorMealPrice = 40
+Config.KitchenRobotPrice = 120000 -- кухонный робот (нужна плита макс. уровня)
 Config.FerryTicket = 60
 
 -- ===================== GUESTS =====================

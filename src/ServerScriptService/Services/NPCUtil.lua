@@ -515,7 +515,29 @@ function NPCUtil.spawn(kind, cf, opts)
 	cf = cf * CFrame.new(0, groundOffset - 3, 0)
 	local skin = pick(SKIN, rng)
 	local clothing = Config.NPC and Config.NPC.Clothing or {}
-	if kind == "Staff" then
+	if kind == "Staff" and opts.role == "Robot" then
+		local metal = Color3.fromRGB(175, 185, 200)
+		setBodyColors(model, metal, Color3.fromRGB(70, 130, 200), metal, Color3.fromRGB(90, 95, 105))
+		for _, p in ipairs(model:GetChildren()) do
+			if p:IsA("BasePart") and p ~= root then
+				p.Material = Enum.Material.Metal
+				p.Reflectance = 0.1
+			end
+		end
+		for _, d in ipairs(head:GetChildren()) do
+			if d:IsA("Decal") then
+				d:Destroy()
+			end
+		end
+		local hs = head.Size
+		local visor = newPart("Visor", Vector3.new(hs.X * 0.8, hs.Y * 0.28, 0.08), Color3.fromRGB(60, 230, 255), Enum.Material.Neon)
+		weldTo(visor, head, CFrame.new(0, hs.Y * 0.08, -(hs.Z / 2 + 0.03)))
+		local antenna = newPart("Antenna", Vector3.new(0.1, 0.7, 0.1), Color3.fromRGB(80, 80, 90), Enum.Material.Metal)
+		weldTo(antenna, head, CFrame.new(0, hs.Y * 0.5 + 0.35, 0))
+		local bulb = newPart("AntennaLight", Vector3.new(0.3, 0.3, 0.3), Color3.fromRGB(255, 80, 80), Enum.Material.Neon, Enum.PartType.Ball)
+		weldTo(bulb, head, CFrame.new(0, hs.Y * 0.5 + 0.75, 0))
+		addChefHat(model, head)
+	elseif kind == "Staff" then
 		local u = UNIFORM[opts.role or "Waiter"] or UNIFORM.Waiter
 		setBodyColors(model, skin, u.torso, u.arms, u.legs)
 		addUniformDetails(model, u)

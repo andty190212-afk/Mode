@@ -115,6 +115,18 @@ local function renderUpgrades(c, win)
 			end, { size = UDim2.fromOffset(190, 40), disabled = disabled, textSize = 14 })
 			b.Position = UDim2.new(1, -200, 0.5, -20)
 		end
+		section(c, "🤖 Кухонный робот")
+		local robotCard = UI.card(c, 70, { color = r.kitchenRobot and Color3.fromRGB(38, 70, 56) or nil })
+		local stoveLvl = r.equipment.stove or 0
+		UI.label(robotCard, r.kitchenRobot and "🤖 <b>Робот работает на кухне</b> и готовит заказы вместо повара (качество мастера, бесплатно)."
+			or string.format("🤖 <b>Кухонный робот</b> готовит заказы вместо повара. Нужно: плита %d/%d ур. • %s", stoveLvl, Equipment.MaxLevel, money(Config.KitchenRobotPrice)), 14, { sizeUDim = UDim2.new(1, -210, 1, 0) }).Position = UDim2.fromOffset(10, 0)
+		if not r.kitchenRobot then
+			local ready = stoveLvl >= Equipment.MaxLevel
+			local rb = UI.button(robotCard, ready and ("Купить " .. money(Config.KitchenRobotPrice)) or "🔒 Плита ур. 5", ready and T.gold or T.card, function()
+				UI.request(Net, "BuyKitchenRobot", {}, "Робот уже на кухне!")
+			end, { size = UDim2.fromOffset(190, 40), disabled = not ready, textSize = 14, textColor = ready and Color3.fromRGB(40, 30, 10) or nil, disabledText = "Улучшите плиту до 5 уровня (нужен ресторан ★5)" })
+			rb.Position = UDim2.new(1, -200, 0.5, -20)
+		end
 		section(c, "📦 Склад")
 		local card = UI.card(c, 56)
 		UI.label(card, string.format("Уровень склада %d/%d • вместимость %d", r.storageLevel, Equipment.StorageMaxLevel, r.storageCap), 15, { sizeUDim = UDim2.new(1, -210, 1, 0) }).Position = UDim2.fromOffset(10, 0)

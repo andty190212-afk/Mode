@@ -13,6 +13,9 @@ Equipment.List = {
 	{ id = "dishwasher", name = "Посудомоечная машина", icon = "🫧", base = 380, desc = "Быстрая уборка, чистота (+15%/ур.)", effect = { cleanSpeed = 0.15 } },
 }
 
+-- оборудование кухни, которое повар может улучшать сам
+Equipment.Kitchen = { stove = true, oven = true, fridge = true, freezer = true, prep = true }
+
 Equipment.ById = {}
 for i, e in ipairs(Equipment.List) do
 	e.order = i

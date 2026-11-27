@@ -27,6 +27,21 @@ function StaffService.Init(registry)
 end
 
 -- ===================== RUNTIME =====================
+-- built-in NPCs (free, always available): uid -> settings
+local HOUSE = {
+	bartender = { role = "Bartender", name = "Бармен Лео", store = "bartenderNpc" },
+	house_waiter = { role = "Waiter", name = "Официант Мила", store = "houseWaiterNpc" },
+	robot = { role = "Cook", name = "Кухонный робот", isRobot = true },
+}
+
+function StaffService.icon(member)
+	if member.isRobot then
+		return "🤖"
+	end
+	local r = Staff.Roles[member.role]
+	return r and r.icon or "🙂"
+end
+
 local function spot(island, name, index)
 	local RS = S.RestaurantService
 	local part = RS.buildingPart(island, name .. (index or ""))
@@ -49,7 +64,7 @@ local function spawnNpc(island, member)
 	end
 	local spotName = member.role == "Cook" and "CookSpot" or (member.role == "Bartender" and "BarSpot" or "WaiterSpot")
 	local home = spot(island, spotName, math.min(idx, 3))
-	local model = NPCUtil.spawn("Staff", home * CFrame.new(0, 3, 0), { role = member.role, rng = rng })
+	local model = NPCUtil.spawn("Staff", home * CFrame.new(0, 3, 0), { role = member.isRobot and "Robot" or member.role, rng = rng })
 	model.Name = "Staff_" .. member.role
 	local hat = model:FindFirstChild("ChefHat")
 	if hat then
@@ -57,7 +72,7 @@ local function spawnNpc(island, member)
 	end
 	local npc = { data = member, model = model, home = home, busy = false, state = "idle" }
 	rt.npcs[member.uid] = npc
-	NPCUtil.bubble(model, (Staff.Roles[member.role].icon) .. " " .. member.name, Color3.fromRGB(90, 90, 110))
+	NPCUtil.bubble(model, StaffService.icon(member) .. " " .. member.name, Color3.fromRGB(90, 90, 110))
 	return npc
 end
 
@@ -136,6 +151,33 @@ function StaffService.refreshRoles(island)
 	elseif not chefActive and chefNpc then
 		despawnNpc(island, "chef")
 	end
+	local rest = island.rest
+	local npcs = island.staff.npcs
+	-- бармен есть всегда
+	-- официант на замену: если нет игрока-официанта и нанятых NPC-официантов
+	local hiredWaiter = false
+	for uid, n in pairs(npcs) do
+		if n.data.role == "Waiter" and not HOUSE[uid] then
+			hiredWaiter = true
+		end
+	end
+	local wantHouse = {
+		bartender = true,
+		house_waiter = S.RestaurantService.playerInRole(island, "Waiter") == nil and not hiredWaiter,
+		robot = rest.kitchenRobot == true,
+	}
+	for uid, want in pairs(wantHouse) do
+		if want and not npcs[uid] then
+			local h = HOUSE[uid]
+			local saved = h.store and rest[h.store] or { level = 5, xp = 0 }
+			spawnNpc(island, {
+				uid = uid, role = h.role, name = h.name, level = h.isRobot and 5 or saved.level, xp = saved.xp,
+				wageMult = 0, morale = 1, unpaid = 0, isHouse = true, isRobot = h.isRobot, store = h.store,
+			})
+		elseif not want and npcs[uid] then
+			despawnNpc(island, uid)
+		end
+	end
 	S.RestaurantService.markDirty(island)
 end
 
@@ -160,6 +202,8 @@ local function memberXp(island, npc, amount)
 	m.xp = (m.xp or 0) + amount
 	if m.isChef then
 		island.rest.chefNpc.xp = m.xp
+	elseif m.store and island.rest[m.store] then
+		island.rest[m.store].xp = m.xp
 	end
 end
 
@@ -185,7 +229,7 @@ local function workCook(island, npc, kind)
 		npc.item = nil
 		npc.busy = false
 		npc.state = "idle"
-		NPCUtil.bubble(npc.model, Staff.Roles[npc.data.role].icon .. " " .. npc.data.name, Color3.fromRGB(90, 90, 110))
+		NPCUtil.bubble(npc.model, StaffService.icon(npc.data) .. " " .. npc.data.name, Color3.fromRGB(90, 90, 110))
 		if item.status ~= "cooking" then
 			return
 		end
@@ -392,22 +436,26 @@ function StaffService.staffState(island)
 			state = npc and npc.state or "off",
 		})
 	end
-	local chef = rt and rt.npcs.chef
-	if chef then
-		local m = chef.data
-		local next = Staff.Levels[m.level + 1]
-		table.insert(out, {
-			uid = "chef", role = "Cook", name = m.name, level = m.level, levelName = Staff.Levels[m.level].name,
-			xp = m.xp, xpNeed = next and next.xpNeed or 0, trainCost = next and math.floor(next.trainCost * 0.7) or 0,
-			wage = Staff.wagePerMinute(m), wageMult = m.wageMult, morale = m.morale, state = chef.state, isChef = true,
-		})
+	for _, uid in ipairs({ "chef", "bartender", "house_waiter", "robot" }) do
+		local npc = rt and rt.npcs[uid]
+		if npc then
+			local m = npc.data
+			local next = not m.isRobot and Staff.Levels[m.level + 1] or nil
+			local discount = uid == "chef" and 0.7 or 0.5
+			table.insert(out, {
+				uid = uid, role = m.role, name = m.name, level = m.level, levelName = m.isRobot and "Робот" or Staff.Levels[m.level].name,
+				xp = m.xp, xpNeed = next and next.xpNeed or 0, trainCost = next and math.floor(next.trainCost * discount) or 0,
+				wage = Staff.wagePerMinute(m), wageMult = m.wageMult, morale = m.morale, state = npc.state,
+				isChef = uid == "chef", isHouse = m.isHouse == true, isRobot = m.isRobot == true,
+			})
+		end
 	end
 	return out
 end
 
 local function findMember(island, uid)
-	if uid == "chef" then
-		return island.staff and island.staff.npcs.chef and island.staff.npcs.chef.data
+	if uid == "chef" or HOUSE[uid] then
+		return island.staff and island.staff.npcs[uid] and island.staff.npcs[uid].data
 	end
 	for _, m in ipairs(island.rest.staff) do
 		if m.uid == uid then
@@ -429,6 +477,9 @@ function StaffService.Start()
 			return { ok = false, err = "Нанимать персонал может только директор ресторана" }
 		end
 		local role = payload and payload.role
+		if role == "Bartender" then
+			return { ok = false, err = "Бармен уже работает в ресторане бесплатно" }
+		end
 		local def = type(role) == "string" and Staff.Roles[role]
 		if not def then
 			return { ok = false, err = "Нет такой должности" }
@@ -454,6 +505,7 @@ function StaffService.Start()
 		island.rest.nextUid += 1
 		table.insert(island.rest.staff, member)
 		spawnNpc(island, member)
+		StaffService.refreshRoles(island)
 		S.Economy.addProfXp(player, "Director", 20)
 		Net.toast(player, def.icon .. " Нанят сотрудник: " .. member.name, "success")
 		S.RestaurantService.markDirty(island)
@@ -470,6 +522,7 @@ function StaffService.Start()
 			if m.uid == uid then
 				table.remove(island.rest.staff, i)
 				despawnNpc(island, uid)
+				StaffService.refreshRoles(island)
 				S.RestaurantService.markDirty(island)
 				return { ok = true }
 			end
@@ -487,9 +540,14 @@ function StaffService.Start()
 		if not member then
 			return { ok = false, err = "Сотрудник не найден" }
 		end
-		local allowed = isDirector(player, island) or (uid == "chef" and S.RestaurantService.playerInRole(island, "Chef") == player)
+		if member.isRobot then
+			return { ok = false, err = "Робот уже работает на максимуме" }
+		end
+		local allowed = isDirector(player, island)
+			or (uid == "chef" and S.RestaurantService.playerInRole(island, "Chef") == player)
+			or (HOUSE[uid] ~= nil and island.owner == player)
 		if not allowed then
-			return { ok = false, err = "Обучать может директор (или шеф-повар — своего NPC-повара)" }
+			return { ok = false, err = "Обучать может директор (шеф-повар — своего су-шефа, владелец — бармена и официанта)" }
 		end
 		local next = Staff.Levels[member.level + 1]
 		if not next then
@@ -498,7 +556,7 @@ function StaffService.Start()
 		if (member.xp or 0) < next.xpNeed then
 			return { ok = false, err = "Нужно опыта: " .. next.xpNeed .. " (сейчас " .. math.floor(member.xp or 0) .. ")" }
 		end
-		local cost = uid == "chef" and math.floor(next.trainCost * 0.7) or next.trainCost
+		local cost = uid == "chef" and math.floor(next.trainCost * 0.7) or (HOUSE[uid] and math.floor(next.trainCost * 0.5) or next.trainCost)
 		local okSpend, why = S.Economy.playerSpendBudget(player, island, cost, "staff", "Обучение: " .. member.name, "upgrades")
 		if not okSpend then
 			return { ok = false, err = why }
@@ -506,6 +564,8 @@ function StaffService.Start()
 		member.level += 1
 		if member.isChef then
 			island.rest.chefNpc.level = member.level
+		elseif member.store and island.rest[member.store] then
+			island.rest[member.store].level = member.level
 		end
 		S.Economy.addProfXp(player, S.RestaurantService.roleOf(player) or "Director", 40)
 		Net.toast(player, "🎓 " .. member.name .. " теперь " .. Staff.Levels[member.level].name, "success")
