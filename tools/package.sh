@@ -14,6 +14,7 @@ lune run tools/test/lab_test.luau | tail -n 2
 echo "== Client UI simulation"
 lune run tools/test/client_test.luau | tail -n 2
 echo "== Package"
+lune run tools/export_install.luau
 mkdir -p dist dist/backup
 cp build/RestaurantIslandTycoon.rbxl dist/RestaurantIslandTycoon.rbxl
 rm -f dist/RestaurantIslandTycoon.rbxlx.zip
