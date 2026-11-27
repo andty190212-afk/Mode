@@ -1240,6 +1240,18 @@ local function registerRemotes()
 		return ok({ cooldown = def.ability.cooldown })
 	end)
 
+	Net.onRequest("SetLanguage", function(player, payload)
+		local lang = type(payload) == "table" and payload.lang
+		if lang ~= "ru" and lang ~= "en" then
+			return fail("Неизвестный язык")
+		end
+		local p = profileOf(player)
+		if p then
+			p.data.settings.lang = lang
+		end
+		return ok()
+	end)
+
 	Net.onRequest("JoinArena", function(player, payload)
 		if not alive(player) then
 			return fail("Недоступно")

@@ -102,6 +102,16 @@ check(Mock.request(alice, "ClaimIsland", { index = 1 }).ok, "Alice claims island
 check(Mock.request(bob, "ClaimIsland", { index = 2 }).ok, "Bob claims island 2")
 Mock.advance(2)
 local aliceIsland = Rest.islandOf(alice)
+check(Lab.Labs[1] == nil, "no lab below 3★")
+check(labsFolder.Lab1.Pods.Pod1.Transparency == 1 and labsFolder.Lab1.Floor.Transparency < 1, "lab building hidden, platform/bridge stays")
+local lockGui = labsFolder.Lab1.LockSign:FindFirstChildWhichIsA("SurfaceGui")
+check(lockGui and lockGui.Enabled, "'lab appears at 3★' sign shown")
+check(not Mock.request(alice, "BuyChest", { chest = "basic" }).ok, "no chests below 3★")
+aliceIsland.rest.stars = 3
+Rest.islandOf(bob).rest.stars = 3
+Mock.advance(2)
+check(Lab.Labs[1] ~= nil and Lab.Labs[2] ~= nil, "lab appears when the restaurant reaches 3★")
+check(labsFolder.Lab1.Pods.Pod1.Transparency < 1, "lab building visible at 3★")
 local aliceLab = Lab.Labs[1]
 check(aliceLab ~= nil and aliceLab.state == "closed", "Alice's lab is set up and protected")
 check(labsFolder.Lab1:GetAttribute("LabOwner") == "Alice", "lab shows its owner")
@@ -344,7 +354,8 @@ end
 local dave = Mock.addPlayer("Dave")
 Mock.advance(2)
 check(Mock.request(dave, "ClaimIsland", { index = 3 }).ok, "Dave claims island 3")
-Mock.advance(1)
+Rest.islandOf(dave).rest.stars = 3
+Mock.advance(2)
 moveTo(dave, p2.Position + Vector3.new(3, 2, 0))
 p2.StealPrompt.Triggered:Fire(dave)
 check(Lab.isCarrying(dave), "Dave carries Alice's new creature")

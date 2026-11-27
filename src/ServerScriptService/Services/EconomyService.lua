@@ -327,6 +327,7 @@ function Economy.buildPlayerState(player)
 		profs[k] = { level = v.level, xp = v.xp, need = Config.XpForProfLevel(v.level) }
 	end
 	return {
+		lang = d.settings and d.settings.lang or "",
 		userId = player.UserId,
 		money = d.money,
 		level = d.level,

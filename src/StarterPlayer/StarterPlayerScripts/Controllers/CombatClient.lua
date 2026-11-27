@@ -146,6 +146,9 @@ local function buildHud()
 	UI.corner(refs.cdShade, 37)
 	refs.cdText = UI.label(refs.cdShade, "", 22, { font = UI.Font, align = Enum.TextXAlignment.Center, sizeUDim = UDim2.fromScale(1, 1) })
 	refs.cdText.ZIndex = 4
+	-- ability name under the button (so everyone sees there IS a special skill)
+	refs.abilityName = UI.label(panel, "", 12, { align = Enum.TextXAlignment.Center, font = UI.Font, color = T.gold, sizeUDim = UDim2.fromOffset(110, 30) })
+	refs.abilityName.Position = UDim2.new(1, -198, 1, -114)
 	refs.hint = UI.label(panel, UI.isMobile and "" or "ЛКМ — удар • F — способность", 12, { align = Enum.TextXAlignment.Right, color = T.sub, sizeUDim = UDim2.new(1, 0, 0, 18) })
 	refs.hint.Position = UDim2.new(0, 0, 1, 2)
 
@@ -173,6 +176,7 @@ local function updateHud()
 	if def then
 		local c = Rarities.Info[def.rarity].color
 		refs.weapon.Text = string.format("%s <b>%s</b>\n<font color='#%02X%02X%02X'>%s</font> • %s", def.icon, def.name, c[1], c[2], c[3], def.starter and "Бесплатное" or Rarities.Info[def.rarity].name, def.ability.name)
+		refs.abilityName.Text = "✨ " .. def.ability.name .. (UI.isMobile and "" or " [F]")
 		local left = localAbilityReady - os.clock()
 		refs.cdShade.Visible = left > 0
 		refs.cdText.Text = left > 0 and tostring(math.ceil(left)) or ""

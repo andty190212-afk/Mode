@@ -6,13 +6,13 @@ local Creatures = {}
 
 -- per-rarity tuning
 Creatures.RarityStats = {
-	Common = { grow = 90, income = 30, dishTime = 240, upgradeBase = 600, speedupRate = 6, stealHold = 2.5 },
-	Uncommon = { grow = 180, income = 55, dishTime = 300, upgradeBase = 1200, speedupRate = 8, stealHold = 3 },
-	Rare = { grow = 360, income = 100, dishTime = 420, upgradeBase = 2500, speedupRate = 10, stealHold = 3.5 },
-	Epic = { grow = 600, income = 180, dishTime = 600, upgradeBase = 5000, speedupRate = 14, stealHold = 4.5 },
-	Legendary = { grow = 900, income = 320, dishTime = 900, upgradeBase = 10000, speedupRate = 20, stealHold = 5.5 },
-	Mythical = { grow = 1200, income = 550, dishTime = 1200, upgradeBase = 20000, speedupRate = 30, stealHold = 6.5 },
-	Secret = { grow = 1500, income = 900, dishTime = 1500, upgradeBase = 40000, speedupRate = 45, stealHold = 8 },
+	Common = { grow = 90, income = 30, dishTime = 60, upgradeBase = 600, speedupRate = 6, stealHold = 2.5 },
+	Uncommon = { grow = 180, income = 55, dishTime = 75, upgradeBase = 1200, speedupRate = 8, stealHold = 3 },
+	Rare = { grow = 360, income = 100, dishTime = 90, upgradeBase = 2500, speedupRate = 10, stealHold = 3.5 },
+	Epic = { grow = 600, income = 180, dishTime = 120, upgradeBase = 5000, speedupRate = 14, stealHold = 4.5 },
+	Legendary = { grow = 900, income = 320, dishTime = 150, upgradeBase = 10000, speedupRate = 20, stealHold = 5.5 },
+	Mythical = { grow = 1200, income = 550, dishTime = 180, upgradeBase = 20000, speedupRate = 30, stealHold = 6.5 },
+	Secret = { grow = 1500, income = 900, dishTime = 240, upgradeBase = 40000, speedupRate = 45, stealHold = 8 },
 }
 
 Creatures.MaxLevel = 10

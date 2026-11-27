@@ -60,6 +60,7 @@ end
 
 local lobbyShown = false
 Net.onPush("player", function(data)
+	Localizer.applySaved(data.lang)
 	local prev = State.player
 	State.set("player", data)
 	if data.island == 0 then

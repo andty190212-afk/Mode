@@ -261,7 +261,13 @@ local function refreshPodVisual(lab, i)
 	end
 	if pod and wantStage > 0 and not pod.model then
 		local m = makeCreatureModel(rec.id, wantStage)
-		m:PivotTo(podTopCFrame(part))
+		local home = podTopCFrame(part)
+		m:PivotTo(home)
+		-- the exact resting point (Vector3 + yaw): the client animation always starts from it,
+		-- so a creature can never drift away
+		m:SetAttribute("HomePos", home.Position)
+		local look = home.LookVector
+		m:SetAttribute("HomeYaw", math.atan2(-look.X, -look.Z))
 		local primary = m.PrimaryPart or m:FindFirstChildWhichIsA("BasePart")
 		if primary then
 			local bb = Instance.new("BillboardGui")
@@ -342,6 +348,8 @@ function LabService.buildState(player)
 	local stars = island and island.rest and island.rest.stars or 0
 	local state = {
 		island = island and island.index or 0,
+		locked = island ~= nil and not lab,
+		unlockStars = LabData.UnlockStars,
 		isOwner = island ~= nil and island.owner == player,
 		dishes = d.dishes,
 		bank = math.floor(d.lab.bank),
@@ -829,7 +837,59 @@ local function onPlatform(lab, pos)
 	return math.abs(rel.X) <= floor.Size.X / 2 + 2 and math.abs(rel.Z) <= floor.Size.Z / 2 + 2 and rel.Y > -2 and rel.Y < 20
 end
 
+-- ===================== LAB APPEARS AT 3★ =====================
+LabService.UnlockStars = LabData.UnlockStars
+local PLATFORM = { Floor = true, FloorInlay = true, Trim = true, Support = true, Entry = true, Interior = true, LockSign = true }
+local savedLook = setmetatable({}, { __mode = "k" }) -- [instance] = original transparency / enabled
+
+-- the platform (and the bridge to the arena) always stays; the lab building only exists from 3★
+local function setLabVisible(index, visible)
+	local model = labModel(index)
+	if not model then
+		return
+	end
+	for _, d in ipairs(model:GetDescendants()) do
+		local top = d
+		while top.Parent and top.Parent ~= model do
+			top = top.Parent
+		end
+		if top.Name == "LockSign" then
+			if d:IsA("BasePart") then
+				d.Transparency = visible and 1 or 0
+			elseif d:IsA("SurfaceGui") then
+				d.Enabled = not visible
+			end
+		elseif not PLATFORM[top.Name] then
+			if d:IsA("BasePart") then
+				if savedLook[d] == nil then
+					savedLook[d] = { d.Transparency, d.CanCollide }
+				end
+				d.Transparency = visible and savedLook[d][1] or 1
+				d.CanCollide = visible and savedLook[d][2] or false
+			elseif d:IsA("Light") or d:IsA("SurfaceGui") or d:IsA("BillboardGui") then
+				if savedLook[d] == nil then
+					savedLook[d] = d.Enabled
+				end
+				d.Enabled = visible and savedLook[d] or false
+			elseif d:IsA("ProximityPrompt") and not visible then
+				d.Enabled = false
+			end
+		end
+	end
+	model:SetAttribute("LabUnlocked", visible)
+end
+LabService.setLabVisible = setLabVisible
+
+local function labUnlocked(island)
+	return island.owner ~= nil and island.rest ~= nil and (island.rest.stars or 1) >= LabData.UnlockStars
+end
+
 function LabService.setupIsland(island)
+	if not labUnlocked(island) then
+		setLabVisible(island.index, false)
+		return
+	end
+	setLabVisible(island.index, true)
 	local profile = island.owner and profileOf(island.owner)
 	if not profile then
 		return
@@ -898,6 +958,7 @@ end
 function LabService.clearIsland(island)
 	local lab = labs[island.index]
 	if not lab then
+		setLabVisible(island.index, false)
 		return
 	end
 	-- cancel every running theft from this lab (creatures stay with their owners)
@@ -928,6 +989,7 @@ function LabService.clearIsland(island)
 		rec.pod = i
 	end
 	labs[island.index] = nil
+	setLabVisible(island.index, false)
 	lab.state = "closed"
 	lab.cycleRemaining = LabData.ClosedTime
 	setShield(lab)
@@ -1088,6 +1150,18 @@ local function fastTick()
 end
 
 local function slowTick(dt)
+	-- a restaurant that reached 3★ gets its lab; one that lost it (Studio level selector) loses it
+	for _, island in pairs(S.RestaurantService.Islands) do
+		if island.owner and not labs[island.index] and labUnlocked(island) then
+			LabService.setupIsland(island)
+			for _, m in ipairs(S.RestaurantService.membersOf(island)) do
+				Net.fx(m, "announce", { text = "🧪 Ресторан получил " .. LabData.UnlockStars .. "★ — на острове появилась ЛАБОРАТОРИЯ! Откройте 🧪 в меню" })
+				LabService.push(m)
+			end
+		elseif labs[island.index] and not labUnlocked(island) then
+			LabService.clearIsland(island)
+		end
+	end
 	for _, lab in pairs(labs) do
 		if lab.island.owner then
 			tickCycle(lab, dt)
@@ -1396,6 +1470,9 @@ end
 
 function LabService.Start()
 	registerRemotes()
+	for i = 1, MapLayout.IslandCount do
+		setLabVisible(i, false)
+	end
 	-- steal prompts on every pod of every lab model
 	for i = 1, MapLayout.IslandCount do
 		local model = labModel(i)

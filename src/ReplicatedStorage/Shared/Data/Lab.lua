@@ -1,6 +1,9 @@
 -- Laboratory tuning (levels, cycle, theft rules)
 local Lab = {}
 
+-- the lab appears on an island only when its restaurant has this many stars
+Lab.UnlockStars = 3
+
 -- lab level <= restaurant stars. Upgrade is paid from the restaurant budget.
 Lab.Levels = {
 	{ pods = 4, luck = 0, growth = 0, price = 0 },

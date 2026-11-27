@@ -6,6 +6,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local LocalizationService = game:GetService("LocalizationService")
 
 local Lang = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Lang"))
+local Net = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Net"))
 
 local Localizer = {}
 
@@ -75,8 +76,26 @@ function Localizer.set(lang)
 	end
 end
 
+-- the player's choice is saved on the server and restored on the next join
+function Localizer.choose(lang)
+	Localizer.set(lang)
+	task.spawn(function()
+		Net.request("SetLanguage", { lang = lang })
+	end)
+end
+
 function Localizer.toggle()
-	Localizer.set(Lang.current == "en" and "ru" or "en")
+	Localizer.choose(Lang.current == "en" and "ru" or "en")
+end
+
+local savedApplied = false
+-- called with the player state: apply a saved choice once
+function Localizer.applySaved(lang)
+	if savedApplied or (lang ~= "ru" and lang ~= "en") then
+		return
+	end
+	savedApplied = true
+	Localizer.set(lang)
 end
 
 function Localizer.onChanged(fn)

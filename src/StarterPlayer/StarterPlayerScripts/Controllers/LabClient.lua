@@ -364,6 +364,10 @@ local function creatureCard(c, rec, inPod)
 end
 
 local function noLab(c, lab)
+	if lab and lab.locked then
+		UI.label(c, "🔒 Лаборатория появится на вашем острове, когда ресторан получит " .. (lab.unlockStars or 3) .. "★. Развивайте ресторан: «Улучшения → Рейтинг ★».", 15, { auto = true, color = T.warn })
+		return true
+	end
 	if not lab or lab.island == 0 then
 		UI.label(c, "🧪 Лаборатория есть у каждого ресторана. Откройте ресторан на свободном острове или вступите в команду друга.", 15, { auto = true, color = T.sub })
 		return true
@@ -827,9 +831,15 @@ local function animateCreatures()
 		if (lab:GetPivot().Position - cam.CFrame.Position).Magnitude < 260 then
 			for _, m in ipairs(lab:GetChildren()) do
 				if m.Name == "Creature" and m:IsA("Model") then
+					-- always animate around the server's resting point (never accumulate offsets)
 					local base = baseCF[m]
 					if not base then
-						base = m:GetPivot()
+						local hp, yaw = m:GetAttribute("HomePos"), m:GetAttribute("HomeYaw")
+						if typeof(hp) == "Vector3" then
+							base = CFrame.new(hp) * CFrame.Angles(0, yaw or 0, 0)
+						else
+							base = m:GetPivot()
+						end
 						baseCF[m] = base
 					end
 					local anim = m:GetAttribute("Anim")

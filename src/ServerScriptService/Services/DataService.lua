@@ -129,6 +129,7 @@ local function defaultData()
 		weaponSeq = 0,
 		equipped = "",
 		starterClaimed = {},
+		settings = { lang = "" }, -- "" = по языку Roblox, "ru" / "en" = выбрано игроком
 		lab = {
 			level = 1,
 			bank = 0,

@@ -27,6 +27,7 @@ local MENU = {
 	{ id = "lab", icon = "🧪", text = "Лаборатория" },
 	{ id = "weapons", icon = "🗡️", text = "Оружие" },
 	{ id = "arena", icon = "⚔️", text = "Арена" },
+	{ id = "settings", icon = "⚙️", text = "Настройки" },
 	{ id = "shop", icon = "🛒", text = "Продукты", key = Enum.KeyCode.Five },
 	{ id = "upgrades", icon = "⚙️", text = "Улучшения", key = Enum.KeyCode.Six },
 	{ id = "build", icon = "🔨", text = "Стройка", key = Enum.KeyCode.B },
@@ -136,6 +137,26 @@ function HUD.build()
 
 	-- language switch (RU / EN)
 	local Localizer = require(script.Parent.Localizer)
+	UI.window("settings", "Настройки", "⚙️", {
+		width = 560,
+		height = 420,
+		render = function(c)
+			UI.label(c, "🌐 Язык / Language", 18, { font = UI.Font, color = T.accent })
+			local row = UI.row(c, 50)
+			local cur = Localizer.current()
+			UI.button(row, (cur == "ru" and "✓ " or "") .. "Русский", cur == "ru" and T.good or T.card, function()
+				Localizer.choose("ru")
+				UI.windows.settings:refresh()
+			end, { size = UDim2.fromOffset(200, 44) })
+			UI.button(row, (cur == "en" and "✓ " or "") .. "English", cur == "en" and T.good or T.card, function()
+				Localizer.choose("en")
+				UI.windows.settings:refresh()
+			end, { size = UDim2.fromOffset(200, 44) })
+			UI.label(c, "Выбор сохраняется и сработает при следующем входе. Быстро переключить язык можно и кнопкой 🌐 внизу меню.", 14, { auto = true, color = T.sub })
+			UI.label(c, "🎮 Управление боем", 18, { font = UI.Font, color = T.accent })
+			UI.label(c, "ПК: ЛКМ — удар, F — уникальная способность оружия.\nТелефон: кнопки ⚔️ (удар) и ✨ (способность) справа внизу.", 14, { auto = true, color = T.sub })
+		end,
+	})
 	local langBtn = UI.new("TextButton", {
 		Name = "Language",
 		Text = "",
