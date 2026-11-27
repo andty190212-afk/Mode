@@ -66,6 +66,20 @@ end
 
 -- rebuild the restaurant building/kitchen/tables for the current star level
 function RatingService.rebuild(island)
+	-- мебель, которая не помещается в новом зале (например, на месте лестницы), продаётся за 50%
+	local rest = island.rest
+	local Furniture = require(game:GetService("ReplicatedStorage").Shared.Data.Furniture)
+	local BuildRules = require(game:GetService("ReplicatedStorage").Shared.BuildRules)
+	for i = #rest.furniture, 1, -1 do
+		local e = rest.furniture[i]
+		if not BuildRules.validate(rest, "furniture", e.id, e.x, e.z, e.r or 0, e.uid) then
+			table.remove(rest.furniture, i)
+			local def = Furniture.ById[e.id]
+			if def then
+				rest.budget += math.floor(def.price * 0.5)
+			end
+		end
+	end
 	S.GuestService.clearIsland(island)
 	S.GuestService.setupIsland(island)
 	S.RestaurantService.spawnBuilding(island)

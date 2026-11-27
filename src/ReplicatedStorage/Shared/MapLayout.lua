@@ -41,7 +41,9 @@ MapLayout.Tiers = {
 	[2] = { width = 44, dining = 28, kitchen = 14, height = 13 },
 	[3] = { width = 54, dining = 34, kitchen = 16, height = 15 },
 	[4] = { width = 64, dining = 40, kitchen = 18, height = 17 },
-	[5] = { width = 76, dining = 46, kitchen = 20, height = 20 },
+	-- ★5: два этажа (второй — VIP-лаунж), лестница у левой стены зала
+	[5] = { width = 76, dining = 46, kitchen = 20, height = 24, floor2 = 12,
+		stairs = { minX = -37, maxX = -32, minZ = -22, maxZ = -4 } },
 }
 
 function MapLayout.diningRect(tier)

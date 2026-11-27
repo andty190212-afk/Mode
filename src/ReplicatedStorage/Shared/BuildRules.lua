@@ -63,6 +63,10 @@ function BuildRules.validate(rest, kind, id, x, z, r, ignoreUid)
 		if not def.flat and overlap(rect, MapLayout.EntranceAisle) then
 			return false, "Нельзя загораживать вход"
 		end
+		local stairs = MapLayout.Tiers[rest.stars] and MapLayout.Tiers[rest.stars].stairs
+		if stairs and overlap(rect, stairs) then
+			return false, "Здесь лестница на второй этаж"
+		end
 	else
 		local radius = MapLayout.IslandRadius - 6
 		for _, c in ipairs({ { rect.minX, rect.minZ }, { rect.maxX, rect.minZ }, { rect.minX, rect.maxZ }, { rect.maxX, rect.maxZ } }) do
