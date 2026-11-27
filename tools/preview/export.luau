@@ -69,7 +69,7 @@ if process.args[3] == "grid" then
 end
 if target:IsA("BasePart") then add(target) end
 for _, d in ipairs(target:GetDescendants()) do
-	if d:IsA("BasePart") and d.Transparency < 0.95 then add(d) end
+	if d:IsA("BasePart") and d.Transparency < 0.95 and d.Name ~= "OceanPreview" then add(d) end
 end
 fs.writeFile(process.args[2], serde.encode("json", out))
 print(#out .. " parts")
