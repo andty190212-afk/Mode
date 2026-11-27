@@ -353,20 +353,16 @@ local train = Mock.request(alice, "TrainStaff", { uid = cookNpc.uid })
 check(train.ok and cookNpc.level == 2, "train NPC to level 2", train.err)
 check(Mock.request(alice, "SetWage", { uid = cookNpc.uid, mult = 1.3 }).ok and cookNpc.wageMult == 1.3, "set wage")
 
-section("Barrier & visiting")
-check(Mock.request(alice, "SetBarrier", { on = true }).ok, "owner turns the barrier on")
-check(not Mock.request(bob, "SetBarrier", { on = false }).ok, "friend cannot toggle the barrier")
+section("Visiting (island barrier removed in 2.1)")
+check(not Mock.request(alice, "SetBarrier", { on = true }).ok, "the island barrier no longer exists")
 local dave = Mock.addPlayer("Dave")
 Mock.advance(2)
 dave.Character.HumanoidRootPart.CFrame = CFrame.new(island.center + Vector3.new(10, 3, 10))
 Mock.advance(1)
 local dpos = dave.Character.HumanoidRootPart.Position
-check((Vector3.new(dpos.X, 0, dpos.Z) - Vector3.new(island.center.X, 0, island.center.Z)).Magnitude > 150, "stranger pushed out by the barrier")
-check(not Mock.request(dave, "Visit", { island = island.index }).ok, "cannot ferry to a closed island")
-check(Mock.request(alice, "SetWhitelist", { userId = dave.UserId, allow = true }).ok, "owner allows Dave")
+check((Vector3.new(dpos.X, 0, dpos.Z) - Vector3.new(island.center.X, 0, island.center.Z)).Magnitude < 30, "strangers may walk on any island")
 Services.DataService.get(dave).data.money = 500
-check(Mock.request(dave, "Visit", { island = island.index }).ok, "whitelisted player can visit")
-Mock.request(alice, "SetBarrier", { on = false })
+check(Mock.request(dave, "Visit", { island = island.index }).ok, "anyone can visit by ferry")
 
 section("Helicopters")
 rest.stars = 3

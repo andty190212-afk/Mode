@@ -31,7 +31,6 @@ local MENU = {
 	{ id = "build", icon = "🔨", text = "Стройка", key = Enum.KeyCode.B },
 	{ id = "island", icon = "🏝️", text = "Остров", key = Enum.KeyCode.Seven },
 	{ id = "heli", icon = "🚁", text = "Вертолёт", key = Enum.KeyCode.Eight },
-	{ id = "barrier", icon = "🛡️", text = "Барьер", key = Enum.KeyCode.Nine },
 	{ id = "quests", icon = "📋", text = "Задания", key = Enum.KeyCode.J },
 	{ id = "achievements", icon = "🏆", text = "Награды", key = Enum.KeyCode.K },
 	{ id = "stats", icon = "📊", text = "Статистика", key = Enum.KeyCode.L },

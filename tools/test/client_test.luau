@@ -66,7 +66,7 @@ push("player", states.player)
 push("restaurant", states.restaurant)
 check(not UI.isOpen("lobby"), "lobby closes after joining a restaurant")
 local errorsBefore = #Mock.errors
-local windows = { "restaurant", "professions", "team", "staff", "shop", "upgrades", "build", "island", "heli", "barrier", "quests", "achievements", "stats", "store", "lobby" }
+local windows = { "restaurant", "professions", "team", "staff", "shop", "upgrades", "build", "island", "heli", "quests", "achievements", "stats", "store", "lobby" }
 for _, id in ipairs(windows) do
 	local win = UI.windows[id]
 	check(win ~= nil, "window '" .. id .. "' exists")
@@ -107,7 +107,7 @@ if process.args[1] == "dump" then
 end
 print("== Friend view")
 push("player", states.friendPlayer)
-for _, id in ipairs({ "team", "professions", "restaurant", "barrier", "staff" }) do
+for _, id in ipairs({ "team", "professions", "restaurant", "staff" }) do
 	UI.open(id)
 	Mock.advance(0.1)
 	UI.close(id)

@@ -170,8 +170,9 @@ end
 local ATTACKS = {
 	-- quick thrust (rapier, kunai, ladle, chopsticks, chili blade)
 	fast = {
-		{ 0.06, { rs = ang(60, 0, 0), re = ang(-50, 0, 0), waist = ang(0, 12, 0) } },
-		{ 0.08, { rs = ang(95, 0, -5), re = ang(0, 0, 0), waist = ang(0, -18, 0) } },
+		{ 0.07, { rs = ang(120, 0, 40), re = ang(-55, 0, 0), waist = ang(0, 20, 0) } },
+		{ 0.07, { rs = ang(85, 0, -35), re = ang(0, 0, 0), waist = ang(0, -22, 0) } },
+		{ 0.07, { rs = ang(110, 0, 25), re = ang(-20, 0, 0), waist = ang(0, 10, 0) } },
 		{ 0.14, {} },
 	},
 	-- heavy overhead slam (bat, rolling pin, meteor mace, golem gauntlet)
@@ -182,16 +183,15 @@ local ATTACKS = {
 	},
 	-- wide horizontal slash (most melee)
 	slash = {
-		{ 0.1, { rs = ang(85, 0, 70), re = ang(-25, 0, 0), waist = ang(0, 35, 0) } },
-		{ 0.1, { rs = ang(85, 0, -55), re = ang(0, 0, 0), waist = ang(0, -35, 0) } },
-		{ 0.16, {} },
+		{ 0.11, { rs = ang(110, 0, 85), re = ang(-35, 0, 0), waist = ang(0, 40, 0) } },
+		{ 0.1, { rs = ang(80, 0, -70), re = ang(0, 0, 0), waist = ang(5, -40, 0) } },
+		{ 0.18, {} },
 	},
-	-- ranged: aim, shot recoil, back
+	-- ranged: a big overhand wave (wind back over the shoulder, swing forward = shot)
 	ranged = {
-		{ 0.08, { rs = ang(90, 0, 0), ls = ang(70, 0, 25), re = ang(0, 0, 0) } },
-		{ 0.06, { rs = ang(105, 0, 0), ls = ang(78, 0, 25) } },
-		{ 0.18, { rs = ang(90, 0, 0), ls = ang(60, 0, 20) } },
-		{ 0.12, {} },
+		{ 0.12, { rs = ang(165, 0, 35), re = ang(-45, 0, 0), ls = ang(30, 0, -15), waist = ang(-6, 28, 0) } },
+		{ 0.1, { rs = ang(70, 0, -25), re = ang(0, 0, 0), ls = ang(15, 0, 0), waist = ang(8, -25, 0) } },
+		{ 0.18, {} },
 	},
 	-- magic: raise, then point forward
 	magic = {
@@ -296,14 +296,13 @@ function WeaponAnim.attack(userId, weaponId)
 	if not char or not def or char:GetAttribute("CarryingFrom") then
 		return
 	end
+	-- every weapon swings: melee by its style, ranged/magic with a big overhand wave
 	local frames = ATTACKS[STYLE_ANIM[def.style] or "slash"]
-	if def.kind == "ranged" then
+	if def.kind == "ranged" and def.style ~= "magic" then
 		frames = ATTACKS.ranged
 	end
 	play(char, frames)
-	if def.kind == "melee" then
-		flashTrail(char, def, 0.35)
-	end
+	flashTrail(char, def, 0.4)
 end
 
 function WeaponAnim.ability(userId, abilityId)

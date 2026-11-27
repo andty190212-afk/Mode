@@ -227,19 +227,19 @@ local function renderIsland(c)
 		end, { size = UDim2.fromOffset(220, 40) })
 	end
 	section(c, "🗺️ Посетить другие острова")
-	UI.label(c, "Летайте на вертолёте или воспользуйтесь паромом ($" .. Config.FerryTicket .. "). Закрытые барьером острова недоступны.", 14, { color = T.sub, auto = true })
+	UI.label(c, "Летайте на вертолёте или воспользуйтесь паромом ($" .. Config.FerryTicket .. ").", 14, { color = T.sub, auto = true })
 	if not w then
 		return
 	end
 	for _, isl in ipairs(w.islands) do
 		local card = UI.card(c, 50)
-		local text = isl.owned and string.format("<b>%d. %s</b> — «%s» (%s) %s %s", isl.index, isl.theme, isl.name, isl.ownerName, string.rep("★", isl.stars or 1), isl.barrierOn and "🛡️ закрыт" or "🟢 открыт")
+		local text = isl.owned and string.format("<b>%d. %s</b> — «%s» (%s) %s %s", isl.index, isl.theme, isl.name, isl.ownerName, string.rep("★", isl.stars or 1), "🟢 открыт")
 			or string.format("<b>%d. %s</b> — свободен", isl.index, isl.theme)
 		UI.label(card, text, 14, { sizeUDim = UDim2.new(1, -150, 1, 0) }).Position = UDim2.fromOffset(10, 0)
 		if isl.index ~= State.myIsland() then
 			local b = UI.button(card, "⛴️ Посетить", T.blue, function()
 				UI.request(Net, "Visit", { island = isl.index })
-			end, { size = UDim2.fromOffset(130, 36), disabled = isl.barrierOn == true, textSize = 14, disabledText = "Остров закрыт барьером" })
+			end, { size = UDim2.fromOffset(130, 36), textSize = 14 })
 			b.Position = UDim2.new(1, -140, 0.5, -18)
 		end
 	end
@@ -291,53 +291,6 @@ local function renderHeli(c)
 end
 
 -- ===================== BARRIER =====================
-local function renderBarrier(c)
-	local r = State.restaurant
-	if not r then
-		UI.label(c, "Вы не в ресторане.", 15, { color = T.sub })
-		return
-	end
-	local isOwner = State.isOwner()
-	local status = UI.card(c, 90, { color = r.barrierOn and Color3.fromRGB(40, 60, 110) or T.card })
-	UI.label(status, r.barrierOn and "🛡️ <b>Барьер ВКЛЮЧЁН</b>\nЧужие игроки и вертолёты не могут попасть на остров и в ресторан." or "🟢 <b>Барьер выключен</b>\nДругие игроки могут прилетать, посещать ресторан и покупать еду.", 16, { sizeUDim = UDim2.new(1, -230, 1, 0) }).Position = UDim2.fromOffset(12, 0)
-	if isOwner then
-		local b = UI.button(status, r.barrierOn and "Выключить" or "Включить барьер", r.barrierOn and T.bad or T.good, function()
-			UI.request(Net, "SetBarrier", { on = not r.barrierOn })
-		end, { size = UDim2.fromOffset(200, 46) })
-		b.Position = UDim2.new(1, -212, 0.5, -23)
-	else
-		UI.label(c, "Барьером управляет владелец острова.", 14, { color = T.sub })
-	end
-	section(c, "✅ Разрешённые игроки (могут входить при включённом барьере)")
-	local allowed = {}
-	for _, e in ipairs(r.whitelist) do
-		allowed[e.userId] = true
-	end
-	for _, other in ipairs(Players:GetPlayers()) do
-		if other ~= player and not (r.friend and r.friend.userId == other.UserId) then
-			local card = UI.card(c, 46)
-			UI.label(card, "<b>" .. other.DisplayName .. "</b>" .. (allowed[other.UserId] and "  <font color='#7CE08A'>доступ разрешён</font>" or ""), 15, { sizeUDim = UDim2.new(1, -170, 1, 0) }).Position = UDim2.fromOffset(10, 0)
-			if isOwner then
-				local b = UI.button(card, allowed[other.UserId] and "Запретить" or "Разрешить", allowed[other.UserId] and T.bad or T.good, function()
-					UI.request(Net, "SetWhitelist", { userId = other.UserId, allow = not allowed[other.UserId] })
-				end, { size = UDim2.fromOffset(140, 34), textSize = 14 })
-				b.Position = UDim2.new(1, -150, 0.5, -17)
-			end
-		end
-	end
-	for _, e in ipairs(r.whitelist) do
-		if not Players:GetPlayerByUserId(e.userId) then
-			local card = UI.card(c, 46)
-			UI.label(card, e.name .. " <font color='#A5AFD2'>(не в сети)</font>", 15, { sizeUDim = UDim2.new(1, -170, 1, 0) }).Position = UDim2.fromOffset(10, 0)
-			if isOwner then
-				local b = UI.button(card, "Запретить", T.bad, function()
-					UI.request(Net, "SetWhitelist", { userId = e.userId, allow = false })
-				end, { size = UDim2.fromOffset(140, 34), textSize = 14 })
-				b.Position = UDim2.new(1, -150, 0.5, -17)
-			end
-		end
-	end
-end
 
 -- ===================== ROBUX STORE =====================
 local function renderStore(c)
@@ -400,7 +353,6 @@ function Menus.build()
 	b:setTabs({ { id = "interior", text = "Интерьер", width = 130 }, { id = "island", text = "Остров", width = 130 } })
 	UI.window("island", "Остров", "🏝️", { render = renderIsland })
 	UI.window("heli", "Вертолёты", "🚁", { render = renderHeli })
-	UI.window("barrier", "Защитный барьер", "🛡️", { render = renderBarrier })
 	UI.window("store", "Магазин Robux", "💎", { render = renderStore })
 end
 

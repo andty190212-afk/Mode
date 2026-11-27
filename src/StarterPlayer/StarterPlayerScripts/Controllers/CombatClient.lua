@@ -91,6 +91,7 @@ function CombatClient.attack()
 	localAttackReady = os.clock() + def.cooldown
 	local dir = aim()
 	faceDir(dir)
+	WeaponAnim.attack(player.UserId, def.id) -- instant swing for the attacker (others see it via Fx)
 	Net.action("Attack", { dir = dir })
 end
 
