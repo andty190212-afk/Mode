@@ -292,6 +292,27 @@ do
 			check(#labWin.content:GetChildren() > 1, "  lab tab '" .. tab.id .. "' renders")
 			UI.close("lab")
 		end
+		-- a dish cooked after the last combat push must still be listed (lab state is the source)
+		do
+			local labState = table.clone(ls.lab)
+			labState.dishes = { glow_jelly = 1 }
+			local combatState = table.clone(ls.combat)
+			combatState.dishes = {}
+			push("combat", combatState)
+			push("lab", labState)
+			labWin.tab = "dishes"
+			UI.open("lab")
+			labWin:refresh()
+			Mock.advance(0.2)
+			local eatBtn = false
+			for _, d in ipairs(labWin.content:GetDescendants()) do
+				if d.ClassName == "TextButton" and string.find(d.Text, "Съесть") then
+					eatBtn = true
+				end
+			end
+			check(eatBtn, "cooked dish appears in the Dishes menu with an Eat button")
+			UI.close("lab")
+		end
 		UI.open("arena")
 		Mock.advance(0.2)
 		check(#UI.windows.arena.content:GetChildren() > 1, "arena window renders")

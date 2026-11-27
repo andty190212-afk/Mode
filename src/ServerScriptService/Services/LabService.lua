@@ -1081,6 +1081,7 @@ local function tickCreatures(lab, dt)
 						prof.data.dishes[def.dish.id] = (prof.data.dishes[def.dish.id] or 0) + 1
 						Net.fx(owner, "dishReady", { dish = def.dish.id, creature = def.id })
 						LabService.push(owner)
+						S.CombatService.pushCombat(owner)
 					else
 						rec.dish = stats.dishTime
 					end

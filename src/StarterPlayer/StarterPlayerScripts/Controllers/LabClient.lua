@@ -492,7 +492,8 @@ end
 local eating = false
 local function renderDishes(c)
 	local lab = State.lab
-	local dishes = (State.combat and State.combat.dishes) or (lab and lab.dishes) or {}
+	-- the lab state is pushed the moment a dish is cooked: it is the source of truth
+	local dishes = (lab and lab.dishes) or (State.combat and State.combat.dishes) or {}
 	UI.label(c, "🍽️ Взрослые существа в капсулах готовят особые блюда. Съешьте блюдо — и получите случайное оружие <b>той же редкости</b>, что и существо.", 14, { auto = true, color = T.sub })
 	local any = false
 	for _, def in ipairs(Creatures.List) do
