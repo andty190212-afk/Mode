@@ -724,6 +724,35 @@ methods.GetPlayerFromCharacter = function(self, char)
 	end
 	return nil
 end
+-- fake R15 avatar rig
+methods.CreateHumanoidModelFromDescription = function(self, desc, rigType)
+	local rig = Instance.new("Model")
+	rig.Name = "Rig"
+	local root = Instance.new("Part")
+	root.Name = "HumanoidRootPart"
+	root.Size = Vector3.new(2, 2, 1)
+	root.Parent = rig
+	for _, n in ipairs({ "Head", "UpperTorso", "LowerTorso", "LeftUpperArm", "LeftLowerArm", "LeftHand", "RightUpperArm", "RightLowerArm", "RightHand", "LeftUpperLeg", "LeftLowerLeg", "LeftFoot", "RightUpperLeg", "RightLowerLeg", "RightFoot" }) do
+		local p = Instance.new("Part")
+		p.Name = n
+		p.Size = n == "Head" and Vector3.new(1.2, 1.2, 1.2) or Vector3.new(1, 1, 1)
+		p.Parent = rig
+	end
+	local hum = Instance.new("Humanoid")
+	hum.HipHeight = 2
+	hum.Parent = rig
+	Instance.new("BodyColors").Parent = rig
+	rig.PrimaryPart = root
+	return rig
+end
+methods.GetHumanoidDescriptionFromUserId = function()
+	return Instance.new("HumanoidDescription")
+end
+methods.LoadAnimation = function(self, anim)
+	local t = Instance.new("AnimationTrack")
+	t.Animation = anim
+	return t
+end
 methods.GetNameFromUserIdAsync = function(self, id)
 	return "User" .. tostring(id)
 end

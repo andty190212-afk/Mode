@@ -309,6 +309,21 @@ print(("  [info] after 240s with NPCs: served +%d, dishes +%d, wages=%d, budget=
 check(rest.stats.served > servedBefore, "NPC staff serve guests on their own", rest.stats.served - servedBefore)
 check(rest.stats.dishesSold > npcDishes, "NPC cooks prepare dishes", rest.stats.dishesSold - npcDishes)
 check(rest.stats.wages > 0, "staff receive wages from the budget", rest.stats.wages)
+local avatarGuests, chefHats, bows, sitting = 0, 0, 0, 0
+for _, m in ipairs(game.Workspace.NPCs:GetChildren()) do
+	if m:FindFirstChild("HumanoidRootPart") and m:FindFirstChild("UpperTorso") then
+		avatarGuests += 1
+	end
+	if m:FindFirstChild("ChefHat") then
+		chefHats += 1
+	end
+	if m:FindFirstChild("BowL") then
+		bows += 1
+	end
+end
+check(avatarGuests > 0, "NPCs are R15 avatars (" .. avatarGuests .. ")")
+check(chefHats >= 1, "NPC cooks wear a chef hat", chefHats)
+check(bows >= 1, "NPC waiter/bartender wear a bow tie", bows)
 local staffList = Services.StaffService.staffState(island)
 check(#staffList >= 4, "staff state lists NPCs", #staffList)
 local cookNpc = rest.staff[1]

@@ -335,7 +335,7 @@ function GuestService.trySpawn(island)
 				if g.parties[id] ~= party then
 					return
 				end
-				NPCUtil.place(model, seatCf * CFrame.new(0, 2.4, 0))
+				NPCUtil.sit(model, seatCf * CFrame.new(0, 2.4, 0))
 				arrived += 1
 				if arrived >= size then
 					GuestService.seat(island, party)
@@ -1122,6 +1122,7 @@ function GuestService.partiesWaitingOrder(island)
 end
 
 function GuestService.Start()
+	task.spawn(NPCUtil.preload)
 	Players.PlayerRemoving:Connect(function(player)
 		local island = S.RestaurantService.islandOf(player)
 		if island and island.guest then

@@ -62,7 +62,7 @@ Config.FerryTicket = 60
 -- ===================== GUESTS =====================
 Config.GuestTickRate = 1 -- seconds per restaurant simulation tick
 Config.BaseSpawnInterval = 16 -- секунд между группами гостей при репутации 50
-Config.MaxGuestsGlobal = 140
+Config.MaxGuestsGlobal = 90 -- NPC-аватары тяжелее простых моделей
 Config.OrderAutoDelay = 14 -- через сколько гость сам закажет через планшет (если нет официанта)
 Config.AutoCookTime = 24 -- автокухня (если нет повара)
 Config.AutoCookSlots = { 1, 1, 2, 2, 2 } -- одновременно готовящихся блюд по уровню звёзд
@@ -77,6 +77,27 @@ Config.AutoCleanDelay = 20
 Config.EatTime = 14
 Config.IdleTimeout = 300 -- секунд без активности команды
 Config.IdleGuestMult = 0.25
+
+-- ===================== NPC LOOK =====================
+Config.NPC = {
+	-- Стандартные анимации Roblox R15 (как в скрипте Animate по умолчанию)
+	Animations = {
+		idle = "rbxassetid://507766388",
+		walk = "rbxassetid://507777826",
+		sit = "rbxassetid://2506281703",
+	},
+	-- Необязательно: UserId игроков Roblox, чьи аватары будут у части гостей (разнообразие).
+	-- Пример: { 156, 261 }. Пусто = все гости — стандартные аватары с цветной одеждой.
+	GuestAvatarUserIds = {},
+	-- Необязательно: ID ШАБЛОНОВ одежды (Shirt/Pants template, не ID товара каталога).
+	Clothing = {
+		guestShirts = {},
+		guestPants = {},
+		Cook = { shirt = 0, pants = 0 },
+		Waiter = { shirt = 0, pants = 0 },
+		Bartender = { shirt = 0, pants = 0 },
+	},
+}
 
 -- ===================== WORLD =====================
 Config.WaterLevel = 0

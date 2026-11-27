@@ -49,7 +49,7 @@ local function spawnNpc(island, member)
 	end
 	local spotName = member.role == "Cook" and "CookSpot" or (member.role == "Bartender" and "BarSpot" or "WaiterSpot")
 	local home = spot(island, spotName, math.min(idx, 3))
-	local model = NPCUtil.spawn("Staff", home * CFrame.new(0, 3, 0), { shirt = ROLE_SHIRT[member.role], rng = rng })
+	local model = NPCUtil.spawn("Staff", home * CFrame.new(0, 3, 0), { role = member.role, rng = rng })
 	model.Name = "Staff_" .. member.role
 	local hat = model:FindFirstChild("ChefHat")
 	if hat then
