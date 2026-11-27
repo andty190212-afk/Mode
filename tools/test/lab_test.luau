@@ -137,6 +137,13 @@ local rec = pa.data.creatures[uid]
 check(Mock.request(alice, "PlaceCreature", { uid = uid }).ok, "creature placed into a pod")
 check(rec.pod == 1 and aliceLab.pods[1] ~= nil, "pod 1 occupied")
 check(labsFolder.Lab1:FindFirstChild("Creature") ~= nil, "creature model visible in the lab")
+do
+	local cm = labsFolder.Lab1:FindFirstChild("Creature")
+	local pod = labsFolder.Lab1.Pods.Pod1
+	local cp = cm:GetPivot().Position
+	local flatDist = Vector3.new(cp.X - pod.Position.X, 0, cp.Z - pod.Position.Z).Magnitude
+	check(flatDist < 0.5 and cp.Y > pod.Position.Y, "creature stands in the middle of its capsule (offset " .. string.format("%.2f", flatDist) .. ")")
+end
 check(not Mock.request(bob, "PlaceCreature", { uid = uid }).ok, "Bob can't place Alice's creature")
 local def = Creatures.ById[rec.id]
 Mock.advance(5)

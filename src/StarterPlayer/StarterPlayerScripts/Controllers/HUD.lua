@@ -25,6 +25,7 @@ local MENU = {
 	{ id = "team", icon = "✉️", text = "Команда", key = Enum.KeyCode.Three },
 	{ id = "staff", icon = "🧑‍🍳", text = "Персонал", key = Enum.KeyCode.Four },
 	{ id = "lab", icon = "🧪", text = "Лаборатория" },
+	{ id = "weapons", icon = "🗡️", text = "Оружие" },
 	{ id = "arena", icon = "⚔️", text = "Арена" },
 	{ id = "shop", icon = "🛒", text = "Продукты", key = Enum.KeyCode.Five },
 	{ id = "upgrades", icon = "⚙️", text = "Улучшения", key = Enum.KeyCode.Six },
@@ -119,6 +120,14 @@ function HUD.build()
 			UI.click()
 			if m.id == "team" and State.myIsland() == 0 then
 				UI.toggle("lobby")
+			elseif m.id == "weapons" then
+				-- weapons & special dishes live in the lab window
+				local lab = UI.windows.lab
+				if lab then
+					lab.tab = "weapons"
+					UI.open("lab")
+					lab:refresh()
+				end
 			else
 				UI.toggle(m.id)
 			end

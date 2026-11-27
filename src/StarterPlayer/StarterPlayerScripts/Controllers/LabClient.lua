@@ -815,6 +815,7 @@ local function highlightThief(userId)
 end
 
 -- ===================== WORLD: creature idle animations =====================
+local baseCF = setmetatable({}, { __mode = "k" }) -- [creature model] = resting CFrame
 local function animateCreatures()
 	local t = os.clock()
 	local cam = workspace.CurrentCamera
@@ -826,10 +827,10 @@ local function animateCreatures()
 		if (lab:GetPivot().Position - cam.CFrame.Position).Magnitude < 260 then
 			for _, m in ipairs(lab:GetChildren()) do
 				if m.Name == "Creature" and m:IsA("Model") then
-					local base = m:GetAttribute("BaseCF")
+					local base = baseCF[m]
 					if not base then
 						base = m:GetPivot()
-						m:SetAttribute("BaseCF", base)
+						baseCF[m] = base
 					end
 					local anim = m:GetAttribute("Anim")
 					local phase = (m:GetAttribute("Phase") or (#m.Name + base.Position.X)) % 6.28

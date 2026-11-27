@@ -207,8 +207,20 @@ local function podPart(lab, i)
 	return pods and pods:FindFirstChild("Pod" .. i)
 end
 
+-- the pod is a cylinder part rotated 90° (its local X is vertical, Size.X = height),
+-- so place the creature on its top in WORLD space, facing the lab's centre aisle
 local function podTopCFrame(part)
-	return part.CFrame * CFrame.new(0, part.Size.Y / 2 + 0.2, 0)
+	local top = part.Position + Vector3.new(0, part.Size.X / 2 + 0.1, 0)
+	local lab = part.Parent and part.Parent.Parent
+	local floor = lab and lab:FindFirstChild("Floor")
+	if floor then
+		local toCenter = floor.Position - top
+		local flat = Vector3.new(toCenter.X, 0, toCenter.Z)
+		if flat.Magnitude > 0.5 then
+			return CFrame.lookAt(top, top + flat)
+		end
+	end
+	return CFrame.new(top)
 end
 
 local function infoText(rec, owner)
