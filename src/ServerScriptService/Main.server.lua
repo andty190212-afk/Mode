@@ -24,6 +24,8 @@ local order = {
 	"HelicopterService",
 	"BoatService",
 	"WorldService",
+	"LabService",
+	"CombatService",
 }
 
 for _, name in ipairs(order) do
@@ -52,6 +54,8 @@ local startOrder = {
 	"BarrierService",
 	"HelicopterService",
 	"BoatService",
+	"LabService",
+	"CombatService",
 	"DataService",
 }
 for _, name in ipairs(startOrder) do

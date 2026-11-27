@@ -21,5 +21,5 @@ for f in files:
         piece=m.group(1) or m.group(2) or m.group(3) or ''
         add(piece,f)
 print(len(frags))
-json.dump(sorted(frags),open('/tmp/claude-0/-home-user-Mode/a21bbbb8-1f14-58fa-9dbc-48a624942466/scratchpad/frags.json','w'),ensure_ascii=False,indent=0)
+json.dump(sorted(frags),open(sys.argv[1] if len(sys.argv)>1 else 'build/frags.json','w'),ensure_ascii=False,indent=0)
 print(sum(len(k) for k in frags))

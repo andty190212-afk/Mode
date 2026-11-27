@@ -18,6 +18,8 @@ local Build = require(Controllers.BuildController)
 local Heli = require(Controllers.HeliController)
 local Effects = require(Controllers.Effects)
 local Localizer = require(Controllers.Localizer)
+local LabClient = require(Controllers.LabClient)
+local CombatClient = require(Controllers.CombatClient)
 
 local player = Players.LocalPlayer
 
@@ -33,6 +35,8 @@ HUD.build()
 Build.init()
 Heli.init()
 Effects.init(Minigames, HUD)
+LabClient.init(Effects)
+CombatClient.init(Build)
 
 MenusShop.onBuildSelect = function(kind, id)
 	Build.place(kind, id)

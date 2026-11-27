@@ -261,7 +261,7 @@ function Kitchen.cookSpeedMult(island, kind)
 	if kind == "drink" then
 		return 1 + Equipment.bonus(rest.equipment, "drinkSpeed")
 	end
-	return 1 + Equipment.bonus(rest.equipment, "cookSpeed")
+	return (1 + Equipment.bonus(rest.equipment, "cookSpeed")) * S.LabService.mult(island, "cook")
 end
 
 -- ===================== PLAYER SESSIONS =====================

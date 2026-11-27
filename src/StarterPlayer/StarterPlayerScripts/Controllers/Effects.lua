@@ -246,6 +246,11 @@ local function roofLoop()
 	end
 end
 
+Effects.popup = popup
+Effects.banner = banner
+Effects.sparkle = sparkle
+Effects.confetti = confetti
+
 function Effects.init(Minigames, HUD)
 	task.spawn(roofLoop)
 	Net.remote("Fx").OnClientEvent:Connect(function(name, data)

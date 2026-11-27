@@ -8,6 +8,8 @@ local L = require("./build/lib")
 local Models = require("./build/models")
 local Tiers = require("./build/tiers")
 local Map = require("./build/map")
+local CreatureModels = require("./build/creatures")
+local LabMap = require("./build/labmap")
 
 local Instance = roblox.Instance
 local Enum = roblox.Enum
@@ -85,8 +87,14 @@ end
 
 -- ===================== ASSETS / TIERS / MAP =====================
 Models.buildAssets(ReplicatedStorage)
+local assetsFolder = ReplicatedStorage:FindFirstChild("Assets")
+local nCreatures = CreatureModels.buildCreatures(assetsFolder)
+local nWeapons = CreatureModels.buildWeapons(assetsFolder)
+CreatureModels.buildChests(assetsFolder)
+print(("Creature models: %d | weapon models: %d"):format(nCreatures, nWeapons))
 Tiers.buildAll(ServerStorage)
 Map.build(Workspace)
+LabMap.build(Workspace, assetsFolder)
 Map.buildLighting(game)
 
 -- ===================== SETTINGS =====================

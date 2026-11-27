@@ -121,6 +121,10 @@ function Economy.addXp(player, amount)
 		return
 	end
 	local d = p.data
+	local island = S.RestaurantService.islandOf(player)
+	if island then
+		amount *= S.LabService.mult(island, "xp") -- бонус существ лаборатории
+	end
 	d.xp += math.floor(amount)
 	local leveled = false
 	while d.level < Config.MaxPlayerLevel and d.xp >= Config.XpForLevel(d.level) do

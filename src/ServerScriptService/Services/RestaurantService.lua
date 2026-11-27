@@ -236,6 +236,7 @@ local function loadIsland(island, player, profile)
 	S.StaffService.setupIsland(island)
 	S.BarrierService.apply(island, false)
 	S.EventService.setupIsland(island)
+	S.LabService.setupIsland(island)
 	setSign(island)
 	RS.markDirty(island)
 	RS.markWorld()
@@ -294,6 +295,7 @@ function RS.unloadIsland(island, reason)
 	end
 	local owner = island.owner
 	local friend = island.friend
+	S.LabService.clearIsland(island)
 	S.HelicopterService.despawnForIsland(island)
 	S.GuestService.clearIsland(island)
 	S.KitchenService.clearIsland(island)
@@ -366,6 +368,7 @@ local function removeFriend(island, reason)
 			island.roles[role] = nil
 		end
 	end
+	S.LabService.memberLeft(island, friend)
 	island.friend = nil
 	playerIsland[friend] = nil
 	S.KitchenService.onMemberLeft(island, friend)
@@ -375,10 +378,8 @@ local function removeFriend(island, reason)
 		Net.toast(friend, reason or "Вы покинули ресторан.", "info")
 		RS.teleport(friend, RS.loungeCFrame())
 		S.Economy.markPlayer(friend)
-		local hum = friend.Character and friend.Character:FindFirstChildOfClass("Humanoid")
-		if hum then
-			hum.WalkSpeed = 16
-		end
+		friend:SetAttribute("BaseSpeed", 18)
+		S.CombatService.refreshSpeed(friend)
 	end
 	if island.owner then
 		S.Economy.markPlayer(island.owner)
@@ -402,14 +403,13 @@ end
 
 -- ===================== PROFESSIONS =====================
 local function applyRoleEffects(player, role)
-	local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-	if hum then
-		if role == "Waiter" then
-			hum.WalkSpeed = Professions.waiterSpeed(S.Economy.profLevel(player, "Waiter"))
-		else
-			hum.WalkSpeed = 18
-		end
+	-- базовая скорость; итоговую (с эффектами боя/кражи) считает CombatService
+	if role == "Waiter" then
+		player:SetAttribute("BaseSpeed", Professions.waiterSpeed(S.Economy.profLevel(player, "Waiter")))
+	else
+		player:SetAttribute("BaseSpeed", 18)
 	end
+	S.CombatService.refreshSpeed(player)
 end
 RS.applyRoleEffects = applyRoleEffects
 

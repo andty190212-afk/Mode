@@ -24,6 +24,8 @@ local MENU = {
 	{ id = "professions", icon = "👔", text = "Профессии", key = Enum.KeyCode.Two },
 	{ id = "team", icon = "✉️", text = "Команда", key = Enum.KeyCode.Three },
 	{ id = "staff", icon = "🧑‍🍳", text = "Персонал", key = Enum.KeyCode.Four },
+	{ id = "lab", icon = "🧪", text = "Лаборатория" },
+	{ id = "arena", icon = "⚔️", text = "Арена" },
 	{ id = "shop", icon = "🛒", text = "Продукты", key = Enum.KeyCode.Five },
 	{ id = "upgrades", icon = "⚙️", text = "Улучшения", key = Enum.KeyCode.Six },
 	{ id = "build", icon = "🔨", text = "Стройка", key = Enum.KeyCode.B },

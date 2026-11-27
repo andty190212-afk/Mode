@@ -196,7 +196,7 @@ end
 
 local DEFAULTS = {
 	BasePart = { Transparency = 0, Size = Vector3.new(4, 1, 2), CFrame = CFrame.new(), Anchored = false, CanCollide = true, CanQuery = true, CanTouch = true, Massless = false, Color = Color3.new(0.6, 0.6, 0.6), AssemblyLinearVelocity = Vector3.zero, AssemblyAngularVelocity = Vector3.zero, LocalTransparencyModifier = 0 },
-	Humanoid = { WalkSpeed = 16, Sit = false, Health = 100, JumpPower = 50 },
+	Humanoid = { WalkSpeed = 16, Sit = false, Health = 100, MaxHealth = 100, JumpPower = 50 },
 	Player = { LocaleId = "ru-ru" },
 	GuiObject = { PlaceholderText = "", Visible = true, BackgroundTransparency = 0, Rotation = 0, TextTransparency = 0, Text = "", ZIndex = 1, LayoutOrder = 0, AbsoluteSize = roblox.Vector2.new(100, 30), AbsolutePosition = roblox.Vector2.new(0, 0) },
 	ProximityPrompt = { Enabled = true, ActionText = "", ObjectText = "", HoldDuration = 0, MaxActivationDistance = 10 },
@@ -367,6 +367,17 @@ function methods:GetFullName()
 		i = data(i).parent
 	end
 	return table.concat(parts, ".")
+end
+function methods:TakeDamage(amount)
+	local char = self.Parent
+	if char and char:FindFirstChildOfClass("ForceField") then
+		return
+	end
+	local before = self.Health
+	self.Health = math.max(0, before - amount)
+	if before > 0 and self.Health <= 0 then
+		self.Died:Fire()
+	end
 end
 function methods:SetAttribute(k, v)
 	data(self).attrs[k] = v
@@ -1067,7 +1078,9 @@ env = {
 	Enum = roblox.Enum,
 	NumberRange = roblox.NumberRange,
 	NumberSequence = roblox.NumberSequence,
+	NumberSequenceKeypoint = roblox.NumberSequenceKeypoint,
 	ColorSequence = roblox.ColorSequence,
+	ColorSequenceKeypoint = roblox.ColorSequenceKeypoint,
 	Rect = roblox.Rect,
 	Ray = roblox.Ray,
 	Font = roblox.Font,

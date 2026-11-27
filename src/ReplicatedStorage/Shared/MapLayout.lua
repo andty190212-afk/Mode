@@ -63,7 +63,44 @@ function MapLayout.reservedIslandRects()
 		{ minX = -t.width / 2 - 4, maxX = t.width / 2 + 4, minZ = oz - t.dining - t.kitchen - 4, maxZ = oz + 6 },
 		-- дорожка от причала к двери
 		{ minX = -5, maxX = 5, minZ = oz, maxZ = MapLayout.IslandRadius + 30 },
+		-- дорожка к лаборатории и мосту на арену (задняя сторона острова)
+		{ minX = -7, maxX = 7, minZ = -MapLayout.IslandRadius - 30, maxZ = oz - t.dining - t.kitchen - 4 },
+		-- стенд с бесплатным оружием
+		{ minX = 8, maxX = 24, minZ = -MapLayout.IslandRadius + 8, maxZ = -MapLayout.IslandRadius + 26 },
 	}
+end
+
+-- ===================== LAB / ARENA / BRIDGES =====================
+-- Лаборатория стоит на отдельной платформе за островом (со стороны центра мира),
+-- за пределами защитного барьера ресторана: барьер защищает ресторан, а в лабораторию
+-- воры могут попасть, когда она открыта (обязательный цикл каждые 2 минуты).
+MapLayout.LabOffsetZ = -232 -- центр платформы лаборатории (локально, -Z = к центру мира)
+MapLayout.LabSize = { 64, 56 } -- X, Z
+MapLayout.LabFloorY = 2 -- над поверхностью острова
+MapLayout.LabPlateZ = 14 -- плита закрытия: смещение от центра лаборатории (к острову)
+MapLayout.WeaponStandPos = { 16, -MapLayout.IslandRadius + 17 } -- x, z (локально)
+MapLayout.BridgeY = 14 -- высота настила мостов и арены (лодки проходят снизу)
+MapLayout.BridgeWidth = 14
+MapLayout.ArenaRadius = 120
+MapLayout.ArenaPvpRadius = 116
+
+-- the island-local CFrame components (Lune-safe: plain numbers)
+function MapLayout.labCenter(i)
+	local x, y, z = MapLayout.islandCenter(i)
+	local a = MapLayout.islandAngle(i)
+	-- local +Z = outward (cos a, sin a); lab is at local z = LabOffsetZ
+	local d = MapLayout.LabOffsetZ
+	return x + math.cos(a) * d, y + MapLayout.LabFloorY, z + math.sin(a) * d
+end
+
+function MapLayout.arenaEntry(i)
+	local a = MapLayout.islandAngle(i)
+	local r = MapLayout.ArenaRadius + 6
+	return math.cos(a) * r, MapLayout.BridgeY, math.sin(a) * r
+end
+
+function MapLayout.inArena(x, y, z)
+	return x * x + z * z <= MapLayout.ArenaPvpRadius ^ 2 and y > MapLayout.BridgeY - 6 and y < MapLayout.BridgeY + 70
 end
 
 MapLayout.DockLength = 58

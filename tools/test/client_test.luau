@@ -268,6 +268,61 @@ check(#Mock.errors == errorsBefore, "all effects run without errors", Mock.error
 RS.Remotes.Toast.OnClientEvent:Fire("hello", "success")
 Mock.advance(6)
 
+print("== Lab, weapons and arena UI")
+do
+	local fsx = require("@lune/fs")
+	local serdex = require("@lune/serde")
+	if fsx.isFile("build/lab_states.json") then
+		local ls = serdex.decode("json", fsx.readFile("build/lab_states.json"))
+		push("player", states.player)
+		push("lab", ls.lab)
+		push("combat", ls.combat)
+		if ls.arena then
+			push("arena", ls.arena)
+		end
+		local errs = #Mock.errors
+		local warns = #Mock.warnings
+		local labWin = UI.windows.lab
+		check(labWin ~= nil and UI.windows.arena ~= nil, "lab and arena windows exist")
+		for _, tab in ipairs(labWin.tabsList) do
+			labWin.tab = tab.id
+			UI.open("lab")
+			labWin:refresh()
+			Mock.advance(0.2)
+			check(#labWin.content:GetChildren() > 1, "  lab tab '" .. tab.id .. "' renders")
+			UI.close("lab")
+		end
+		UI.open("arena")
+		Mock.advance(0.2)
+		check(#UI.windows.arena.content:GetChildren() > 1, "arena window renders")
+		UI.close("arena")
+		local LabClient = Mock.env.require(sps.Controllers.LabClient)
+		Mock.call(function()
+			Mock.env.task.spawn(LabClient.showCreatureReveal, { id = "sunphoenix", uid = "1", rarity = "Legendary", chest = "basic" })
+		end)
+		Mock.advance(3)
+		check(gui:FindFirstChild("RevealOverlay") ~= nil, "chest opening animation shows the creature")
+		Mock.call(function()
+			Mock.env.task.spawn(LabClient.showWeaponReveal, { id = "starfall_baton", uid = "2", rarity = "Secret", dish = "moon_mochi" })
+		end)
+		Mock.advance(3)
+		check(gui:FindFirstChild("RevealOverlay") ~= nil, "eating animation reveals the weapon")
+		-- lab alarm / theft alert
+		RS.Remotes.Fx.OnClientEvent:Fire("labAlarm", { kind = "open", remaining = 120 })
+		Mock.advance(1)
+		check(gui:FindFirstChild("BigAlert") ~= nil and gui:FindFirstChild("LabTimer") ~= nil, "lab open alarm + countdown")
+		RS.Remotes.Fx.OnClientEvent:Fire("theft", { kind = "alarm", name = "Крошкокраб", thief = "Bob", thiefId = 0 })
+		RS.Remotes.Fx.OnClientEvent:Fire("ability", { ability = "meteor", from = Mock.env.Vector3.new(0, 0, 0), point = Mock.env.Vector3.new(0, 0, 5), color = { 255, 100, 0 }, delay = 0.5 })
+		RS.Remotes.Fx.OnClientEvent:Fire("hit", { pos = Mock.env.Vector3.new(0, 0, 0), amount = 12, by = 1, victim = 2 })
+		Mock.advance(2)
+		check(gui:FindFirstChild("CombatHud", true) ~= nil, "combat HUD (attack / ability buttons) exists")
+		check(#Mock.errors == errs, "lab UI runs without errors", Mock.errors[errs + 1])
+		check(#Mock.warnings == warns, "lab UI renders without warnings", Mock.warnings[warns + 1])
+	else
+		print("  (skipped: run tools/test/lab_test.luau first)")
+	end
+end
+
 print("== Language switch")
 local function textsWith(pattern)
 	local n = 0
@@ -298,6 +353,8 @@ end
 check(cyr <= 3, "almost no Russian text left in English mode (" .. cyr .. ")")
 push("player", states.player)
 push("restaurant", states.restaurant)
+table.insert(windows, "lab")
+table.insert(windows, "arena")
 local leftovers, seen = {}, {}
 for _, id in ipairs(windows) do
 	local win = UI.windows[id]

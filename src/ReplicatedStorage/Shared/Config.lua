@@ -6,7 +6,7 @@
 local Config = {}
 
 Config.GameName = "Restaurant Island Tycoon"
-Config.Version = "1.1.0"
+Config.Version = "2.0.0"
 
 -- ===================== MONETIZATION =====================
 Config.GamePasses = {
@@ -143,6 +143,16 @@ Config.Sounds = {
 	Ocean = "", -- шум океана
 	Birds = "", -- птицы
 	Music = "", -- фоновая музыка
+	-- лаборатория и бой (встроенные звуки Roblox; можно заменить на rbxassetid://ID)
+	LabAlarm = "rbxasset://sounds/electronicpingshort.wav",
+	Theft = "rbxasset://sounds/electronicpingshort.wav",
+	ChestOpen = "rbxasset://sounds/unsheath.wav",
+	RareDrop = "rbxasset://sounds/electronicpingshort.wav",
+	Eat = "rbxasset://sounds/button.wav",
+	WeaponGet = "rbxasset://sounds/unsheath.wav",
+	Swing = "rbxasset://sounds/swordslash.wav",
+	Hit = "rbxasset://sounds/swordlunge.wav",
+	Ability = "rbxasset://sounds/electronicpingshort.wav",
 }
 
 return Config

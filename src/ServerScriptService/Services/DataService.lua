@@ -121,6 +121,25 @@ local function defaultData()
 		ownedFurnitureTypes = {},
 		lastRole = "",
 		restaurant = defaultRestaurant(),
+		-- ===== лаборатория, существа, оружие, PvP =====
+		creatures = {}, -- [uid] = { id, lvl, grow, pod, dish, got }
+		creatureSeq = 0,
+		dishes = {}, -- [dishId] = count
+		weapons = {}, -- [uid] = { id, got }
+		weaponSeq = 0,
+		equipped = "",
+		starterClaimed = {},
+		lab = {
+			level = 1,
+			bank = 0,
+			access = "open", -- open | private (вход посторонним, пока лаборатория защищена)
+			friendClose = true, -- друг может закрыть лабораторию плитой
+			trusted = {}, -- [userId] = name
+			open = false, -- состояние цикла сохраняется (перезаход не сбрасывает таймер)
+			openElapsed = 0,
+			cycleRemaining = 120,
+		},
+		pvp = { kills = 0, deaths = 0, arenaKills = 0, arenaDeaths = 0, bestStreak = 0, steals = 0, stolenFrom = 0, defends = 0, caught = 0, chests = 0, dishesEaten = 0 },
 		firstJoin = os.time(),
 		lastJoin = os.time(),
 	}
@@ -138,6 +157,8 @@ local function migrate(data)
 	Util.reconcile(data, defaultData())
 	Util.reconcile(data.restaurant, defaultRestaurant())
 	Util.reconcile(data.restaurant.stats, defaultRestaurant().stats)
+	Util.reconcile(data.lab, defaultData().lab)
+	Util.reconcile(data.pvp, defaultData().pvp)
 	if #data.restaurant.furniture == 0 and (data.restaurant.stats.served or 0) == 0 then
 		newRestaurantLayout(data.restaurant)
 	end

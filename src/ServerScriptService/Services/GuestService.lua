@@ -248,7 +248,7 @@ function GuestService.spawnInterval(island)
 	local rest = island.rest
 	local lvl = Stars.Levels[rest.stars]
 	local repFactor = 0.45 + rest.reputation / 90
-	local mult = lvl.spawnMult * repFactor * S.EventService.guestMultiplier(island)
+	local mult = lvl.spawnMult * repFactor * S.EventService.guestMultiplier(island) * S.LabService.mult(island, "guests")
 	if S.RestaurantService.isIdle(island) then
 		mult *= Config.IdleGuestMult -- команда неактивна: гостей намного меньше
 	end
@@ -723,12 +723,13 @@ function GuestService.finishParty(island, party)
 		end
 		budgetPart += it.price - cut
 	end
+	budgetPart *= S.LabService.mult(island, "profit") -- бонус существ лаборатории
 	S.Economy.budgetIncome(island, budgetPart, "sale", "Гости", "Продажи")
 	for player, amount in pairs(shares) do
 		S.Economy.earn(player, amount, "Работа")
 	end
 	-- tips go to the player waiter who served most items
-	local tipBase = total * party.type.tip * (0.3 + 1.4 * sat * sat)
+	local tipBase = total * party.type.tip * (0.3 + 1.4 * sat * sat) * S.LabService.mult(island, "tips")
 	local waiterCounts = {}
 	for _, it in ipairs(served) do
 		if it.servedBy and not it.selfServe then
@@ -1173,7 +1174,7 @@ function GuestService.tick(island, dt)
 				GuestService.partyLeave(island, party, "angry")
 			end
 		elseif party.state == "eat" then
-			if elapsed >= Config.EatTime then
+			if elapsed >= Config.EatTime / S.LabService.mult(island, "service") then
 				party.state = "pay"
 				GuestService.finishParty(island, party)
 			end

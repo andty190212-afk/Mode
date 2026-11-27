@@ -9,6 +9,8 @@ echo "== Build place"
 lune run tools/build_place.luau build
 echo "== Server simulation"
 lune run tools/test/server_test.luau | tail -n 3
+echo "== Lab / creatures / theft / arena simulation (multiplayer)"
+lune run tools/test/lab_test.luau | tail -n 2
 echo "== Client UI simulation"
 lune run tools/test/client_test.luau | tail -n 2
 echo "== Package"

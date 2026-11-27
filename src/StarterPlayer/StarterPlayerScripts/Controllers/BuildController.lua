@@ -362,4 +362,8 @@ function Build.init()
 	player.CharacterRemoving:Connect(Build.stop)
 end
 
+function Build.isActive()
+	return mode ~= nil
+end
+
 return Build
