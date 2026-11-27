@@ -100,7 +100,24 @@ StarterPlayer.CharacterJumpPower = 50
 SoundService.AmbientReverb = Enum.ReverbType.NoReverb
 
 -- loading screen (removed by the client once the UI is built)
-local loading = L.new("ScreenGui", StarterGui, { Name = "Loading", IgnoreGuiInset = true, ResetOnSpawn = false, DisplayOrder = 100 })
+-- the loading screen lives in ReplicatedFirst (not StarterGui), so it does not cover the Studio editor
+local ReplicatedFirst = game:GetService("ReplicatedFirst")
+local loadingScript = L.new("LocalScript", ReplicatedFirst, { Name = "LoadingScreen" })
+loadingScript.Source = [[
+-- Shows the loading screen while the game loads (removed by ClientMain when the UI is ready)
+local Players = game:GetService("Players")
+local ReplicatedFirst = game:GetService("ReplicatedFirst")
+local gui = script:WaitForChild("Loading"):Clone()
+gui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
+ReplicatedFirst:RemoveDefaultLoadingScreen()
+task.delay(30, function()
+	if gui.Parent then
+		gui:Destroy()
+	end
+end)
+]]
+scriptCount += 1
+local loading = L.new("ScreenGui", loadingScript, { Name = "Loading", IgnoreGuiInset = true, ResetOnSpawn = false, DisplayOrder = 100 })
 local bg = L.new("Frame", loading, {
 	Name = "Background",
 	Size = roblox.UDim2.fromScale(1, 1),

@@ -21,13 +21,13 @@ Config.StudioGrantGamePasses = true
 
 -- Developer Products. id = 0 означает "не настроено" (покупка не будет предложена).
 Config.Products = {
-	{ key = "cash_small", id = 0, robux = 25, kind = "cash", amount = 1500, title = "Горсть монет" },
-	{ key = "cash_medium", id = 0, robux = 99, kind = "cash", amount = 7500, title = "Мешок монет" },
-	{ key = "cash_large", id = 0, robux = 399, kind = "cash", amount = 40000, title = "Сундук монет" },
-	{ key = "cash_huge", id = 0, robux = 999, kind = "cash", amount = 120000, title = "Сокровищница" },
-	{ key = "boost_x2_30", id = 0, robux = 79, kind = "boost", mult = 2, minutes = 30, title = "Заработок x2 (30 мин)" },
-	{ key = "boost_x3_30", id = 0, robux = 149, kind = "boost", mult = 3, minutes = 30, title = "Заработок x3 (30 мин)" },
-	{ key = "boost_x2_120", id = 0, robux = 249, kind = "boost", mult = 2, minutes = 120, title = "Заработок x2 (2 часа)" },
+	{ key = "cash_small", id = 3736953500, robux = 25, kind = "cash", amount = 1500, title = "Горсть монет" },
+	{ key = "cash_medium", id = 3736953766, robux = 99, kind = "cash", amount = 7500, title = "Мешок монет" },
+	{ key = "cash_large", id = 3736953960, robux = 399, kind = "cash", amount = 40000, title = "Сундук монет" },
+	{ key = "cash_huge", id = 3736954148, robux = 999, kind = "cash", amount = 120000, title = "Сокровищница" },
+	{ key = "boost_x2_30", id = 3736951389, robux = 79, kind = "boost", mult = 2, minutes = 30, title = "Заработок x2 (30 мин)" },
+	{ key = "boost_x3_30", id = 3736951932, robux = 149, kind = "boost", mult = 3, minutes = 30, title = "Заработок x3 (30 мин)" },
+	{ key = "boost_x2_120", id = 3736952884, robux = 249, kind = "boost", mult = 2, minutes = 120, title = "Заработок x2 (2 часа)" },
 }
 
 -- ===================== SERVER LIMITS =====================
