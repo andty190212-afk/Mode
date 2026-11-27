@@ -231,7 +231,9 @@ check(Lab.isCarrying(bob), "Bob is carrying Alice's creature")
 check(bob.Character:FindFirstChild("CarriedCreature") ~= nil, "creature is in the thief's hands")
 check(bob.Character:FindFirstChild("StolenTag", true) ~= nil, "thief marker above Bob")
 check(lastFx(alice, "theft", "alarm") ~= nil, "Alice: 'YOUR CREATURE IS BEING STOLEN!'")
-check(bob.Character.Humanoid.WalkSpeed <= LabData.CarrySpeed, "thief is slower while carrying", bob.Character.Humanoid.WalkSpeed)
+local normalOutside = 18 * 2.5
+local thiefSpeed = bob.Character.Humanoid.WalkSpeed
+check(thiefSpeed < normalOutside and thiefSpeed >= normalOutside * 0.75, "thief is a bit slower than normal (" .. thiefSpeed .. " vs " .. normalOutside .. ")", thiefSpeed)
 check(pa.data.creatures[uid] ~= nil, "ownership does not change while carried")
 
 section("Owner hits the thief -> creature returns")
@@ -307,6 +309,18 @@ end
 check(bobHas == 1, "creature now belongs to Bob (exactly one copy)")
 check(pb.data.pvp.steals == 1 and pa.data.pvp.stolenFrom == 1, "theft stats saved")
 check(lastFx(alice, "theft", "stolen") ~= nil, "Alice notified about the loss")
+
+section("Speed: 2.5x outside the cafe, normal inside")
+moveTo(carol, Vector3.new(0, 200, 0))
+Mock.advance(0.6)
+check(carol.Character.Humanoid.WalkSpeed == 45, "outside the cafe: 45 (18 x 2.5)", carol.Character.Humanoid.WalkSpeed)
+local door = Rest.buildingCFrame(1) * CFrame.new(0, 3, -8)
+moveTo(carol, door.Position)
+Mock.advance(0.6)
+check(carol.Character.Humanoid.WalkSpeed == 18, "inside the cafe: normal 18", carol.Character.Humanoid.WalkSpeed)
+moveTo(carol, Vector3.new(0, 200, 0))
+Mock.advance(0.6)
+check(carol.Character.Humanoid.WalkSpeed == 45, "back outside: fast again")
 
 section("Thief disconnects / owner disconnects while carrying")
 pa.data.money = 1e7

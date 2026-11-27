@@ -18,6 +18,7 @@ local Rarities = require(Data.Rarities)
 local Controllers = script.Parent
 local UI = require(Controllers.UI)
 local State = require(Controllers.State)
+local WeaponAnim = require(Controllers.WeaponAnim)
 local T = UI.Theme
 
 local CombatClient = {}
@@ -311,24 +312,6 @@ local function billboard(char, text, dur, color)
 	Debris:AddItem(bb, dur)
 end
 
-local function swingArm(char)
-	local arm = char and char:FindFirstChild("RightUpperArm")
-	local motor = arm and arm:FindFirstChildWhichIsA("Motor6D")
-	if not motor or motor:GetAttribute("Swinging") then
-		return
-	end
-	motor:SetAttribute("Swinging", true)
-	local c0 = motor.C0
-	local tw = TweenService:Create(motor, TweenInfo.new(0.09), { C0 = c0 * CFrame.Angles(math.rad(120), 0, 0) })
-	tw:Play()
-	task.delay(0.1, function()
-		TweenService:Create(motor, TweenInfo.new(0.16), { C0 = c0 }):Play()
-		task.delay(0.17, function()
-			motor:SetAttribute("Swinging", nil)
-		end)
-	end)
-end
-
 local RINGS = { spin = 9, midas_shockwave = 18, updraft = 8, home_run = 5 }
 
 local function abilityFx(d)
@@ -407,6 +390,7 @@ end
 
 function CombatClient.init(build)
 	Build = build
+	WeaponAnim.init()
 	buildHud()
 	UI.window("arena", "Арена", "⚔️", { render = renderArena, width = 720, height = 520 })
 
@@ -450,8 +434,7 @@ function CombatClient.init(build)
 	Net.remote("Fx").OnClientEvent:Connect(function(name, d)
 		d = d or {}
 		if name == "swing" then
-			local char = charOf(d.userId)
-			swingArm(char)
+			WeaponAnim.attack(d.userId, d.weapon)
 			if d.kind == "ranged" and d.from and d.dir then
 				projectile(d.from + Vector3.new(0, 1.5, 0), d.from + d.dir * (d.range or 30) + Vector3.new(0, 1.5, 0), col(d.color), d.projectile == "plasma" and 1 or 0.6, (d.range or 30) / 120)
 			end
@@ -481,6 +464,7 @@ function CombatClient.init(build)
 				end
 			end
 		elseif name == "ability" then
+			WeaponAnim.ability(d.userId, d.ability)
 			abilityFx(d)
 		elseif name == "cc" then
 			billboard(charOf(d.userId), d.kind == "stun" and "💫" or "🌿", d.dur or 1)
@@ -496,7 +480,7 @@ function CombatClient.init(build)
 			local Creatures = require(Data.Creatures)
 			local dish = Creatures.DishById[d.dish]
 			billboard(char, dish and dish.icon or "🍽️", 1.6)
-			swingArm(char)
+			WeaponAnim.eat(d.userId)
 		elseif name == "pvp" then
 			if d.kind == "kill" then
 				UI.toast("⚔️ Победа над " .. (d.name or "?") .. "! +$50", "success")

@@ -314,6 +314,11 @@ do
 		RS.Remotes.Fx.OnClientEvent:Fire("theft", { kind = "alarm", name = "Крошкокраб", thief = "Bob", thiefId = 0 })
 		RS.Remotes.Fx.OnClientEvent:Fire("ability", { ability = "meteor", from = Mock.env.Vector3.new(0, 0, 0), point = Mock.env.Vector3.new(0, 0, 5), color = { 255, 100, 0 }, delay = 0.5 })
 		RS.Remotes.Fx.OnClientEvent:Fire("hit", { pos = Mock.env.Vector3.new(0, 0, 0), amount = 12, by = 1, victim = 2 })
+		for _, w in ipairs({ "starter_bat", "spiky_ladle", "coconut_sling", "starfall_baton" }) do
+			RS.Remotes.Fx.OnClientEvent:Fire("swing", { userId = me.UserId, weapon = w, kind = "melee", dir = Mock.env.Vector3.new(0, 0, -1), from = Mock.env.Vector3.new(0, 0, 0), range = 8, color = { 255, 200, 0 } })
+			Mock.advance(0.6)
+		end
+		RS.Remotes.Fx.OnClientEvent:Fire("ability", { ability = "spin", userId = me.UserId, from = Mock.env.Vector3.new(0, 0, 0), color = { 255, 200, 0 } })
 		Mock.advance(2)
 		check(gui:FindFirstChild("CombatHud", true) ~= nil, "combat HUD (attack / ability buttons) exists")
 		check(#Mock.errors == errs, "lab UI runs without errors", Mock.errors[errs + 1])

@@ -9,6 +9,7 @@ local Debris = game:GetService("Debris")
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local Net = require(Shared.Net)
 local MapLayout = require(Shared.MapLayout)
+local Config = require(Shared.Config)
 local Data = Shared.Data
 local Weapons = require(Data.Weapons)
 local Creatures = require(Data.Creatures)
@@ -133,6 +134,20 @@ local function distToSegment(p, a, b)
 	return (a + ab * t - p).Magnitude, t
 end
 
+-- is a position inside any restaurant building (cafe)?
+function CombatService.inCafe(pos)
+	for _, island in pairs(S.RestaurantService.Islands) do
+		if island.building and island.rest then
+			local t = MapLayout.Tiers[island.rest.stars] or MapLayout.Tiers[1]
+			local rel = S.RestaurantService.buildingCFrame(island.index):PointToObjectSpace(pos)
+			if math.abs(rel.X) <= t.width / 2 + 1 and rel.Z <= 1.5 and rel.Z >= -(t.dining + t.kitchen) - 1 and rel.Y > -3 and rel.Y < t.height + 4 then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 -- used by the test suite (never reachable from a client)
 function CombatService.resetCooldowns(player)
 	st(player).cd = {}
@@ -147,9 +162,14 @@ function CombatService.refreshSpeed(player)
 	local s = st(player)
 	local now = os.clock()
 	local base = player:GetAttribute("BaseSpeed") or 18
-	local carry = S.LabService and S.LabService.carrySpeed(player)
+	-- вне кафе персонаж бегает в 2.5 раза быстрее; внутри ресторана — обычная скорость
+	if not s.inCafe then
+		base *= Config.OutsideSpeedMult
+	end
+	-- вор с добычей чуть медленнее обычного
+	local carry = S.LabService and S.LabService.carryMult(player)
 	if carry then
-		base = math.min(base, carry)
+		base *= carry
 	end
 	local mult = 1
 	for key, m in pairs(s.speed) do
@@ -910,20 +930,32 @@ local function equipModel(player, def)
 		m:Destroy()
 		return
 	end
+	-- The handle is a cylinder rotated 90° (its local X runs along the shaft), so build a
+	-- "grip" frame whose +Y is the shaft and put that frame into the hand: shaft forward,
+	-- slightly up, the grip in the palm. Parts are moved BEFORE welding.
+	local grip = handle.CFrame * CFrame.Angles(0, 0, math.rad(-90))
+	local target = hand.CFrame * CFrame.new(0, -0.35, -0.15) * CFrame.Angles(math.rad(-75), 0, 0)
+	local delta = target * grip:Inverse()
+	local parts = {}
 	for _, p in ipairs(m:GetDescendants()) do
 		if p:IsA("BasePart") then
-			p.Anchored = false
-			p.CanCollide = false
-			p.Massless = true
-			p.CanQuery = false
-			if p ~= handle then
-				local w = Instance.new("WeldConstraint")
-				w.Part0, w.Part1 = handle, p
-				w.Parent = p
-			end
+			table.insert(parts, p)
 		end
 	end
-	m:PivotTo(hand.CFrame * CFrame.new(0, -0.6, -0.2) * CFrame.Angles(math.rad(-90), 0, 0))
+	for _, p in ipairs(parts) do
+		p.CFrame = delta * p.CFrame
+		p.Anchored = false
+		p.CanCollide = false
+		p.Massless = true
+		p.CanQuery = false
+	end
+	for _, p in ipairs(parts) do
+		if p ~= handle then
+			local w = Instance.new("WeldConstraint")
+			w.Part0, w.Part1 = handle, p
+			w.Parent = p
+		end
+	end
 	local w = Instance.new("WeldConstraint")
 	w.Part0, w.Part1 = hand, handle
 	w.Parent = handle
@@ -1279,6 +1311,11 @@ local function statusTick()
 		else
 			local _, root, hum = charParts(player)
 			if root and hum and hum.Health > 0 then
+				local inside = CombatService.inCafe(root.Position)
+				if inside ~= (s.inCafe == true) then
+					s.inCafe = inside
+					CombatService.refreshSpeed(player)
+				end
 				-- position history for the Chrono Cleaver
 				table.insert(s.history, { t = now, cf = root.CFrame, hp = hum.Health })
 				while #s.history > 0 and now - s.history[1].t > 3.6 do

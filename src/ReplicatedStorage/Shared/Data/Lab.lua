@@ -20,7 +20,7 @@ Lab.OpenWarnTime = 120
 
 -- theft
 Lab.StealCooldown = 20 -- per thief, between attempts
-Lab.CarrySpeed = 13 -- walk speed while carrying
+Lab.CarryMult = 0.85 -- вор с добычей на 15% медленнее обычного (сирены существ — ещё до -10%)
 Lab.CarryMaxTime = 240 -- carried longer -> returns to the owner
 Lab.VictimImmunity = 45 -- after a creature was stolen, this lab can't be robbed for N s
 Lab.DepositRadius = 26 -- thief must bring the creature to own lab platform

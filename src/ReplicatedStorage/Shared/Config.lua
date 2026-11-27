@@ -103,6 +103,7 @@ Config.NPC = {
 }
 
 -- ===================== WORLD =====================
+Config.OutsideSpeedMult = 2.5 -- вне кафе игроки бегают в 2.5 раза быстрее
 Config.WaterLevel = 0
 Config.IslandTopY = 6
 Config.HelicopterUnlockStars = 3

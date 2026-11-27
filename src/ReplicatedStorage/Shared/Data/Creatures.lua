@@ -45,7 +45,7 @@ Creatures.Abilities = {
 -- caps for the sum of all creature bonuses of one lab (the restaurant stays the core of the game)
 Creatures.Caps = {
 	profit = 30, tips = 40, cook = 30, service = 25, guests = 25, ingredients = 12, synergy = 40,
-	growth = 50, dishes = 50, xp = 40, reputation = 3, luck = 40, guard = 60, alarm = 40,
+	growth = 50, dishes = 50, xp = 40, reputation = 3, luck = 40, guard = 60, alarm = 10,
 }
 
 Creatures.List = {

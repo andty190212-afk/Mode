@@ -755,12 +755,13 @@ function LabService.trySteal(thief, lab, i)
 end
 
 -- the thief's carry speed (used by CombatService.refreshSpeed)
-function LabService.carrySpeed(player)
+-- speed multiplier for a thief with loot (slightly slower than normal)
+function LabService.carryMult(player)
 	local carry = carries[player]
 	if not carry then
 		return nil
 	end
-	return LabData.CarrySpeed * (1 - LabService.bonus(carry.lab.island, "alarm") / 100)
+	return LabData.CarryMult * (1 - LabService.bonus(carry.lab.island, "alarm") / 100)
 end
 
 -- attacker hit victim: if the victim carries a creature of the attacker's team -> it drops & returns
