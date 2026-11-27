@@ -432,17 +432,30 @@ local swordPrompt = Workspace.Map.Islands.Island2.WeaponStand.starter_sword.Take
 swordPrompt.Triggered:Fire(bob)
 check(pb.data.equipped ~= "", "Bob took the free sword")
 do
-	-- the swing is played through the Animator (joints can be read-only in new avatars)
-	local Config = Mock.env.require(RS.Shared.Config)
-	local hold = Combat.lastAnim and Combat.lastAnim[bob]
-	check(hold == Config.WeaponAnimations.R15.hold or hold == Config.WeaponAnimations.R6.hold, "holding a weapon plays the hold animation", hold)
+	-- weapons are real Roblox Tools: hotbar inventory + standard tool animations
+	local bp = bob:FindFirstChildOfClass("Backpack")
+	local inHand = bob.Character:FindFirstChildOfClass("Tool")
+	check(inHand ~= nil and inHand:GetAttribute("WeaponId") == "starter_sword", "the sword is a Tool in Bob's hand")
+	check(inHand and inHand:FindFirstChild("Handle") ~= nil and inHand:FindFirstChild("Model") ~= nil, "tool has a Handle and the weapon model")
+	local tools = 0
+	for _, where in ipairs({ bp, bob.Character }) do
+		for _, t in ipairs(where and where:GetChildren() or {}) do
+			if t.ClassName == "Tool" then
+				tools += 1
+			end
+		end
+	end
+	local owned = 0
+	for _ in pairs(pb.data.weapons) do
+		owned += 1
+	end
+	check(tools == owned, "inventory hotbar has one tool per owned weapon (" .. tools .. "/" .. owned .. ")")
 	moveTo(bob, Vector3.new(0, MapLayout.BridgeY + 3, 40))
 	Mock.advance(1.2)
 	attack(bob, carol)
-	Mock.advance(0.1)
-	local a = Combat.lastAnim[bob]
-	check(a == Config.WeaponAnimations.R15.slash or a == Config.WeaponAnimations.R6.slash, "attack plays the swing animation", a)
-	check(bob.Character:FindFirstChild("WeaponGrip", true) ~= nil, "weapon attached to the hand")
+	Mock.advance(0.05)
+	local anim = inHand and inHand:FindFirstChild("toolanim")
+	check(anim ~= nil and (anim.Value == "Slash" or anim.Value == "Lunge"), "attack plays the standard tool animation", anim and anim.Value)
 	Mock.advance(1)
 end
 Mock.advance(0.5)

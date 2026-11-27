@@ -6,7 +6,7 @@
 local Config = {}
 
 Config.GameName = "Restaurant Island Tycoon"
-Config.Version = "2.3.2"
+Config.Version = "2.4.0"
 
 -- ===================== MONETIZATION =====================
 Config.GamePasses = {

@@ -368,6 +368,32 @@ function methods:GetFullName()
 	end
 	return table.concat(parts, ".")
 end
+function methods:Emit() end
+function methods:EquipTool(tool)
+	local char = self.Parent
+	if not char then
+		return
+	end
+	self:UnequipTools()
+	tool.Parent = char
+end
+function methods:UnequipTools()
+	local char = self.Parent
+	local bp
+	for _, p in ipairs(Mock.players or {}) do
+		if p.Character == char then
+			bp = p:FindFirstChildOfClass("Backpack")
+		end
+	end
+	if not char then
+		return
+	end
+	for _, t in ipairs(char:GetChildren()) do
+		if t.ClassName == "Tool" then
+			t.Parent = bp
+		end
+	end
+end
 function methods:TakeDamage(amount)
 	local char = self.Parent
 	if char and char:FindFirstChildOfClass("ForceField") then

@@ -185,7 +185,7 @@ function HUD.build()
 		Name = "Quick",
 		BackgroundTransparency = 1,
 		AnchorPoint = Vector2.new(0.5, 1),
-		Position = UDim2.new(0.5, 0, 1, -12),
+		Position = UDim2.new(0.5, 0, 1, -86), -- above the Roblox inventory hotbar
 		Size = UDim2.fromOffset(640, 52),
 		Parent = gui,
 	})

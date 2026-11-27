@@ -358,8 +358,8 @@ do
 		end
 		local shoulder = rig(me.Character, false)
 		local base0 = shoulder.C0
-		local wm = E.Instance.new("Model")
-		wm.Name = "EquippedWeapon"
+		local wm = E.Instance.new("Tool")
+		wm.Name = "Бита"
 		wm:SetAttribute("WeaponId", "starter_bat")
 		local wh = E.Instance.new("Part")
 		wh.Name = "Handle"
@@ -380,7 +380,21 @@ do
 			RS.Remotes.Fx.OnClientEvent:Fire("swing", { userId = me.UserId, weapon = w, kind = "melee", dir = Mock.env.Vector3.new(0, 0, -1), from = Mock.env.Vector3.new(0, 0, 0), range = 8, color = { 255, 200, 0 } })
 			Mock.advance(0.6)
 		end
-		RS.Remotes.Fx.OnClientEvent:Fire("ability", { ability = "spin", userId = me.UserId, from = Mock.env.Vector3.new(0, 0, 0), color = { 255, 200, 0 } })
+		do
+			local Weapons = Mock.env.require(RS.Shared.Data.Weapons)
+			local E = Mock.env
+			for _, w in ipairs(Weapons.List) do
+				RS.Remotes.Fx.OnClientEvent:Fire("ability", {
+					ability = w.ability.id, userId = me.UserId, rarity = w.rarity, color = w.color,
+					from = E.Vector3.new(0, 5, 0), dir = E.Vector3.new(0, 0, -1), point = E.Vector3.new(0, 3, -12),
+					to = E.Vector3.new(0, 5, -15), dur = 1, delay = 0.3, targets = { me.UserId }, radius = 8,
+				})
+				Mock.advance(0.3)
+			end
+			RS.Remotes.Fx.OnClientEvent:Fire("ability", { ability = "thorn_snap", point = E.Vector3.new(0, 3, 0), userId = me.UserId, rarity = "Epic" })
+			RS.Remotes.Fx.OnClientEvent:Fire("ability", { ability = "mirage_boom", point = E.Vector3.new(0, 3, 0), userId = me.UserId, rarity = "Mythical", color = { 255, 150, 230 } })
+			Mock.advance(3)
+		end
 		Mock.advance(2)
 		check(gui:FindFirstChild("CombatHud", true) ~= nil, "combat HUD (attack / ability buttons) exists")
 		check(#Mock.errors == errs, "lab UI runs without errors", Mock.errors[errs + 1])

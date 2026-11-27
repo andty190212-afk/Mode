@@ -19,6 +19,7 @@ local Controllers = script.Parent
 local UI = require(Controllers.UI)
 local State = require(Controllers.State)
 local WeaponAnim = require(Controllers.WeaponAnim)
+local AbilityFx = require(Controllers.AbilityFx)
 local T = UI.Theme
 
 local CombatClient = {}
@@ -156,7 +157,7 @@ local function buildHud()
 	local bar = UI.new("Frame", {
 		Name = "PvpBar",
 		AnchorPoint = Vector2.new(0.5, 1),
-		Position = UDim2.new(0.5, 0, 1, -96),
+		Position = UDim2.new(0.5, 0, 1, -150),
 		Size = UDim2.fromOffset(420, 44),
 		BackgroundColor3 = T.panel,
 		BackgroundTransparency = 0.15,
@@ -425,16 +426,46 @@ function CombatClient.init(build)
 		if Build and Build.isActive() then
 			return
 		end
-		if input.UserInputType == Enum.UserInputType.MouseButton1 then
-			if equipped() then
-				CombatClient.attack()
-			end
-		elseif input.KeyCode == Enum.KeyCode.F then
+		if input.KeyCode == Enum.KeyCode.F then
 			if equipped() then
 				CombatClient.ability()
 			end
 		end
 	end)
+
+	-- weapons are Tools: clicking / tapping with a tool in hand attacks
+	local function hookTool(tool)
+		if tool:IsA("Tool") and tool:GetAttribute("WeaponUid") and not tool:GetAttribute("Hooked") then
+			tool:SetAttribute("Hooked", true)
+			tool.Activated:Connect(function()
+				if Build and Build.isActive() then
+					return
+				end
+				CombatClient.attack()
+			end)
+		end
+	end
+	local function hookContainer(c)
+		if not c then
+			return
+		end
+		for _, t in ipairs(c:GetChildren()) do
+			hookTool(t)
+		end
+		c.ChildAdded:Connect(hookTool)
+	end
+	task.spawn(function()
+		hookContainer(player:WaitForChild("Backpack"))
+	end)
+	player.ChildAdded:Connect(function(c)
+		if c:IsA("Backpack") then
+			hookContainer(c)
+		end
+	end)
+	player.CharacterAdded:Connect(hookContainer)
+	if player.Character then
+		hookContainer(player.Character)
+	end
 
 	Net.remote("Fx").OnClientEvent:Connect(function(name, d)
 		d = d or {}
@@ -470,7 +501,10 @@ function CombatClient.init(build)
 			end
 		elseif name == "ability" then
 			WeaponAnim.ability(d.userId, d.ability)
-			abilityFx(d)
+			-- big unique effect per skill (falls back to the simple one)
+			if not AbilityFx.play(d) then
+				abilityFx(d)
+			end
 		elseif name == "cc" then
 			billboard(charOf(d.userId), d.kind == "stun" and "💫" or "🌿", d.dur or 1)
 		elseif name == "status" then

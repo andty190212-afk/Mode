@@ -82,7 +82,7 @@ local function play() end
 
 -- ===================== TRAIL & AURA =====================
 local function weaponModel(char)
-	return char and char:FindFirstChild("EquippedWeapon")
+	return char and char:FindFirstChildOfClass("Tool")
 end
 
 local function colorOf(def)

@@ -717,6 +717,7 @@ function LabService.trySteal(thief, lab, i)
 		return false, "Сначала встаньте"
 	end
 	stealCooldown[thief] = now
+	S.CombatService.unequip(thief) -- both hands for the loot
 	local def = Creatures.ById[pod.record.id]
 	local carry = {
 		thief = thief,

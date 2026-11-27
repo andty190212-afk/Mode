@@ -304,6 +304,11 @@ function CombatService.damage(attacker, victim, amount, opts)
 	local _, root, hum = charParts(victim)
 	local vs = st(victim)
 	local now = os.clock()
+	-- abilities hit harder the rarer the weapon (x1 ... x2.4)
+	local abilityRarity = opts.kind and Weapons.AbilityRarity[opts.kind]
+	if abilityRarity then
+		amount *= Weapons.AbilityPower[abilityRarity] or 1
+	end
 	if vs.reduceUntil and vs.reduceUntil > now then
 		amount *= vs.reduceMult
 	end
@@ -369,6 +374,7 @@ local function fx(ctx, name, data)
 	data.point = ctx.point
 	data.color = ctx.def.color
 	data.userId = ctx.player.UserId
+	data.rarity = ctx.def.starter and "Common" or ctx.def.rarity
 	Net.fxAll("ability", data)
 end
 
@@ -697,7 +703,7 @@ A.summon_golem = function(ctx)
 				end
 				if to.Magnitude < 6 and os.clock() - lastHit > 1 then
 					lastHit = os.clock()
-					CombatService.damage(ctx.player, target.player, 10, { kind = "golem" })
+					CombatService.damage(ctx.player, target.player, 10, { kind = "summon_golem" })
 				end
 			end
 		end
@@ -812,7 +818,7 @@ A.mirage = function(ctx)
 			for _, e in ipairs(enemiesNear(ctx.player, decoyPos, 8)) do
 				CombatService.damage(ctx.player, e.player, 18, { kind = "mirage" })
 			end
-			Net.fxAll("ability", { ability = "mirage_boom", point = decoyPos, color = ctx.def.color, userId = ctx.player.UserId })
+			Net.fxAll("ability", { ability = "mirage_boom", point = decoyPos, color = ctx.def.color, userId = ctx.player.UserId, rarity = ctx.def.rarity })
 		end
 	end)
 end
@@ -989,25 +995,6 @@ local function playAnim(player, id, opts)
 	return track
 end
 
-local function setHoldAnim(player, on)
-	local _, _, hum = charParts(player)
-	if not hum then
-		return
-	end
-	playAnim(player, animId(hum, "hold"), { looped = true, priority = Enum.AnimationPriority.Action, stop = not on })
-end
-
-function CombatService.playAttackAnim(player, def)
-	local _, _, hum = charParts(player)
-	if hum then
-		local name = def.kind == "ranged" and def.style ~= "magic" and "lunge" or "slash"
-		if def.style == "heavy" or def.style == "fast" then
-			name = "slash"
-		end
-		playAnim(player, animId(hum, name), { speed = STYLE_SPEED[def.style] or 1.2, priority = Enum.AnimationPriority.Action2 })
-	end
-end
-
 function CombatService.playAbilityAnim(player, def)
 	local _, _, hum = charParts(player)
 	if not hum then
@@ -1022,66 +1009,168 @@ function CombatService.playAbilityAnim(player, def)
 	playAnim(player, animId(hum, m[1]), { speed = m[2], priority = Enum.AnimationPriority.Action2 })
 end
 
--- ===================== WEAPON MODEL =====================
-local function unequipModel(player)
-	local char = player.Character
-	local old = char and char:FindFirstChild("EquippedWeapon")
-	if old then
-		old:Destroy()
-		setHoldAnim(player, false)
+-- ===================== WEAPONS AS ROBLOX TOOLS =====================
+-- Every owned weapon is a real Roblox Tool in the player's Backpack: the standard hotbar at
+-- the bottom shows them, keys 1-9 / taps switch them, and the default Animate script plays
+-- the standard tool animations (hold pose with the arm forward, slash, lunge).
+local function backpackOf(player)
+	local bp = player:FindFirstChildOfClass("Backpack")
+	if not bp then
+		bp = Instance.new("Backpack")
+		bp.Parent = player
+	end
+	return bp
+end
+
+local function findTool(player, uid)
+	for _, where in ipairs({ player.Character, player:FindFirstChildOfClass("Backpack") }) do
+		if where then
+			for _, t in ipairs(where:GetChildren()) do
+				if t:IsA("Tool") and t:GetAttribute("WeaponUid") == uid then
+					return t
+				end
+			end
+		end
+	end
+	return nil
+end
+
+local function buildTool(uid, def)
+	local assets = ReplicatedStorage:FindFirstChild("Assets")
+	local src = assets and assets:FindFirstChild("Weapons") and assets.Weapons:FindFirstChild(def.id)
+	local tool = Instance.new("Tool")
+	tool.Name = (def.starter and "" or (Rarities.Info[def.rarity].name .. " · ")) .. def.name
+	tool.ToolTip = def.icon .. " " .. def.name .. " — " .. def.ability.name
+	tool.CanBeDropped = false
+	tool.RequiresHandle = true
+	tool:SetAttribute("WeaponUid", uid)
+	tool:SetAttribute("WeaponId", def.id)
+	local handle = Instance.new("Part")
+	handle.Name = "Handle"
+	handle.Size = Vector3.new(0.3, 0.3, 0.3)
+	handle.Transparency = 1
+	handle.CanCollide = false
+	handle.CanQuery = false
+	handle.Massless = true
+	if src then
+		local m = src:Clone()
+		m.Name = "Model"
+		local old = m:FindFirstChild("Handle") or m.PrimaryPart
+		if old then
+			old.Name = "Grip"
+			-- the model's handle is a rotated cylinder (local X = shaft): the tool handle sits
+			-- at the grip point with +Y along the shaft
+			local shaft = old.CFrame * CFrame.Angles(0, 0, math.rad(-90))
+			local len = old.Size.X
+			handle.CFrame = shaft * CFrame.new(0, -len / 2 + math.min(0.5, len * 0.3), 0)
+		end
+		for _, part in ipairs(m:GetDescendants()) do
+			if part:IsA("BasePart") then
+				part.Anchored = false
+				part.CanCollide = false
+				part.CanQuery = false
+				part.Massless = true
+				local w = Instance.new("WeldConstraint")
+				w.Part0, w.Part1 = handle, part
+				w.Parent = part
+			end
+		end
+		m.Parent = tool
+	end
+	handle.Parent = tool
+	-- melee: blade up and slightly forward; ranged: pointing forward like a pistol
+	if def.kind == "ranged" then
+		tool.Grip = CFrame.Angles(math.rad(90), 0, 0)
+	else
+		tool.Grip = CFrame.Angles(math.rad(25), 0, 0)
+	end
+	return tool
+end
+
+-- make the Backpack match the owned weapons (adds new tools, removes scrapped ones)
+function CombatService.syncTools(player)
+	local p = profileOf(player)
+	if not p then
+		return
+	end
+	local bp = backpackOf(player)
+	local have = {}
+	for _, where in ipairs({ player.Character, bp }) do
+		if where then
+			for _, t in ipairs(where:GetChildren()) do
+				local uid = t:IsA("Tool") and t:GetAttribute("WeaponUid")
+				if uid then
+					if p.data.weapons[uid] and not have[uid] then
+						have[uid] = t
+					else
+						t:Destroy()
+					end
+				end
+			end
+		end
+	end
+	for uid, w in pairs(p.data.weapons) do
+		local def = Weapons.ById[w.id]
+		if def and not have[uid] then
+			buildTool(uid, def).Parent = bp
+		end
 	end
 end
 
-local function equipModel(player, def)
+local function unequipModel(player)
+	local _, _, hum = charParts(player)
+	if hum then
+		hum:UnequipTools()
+	end
+end
+
+function CombatService.unequip(player)
 	unequipModel(player)
-	local char = player.Character
-	local hand = char and (char:FindFirstChild("RightHand") or char:FindFirstChild("Right Arm"))
-	local assets = ReplicatedStorage:FindFirstChild("Assets")
-	local src = assets and assets:FindFirstChild("Weapons") and assets.Weapons:FindFirstChild(def.id)
-	if not hand or not src then
+end
+
+local function equipModel(player, uid)
+	local _, _, hum = charParts(player)
+	if not hum then
 		return
 	end
-	local m = src:Clone()
-	m.Name = "EquippedWeapon"
-	local handle = m:FindFirstChild("Handle") or m.PrimaryPart
-	if not handle then
-		m:Destroy()
-		return
+	CombatService.syncTools(player)
+	local tool = findTool(player, uid)
+	if tool and tool.Parent ~= player.Character then
+		hum:EquipTool(tool)
 	end
-	-- The handle is a cylinder rotated 90° (its local X runs along the shaft), so build a
-	-- "grip" frame whose +Y is the shaft and put that frame into the hand: shaft forward,
-	-- slightly up, the grip in the palm. Parts are moved BEFORE welding.
-	local grip = handle.CFrame * CFrame.Angles(0, 0, math.rad(-90))
-	local gripY = hand.Name == "Right Arm" and -0.95 or -0.35 -- R6 arm is 2 studs long
-	local target = hand.CFrame * CFrame.new(0, gripY, -0.15) * CFrame.Angles(math.rad(-75), 0, 0)
-	local delta = target * grip:Inverse()
-	local parts = {}
-	for _, p in ipairs(m:GetDescendants()) do
-		if p:IsA("BasePart") then
-			table.insert(parts, p)
+end
+
+-- the player switched tools from the hotbar: remember it
+local function watchTools(player, char)
+	char.ChildAdded:Connect(function(child)
+		local uid = child:IsA("Tool") and child:GetAttribute("WeaponUid")
+		if not uid then
+			return
 		end
-	end
-	for _, p in ipairs(parts) do
-		p.CFrame = delta * p.CFrame
-		p.Anchored = false
-		p.CanCollide = false
-		p.Massless = true
-		p.CanQuery = false
-	end
-	for _, p in ipairs(parts) do
-		if p ~= handle then
-			local w = Instance.new("WeldConstraint")
-			w.Part0, w.Part1 = handle, p
-			w.Parent = p
+		local p = profileOf(player)
+		if S.LabService.isCarrying(player) then
+			task.defer(unequipModel, player)
+			Net.toast(player, "Руки заняты добычей", "warn")
+			return
 		end
-	end
-	local w = Instance.new("WeldConstraint")
-	w.Name = "WeaponGrip"
-	w.Part0, w.Part1 = hand, handle
-	w.Parent = handle
-	m:SetAttribute("WeaponId", def.id)
-	m.Parent = char
-	setHoldAnim(player, true)
+		if p and p.data.weapons[uid] then
+			p.data.equipped = uid
+			CombatService.pushCombat(player)
+		end
+	end)
+	char.ChildRemoved:Connect(function(child)
+		local uid = child:IsA("Tool") and child:GetAttribute("WeaponUid")
+		if not uid then
+			return
+		end
+		task.defer(function()
+			local p = profileOf(player)
+			if p and p.data.equipped == uid and child.Parent ~= char then
+				p.data.equipped = ""
+				CombatService.pushCombat(player)
+			end
+		end)
+	end)
 end
 
 -- ===================== STATE PUSH =====================
@@ -1121,6 +1210,7 @@ local function grantWeapon(player, id)
 	d.weaponSeq += 1
 	local uid = tostring(d.weaponSeq)
 	d.weapons[uid] = { id = id, got = os.time() }
+	task.defer(CombatService.syncTools, player)
 	return uid
 end
 
@@ -1139,7 +1229,7 @@ local function equip(player, uid)
 		return false
 	end
 	p.data.equipped = uid
-	equipModel(player, Weapons.ById[w.id])
+	equipModel(player, uid)
 	return true
 end
 
@@ -1250,6 +1340,7 @@ local function registerRemotes()
 		end
 		local def = Weapons.ById[w.id]
 		p.data.weapons[uid] = nil
+		CombatService.syncTools(player)
 		local refund = def.starter and 0 or 100 * Rarities.rank(def.rarity) ^ 2
 		if refund > 0 then
 			S.Economy.grant(player, refund, "Разбор оружия")
@@ -1272,7 +1363,15 @@ local function registerRemotes()
 			return
 		end
 		s.cd.attack = now + def.cooldown
-		CombatService.playAttackAnim(player, def) -- swing animation (Animator replicates to all)
+		-- standard tool animation: the default Animate script plays it and it replicates to all
+		local tool = player.Character and player.Character:FindFirstChildOfClass("Tool")
+		if tool then
+			local v = Instance.new("StringValue")
+			v.Name = "toolanim"
+			v.Value = (def.kind == "ranged" or def.style == "fast") and "Lunge" or "Slash"
+			v.Parent = tool
+			Debris:AddItem(v, 1)
+		end
 		local dir = aimOf(root, payload)
 		local origin = root.Position
 		Net.fxAll("swing", { userId = player.UserId, weapon = def.id, kind = def.kind, dir = dir, from = origin, range = def.range, projectile = def.projectile, color = def.color })
@@ -1602,8 +1701,10 @@ function CombatService.Start()
 		end
 		task.defer(function()
 			local p = profileOf(player)
+			watchTools(player, char)
+			CombatService.syncTools(player)
 			if p and p.data.equipped ~= "" and p.data.weapons[p.data.equipped] then
-				equipModel(player, Weapons.ById[p.data.weapons[p.data.equipped].id])
+				equipModel(player, p.data.equipped)
 			end
 			CombatService.refreshSpeed(player)
 		end)
@@ -1649,6 +1750,11 @@ function CombatService.Start()
 	end)
 	S.DataService.onLoaded(function(player)
 		task.wait(1)
+		CombatService.syncTools(player)
+		local p = profileOf(player)
+		if p and p.data.equipped ~= "" and p.data.weapons[p.data.equipped] then
+			equipModel(player, p.data.equipped)
+		end
 		CombatService.pushCombat(player)
 		S.LabService.push(player)
 	end)

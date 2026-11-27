@@ -140,4 +140,15 @@ end
 
 Weapons.MaxInventory = 40
 
+-- ability power by rarity: the rarer the weapon, the stronger (damage) and bigger (effects) its skill
+Weapons.AbilityPower = { Common = 1, Uncommon = 1.15, Rare = 1.3, Epic = 1.5, Legendary = 1.75, Mythical = 2, Secret = 2.4 }
+Weapons.AbilityRarity = {}
+for _, w in ipairs(Weapons.List) do
+	Weapons.AbilityRarity[w.ability.id] = w.starter and "Common" or w.rarity
+end
+
+function Weapons.power(def)
+	return def.starter and 1 or (Weapons.AbilityPower[def.rarity] or 1)
+end
+
 return Weapons

@@ -23,8 +23,9 @@ local CombatClient = require(Controllers.CombatClient)
 
 local player = Players.LocalPlayer
 
+-- the standard Roblox inventory (hotbar) at the bottom shows the weapons
 pcall(function()
-	StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
+	StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, true)
 end)
 
 local DevErrors = require(Controllers.DevErrors)
