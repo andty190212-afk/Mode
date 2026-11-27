@@ -27,16 +27,28 @@ pcall(function()
 	StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
 end)
 
-Localizer.init()
+local DevErrors = require(Controllers.DevErrors)
+DevErrors.init()
+
+-- every part starts separately: an error in one of them can't break the others
+local function start(name, fn, ...)
+	local ok, err = pcall(fn, ...)
+	if not ok then
+		warn("[ClientMain] " .. name .. " failed: " .. tostring(err))
+		DevErrors.show(name .. ": " .. tostring(err), "start")
+	end
+end
+
+start("Localizer", Localizer.init)
 UI.screen()
-MenusMain.build()
-MenusShop.build()
-HUD.build()
-Build.init()
-Heli.init()
-Effects.init(Minigames, HUD)
-LabClient.init(Effects)
-CombatClient.init(Build)
+start("MenusMain", MenusMain.build)
+start("MenusShop", MenusShop.build)
+start("HUD", HUD.build)
+start("Build", Build.init)
+start("Heli", Heli.init)
+start("Effects", Effects.init, Minigames, HUD)
+start("Lab", LabClient.init, Effects)
+start("Combat", CombatClient.init, Build)
 
 MenusShop.onBuildSelect = function(kind, id)
 	Build.place(kind, id)

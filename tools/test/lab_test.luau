@@ -111,7 +111,23 @@ aliceIsland.rest.stars = 3
 Rest.islandOf(bob).rest.stars = 3
 Mock.advance(2)
 check(Lab.Labs[1] ~= nil and Lab.Labs[2] ~= nil, "lab appears when the restaurant reaches 3★")
-check(labsFolder.Lab1.Pods.Pod1.Transparency < 1, "lab building visible at 3★")
+check(labsFolder.Lab1.Pods.Pod1.Transparency == 0, "lab building visible at 3★ (pods opaque again)")
+do
+	local wall, capsule
+	for _, d in ipairs(labsFolder.Lab1:GetChildren()) do
+		if d.Name == "Wall" then
+			wall = d
+		elseif d.Name == "Capsule" then
+			capsule = d
+		end
+	end
+	check(wall and wall.Transparency == 0 and wall.CanCollide, "walls restored exactly (opaque + solid)")
+	check(capsule and math.abs(capsule.Transparency - 0.82) < 0.01, "glass capsules restored to their original transparency")
+	-- hide/show again: originals must survive repeated toggles
+	Lab.setLabVisible(1, false)
+	Lab.setLabVisible(1, true)
+	check(wall.Transparency == 0 and math.abs(capsule.Transparency - 0.82) < 0.01, "repeated hide/show keeps the original look")
+end
 local aliceLab = Lab.Labs[1]
 check(aliceLab ~= nil and aliceLab.state == "closed", "Alice's lab is set up and protected")
 check(labsFolder.Lab1:GetAttribute("LabOwner") == "Alice", "lab shows its owner")

@@ -1562,4 +1562,5 @@ return {
 	["🔒 ЛАБОРАТОРИЯ"] = "🔒 LABORATORY",
 	["🔒 Лаборатория появится на вашем острове, когда ресторан получит"] = "🔒 The lab will appear on your island when the restaurant gets",
 	["🧪 Ресторан получил"] = "🧪 The restaurant reached",
+	["⚠️ Ошибки скриптов (видно только в Studio и создателю игры). Сделайте скриншот. [нажмите, чтобы скрыть]"] = "⚠️ Script errors (visible only in Studio and to the game creator). Take a screenshot. [click to hide]",
 }

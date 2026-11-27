@@ -13,8 +13,19 @@ end
 
 local IDLE = ang(35, 0, 8) -- weapon arm slightly raised and forward
 
-local baseC0 = setmetatable({}, { __mode = "k" }) -- [Motor6D] = original C0 (plain table: no attributes needed)
-local animating = setmetatable({}, { __mode = "k" }) -- [character] = true
+local baseC0 = {} -- [Motor6D] = original C0
+local animating = {} -- [character] = true
+
+-- strong tables (weak tables keyed by Instances are unreliable in Roblox); entries are
+-- removed when the instance is destroyed
+local function forget(t, inst)
+	if t[inst] == nil and typeof(inst) == "Instance" then
+		inst.Destroying:Connect(function()
+			t[inst] = nil
+		end)
+	end
+end
+
 
 -- R15 and R6 rigs are both supported
 function Poses.motors(char)
@@ -66,6 +77,7 @@ local function base(motor)
 	local b = baseC0[motor]
 	if not b then
 		b = motor.C0
+		forget(baseC0, motor)
 		baseC0[motor] = b
 	end
 	return b
@@ -77,6 +89,7 @@ function Poses.play(char, frames)
 	if (not mo.rs and not mo.grip) or animating[char] then
 		return
 	end
+	forget(animating, char)
 	animating[char] = true
 	task.spawn(function()
 		pcall(function()

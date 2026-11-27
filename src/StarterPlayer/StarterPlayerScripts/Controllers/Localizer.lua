@@ -18,8 +18,9 @@ local PROPS = {
 	ProximityPrompt = { "ActionText", "ObjectText" },
 }
 
-local original = setmetatable({}, { __mode = "k" }) -- [inst] = { [prop] = russian source }
-local applied = setmetatable({}, { __mode = "k" }) -- [inst] = { [prop] = text we set }
+-- strong tables (weak tables keyed by Instances are unreliable in Roblox), cleaned on Destroying
+local original = {} -- [inst] = { [prop] = russian source }
+local applied = {} -- [inst] = { [prop] = text we set }
 local listeners = {}
 
 local function apply(inst, prop)
@@ -37,6 +38,9 @@ local function track(inst)
 		return
 	end
 	original[inst], applied[inst] = {}, {}
+	inst.Destroying:Connect(function()
+		original[inst], applied[inst] = nil, nil
+	end)
 	for _, prop in ipairs(props) do
 		original[inst][prop] = inst[prop]
 		apply(inst, prop)

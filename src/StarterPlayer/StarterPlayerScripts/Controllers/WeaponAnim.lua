@@ -24,8 +24,8 @@ end
 
 local IDLE = ang(35, 0, 8) -- weapon arm slightly raised and forward
 
-local baseC0 = setmetatable({}, { __mode = "k" }) -- [Motor6D] = original C0 (plain table: no attributes needed)
-local animating = setmetatable({}, { __mode = "k" }) -- [character] = true
+local baseC0 = {} -- [Motor6D] = original C0 (plain table: no attributes needed)
+local animating = {} -- [character] = true
 
 -- R15 and R6 rigs are both supported
 local function motors(char)

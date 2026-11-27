@@ -819,7 +819,7 @@ local function highlightThief(userId)
 end
 
 -- ===================== WORLD: creature idle animations =====================
-local baseCF = setmetatable({}, { __mode = "k" }) -- [creature model] = resting CFrame
+local baseCF = {} -- [creature model] = resting CFrame (strong table, cleaned on Destroying)
 local function animateCreatures()
 	local t = os.clock()
 	local cam = workspace.CurrentCamera
@@ -841,6 +841,9 @@ local function animateCreatures()
 							base = m:GetPivot()
 						end
 						baseCF[m] = base
+						m.Destroying:Connect(function()
+							baseCF[m] = nil
+						end)
 					end
 					local anim = m:GetAttribute("Anim")
 					local phase = (m:GetAttribute("Phase") or (#m.Name + base.Position.X)) % 6.28

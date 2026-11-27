@@ -65,5 +65,23 @@ for _, name in ipairs(startOrder) do
 	end
 end
 
+-- server script errors are shown on screen in Studio and to the game's creator
+do
+	local LogService = game:GetService("LogService")
+	local RunService = game:GetService("RunService")
+	local sent = {}
+	LogService.MessageOut:Connect(function(msg, kind)
+		if kind ~= Enum.MessageType.MessageError or sent[msg] then
+			return
+		end
+		sent[msg] = true
+		for _, p in ipairs(Players:GetPlayers()) do
+			if RunService:IsStudio() or p.UserId == game.CreatorId then
+				Net.fx(p, "devError", { text = string.sub(msg, 1, 220) })
+			end
+		end
+	end)
+end
+
 Players.CharacterAutoLoads = true
 print(("[Restaurant Island Tycoon] server ready (%d services)"):format(#order))

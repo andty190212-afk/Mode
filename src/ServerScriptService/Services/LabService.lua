@@ -840,7 +840,15 @@ end
 -- ===================== LAB APPEARS AT 3★ =====================
 LabService.UnlockStars = LabData.UnlockStars
 local PLATFORM = { Floor = true, FloorInlay = true, Trim = true, Support = true, Entry = true, Interior = true, LockSign = true }
-local savedLook = setmetatable({}, { __mode = "k" }) -- [instance] = original transparency / enabled
+-- originals are stored in attributes (number/bool): reliable, unlike tables keyed by instances
+local function orig(d, key, value)
+	local v = d:GetAttribute(key)
+	if v == nil then
+		d:SetAttribute(key, value)
+		v = value
+	end
+	return v
+end
 
 -- the platform (and the bridge to the arena) always stays; the lab building only exists from 3★
 local function setLabVisible(index, visible)
@@ -861,16 +869,18 @@ local function setLabVisible(index, visible)
 			end
 		elseif not PLATFORM[top.Name] then
 			if d:IsA("BasePart") then
-				if savedLook[d] == nil then
-					savedLook[d] = { d.Transparency, d.CanCollide }
+				local t = orig(d, "LabOrigT", d.Transparency)
+				local c = orig(d, "LabOrigC", d.CanCollide)
+				if visible then
+					d.Transparency = t
+					d.CanCollide = c
+				else
+					d.Transparency = 1
+					d.CanCollide = false
 				end
-				d.Transparency = visible and savedLook[d][1] or 1
-				d.CanCollide = visible and savedLook[d][2] or false
 			elseif d:IsA("Light") or d:IsA("SurfaceGui") or d:IsA("BillboardGui") then
-				if savedLook[d] == nil then
-					savedLook[d] = d.Enabled
-				end
-				d.Enabled = visible and savedLook[d] or false
+				local e = orig(d, "LabOrigE", d.Enabled)
+				d.Enabled = visible and e or false
 			elseif d:IsA("ProximityPrompt") and not visible then
 				d.Enabled = false
 			end

@@ -214,7 +214,7 @@ for _, e in ipairs({
 	"DescendantAdded", "DescendantRemoving", "AncestryChanged", "Destroying", "Touched", "TouchEnded", "Completed", "OnServerEvent",
 	"OnClientEvent", "Event", "PlayerAdded", "PlayerRemoving", "CharacterAdded", "CharacterRemoving", "Heartbeat", "RenderStepped",
 	"Stepped", "PromptGamePassPurchaseFinished", "PromptProductPurchaseFinished", "Ended", "Died", "FocusLost", "Focused",
-	"PlaybackEnded",
+	"PlaybackEnded", "MessageOut",
 }) do
 	EVENTS[e] = true
 end
