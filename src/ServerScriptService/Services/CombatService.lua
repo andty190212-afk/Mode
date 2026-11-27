@@ -148,6 +148,20 @@ function CombatService.inCafe(pos)
 	return false
 end
 
+-- game creator (or group owner) / anyone in Studio
+function CombatService.isCreator(player)
+	if game:GetService("RunService"):IsStudio() then
+		return true
+	end
+	if game.CreatorType == Enum.CreatorType.Group then
+		local ok, rank = pcall(function()
+			return player:GetRankInGroup(game.CreatorId)
+		end)
+		return ok and rank == 255
+	end
+	return player.UserId == game.CreatorId
+end
+
 -- used by the test suite (never reachable from a client)
 function CombatService.resetCooldowns(player)
 	st(player).cd = {}
@@ -1334,6 +1348,37 @@ local function registerRemotes()
 			warn("[CombatService] ability " .. def.ability.id .. ": " .. tostring(err))
 		end
 		return ok({ cooldown = def.ability.cooldown })
+	end)
+
+	-- creator / Studio only: instantly give special dishes (for testing weapons)
+	Net.setRate("DevGiveDishes", 2, 3)
+	Net.onRequest("DevGiveDishes", function(player, payload)
+		if not CombatService.isCreator(player) then
+			return fail("Только для создателя игры")
+		end
+		local p = profileOf(player)
+		if not p then
+			return fail("Данные ещё загружаются")
+		end
+		local rarity = type(payload) == "table" and payload.rarity
+		local list = {}
+		for _, r in ipairs(Rarities.Order) do
+			if rarity == nil or rarity == "all" or rarity == r then
+				local pool = Creatures.ByRarity[r]
+				if pool then
+					table.insert(list, pool[rng:NextInteger(1, #pool)].dish.id)
+				end
+			end
+		end
+		if #list == 0 then
+			return fail("Нет такой редкости")
+		end
+		for _, id in ipairs(list) do
+			p.data.dishes[id] = (p.data.dishes[id] or 0) + 1
+		end
+		S.LabService.push(player)
+		CombatService.pushCombat(player)
+		return ok({ count = #list })
 	end)
 
 	Net.onRequest("SetLanguage", function(player, payload)

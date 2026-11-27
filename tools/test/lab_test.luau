@@ -215,6 +215,19 @@ for _, c in ipairs(Creatures.List) do
 end
 check(allMatch, total .. " dishes of all 7 rarities -> always a weapon of exactly that rarity")
 check(not Mock.request(alice, "EatDish", { dish = "nope" }).ok, "fake dish rejected")
+do
+	local before = 0
+	for _, n in pairs(pa.data.dishes) do
+		before += n
+	end
+	local g = Mock.request(alice, "DevGiveDishes", { rarity = "all" })
+	local after = 0
+	for _, n in pairs(pa.data.dishes) do
+		after += n
+	end
+	check(g.ok and after == before + 7, "creator button: one dish of every rarity instantly", g.err)
+	check(Mock.request(alice, "DevGiveDishes", { rarity = "Secret" }).ok, "creator button: dish of a chosen rarity")
+end
 
 section("Security cycle: opens every 2 minutes, stays open until the plate")
 local plate = labsFolder.Lab1.Plate

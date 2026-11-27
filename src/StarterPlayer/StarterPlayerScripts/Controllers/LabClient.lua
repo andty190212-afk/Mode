@@ -495,6 +495,22 @@ local function renderDishes(c)
 	-- the lab state is pushed the moment a dish is cooked: it is the source of truth
 	local dishes = (lab and lab.dishes) or (State.combat and State.combat.dishes) or {}
 	UI.label(c, "🍽️ Взрослые существа в капсулах готовят особые блюда. Съешьте блюдо — и получите случайное оружие <b>той же редкости</b>, что и существо.", 14, { auto = true, color = T.sub })
+	-- creator / Studio tools (the server checks it again)
+	local RunService = game:GetService("RunService")
+	if RunService:IsStudio() or player.UserId == game.CreatorId then
+		UI.label(c, "🛠️ Для создателя: выдать блюда моментально (обычные игроки этого не видят)", 14, { font = UI.Font, color = T.warn })
+		local row = UI.row(c, 40)
+		UI.button(row, "🎁 Все 7 редкостей", T.warn, function()
+			UI.request(Net, "DevGiveDishes", { rarity = "all" }, "Выдано 7 блюд — по одному каждой редкости")
+		end, { size = UDim2.fromOffset(190, 36), textColor = Color3.fromRGB(40, 30, 10) })
+		local row2 = UI.row(c, 40)
+		for _, r in ipairs(Rarities.Order) do
+			local b = UI.button(row2, Rarities.Info[r].name, rc(r), function()
+				UI.request(Net, "DevGiveDishes", { rarity = r }, "Блюдо выдано: " .. Rarities.Info[r].name)
+			end, { size = UDim2.fromOffset(104, 34), textSize = 12 })
+			b.TextColor3 = Color3.fromRGB(20, 20, 30)
+		end
+	end
 	local any = false
 	for _, def in ipairs(Creatures.List) do
 		local n = dishes[def.dish.id] or 0

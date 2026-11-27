@@ -1563,4 +1563,10 @@ return {
 	["🔒 Лаборатория появится на вашем острове, когда ресторан получит"] = "🔒 The lab will appear on your island when the restaurant gets",
 	["🧪 Ресторан получил"] = "🧪 The restaurant reached",
 	["⚠️ Ошибки скриптов (видно только в Studio и создателю игры). Сделайте скриншот. [нажмите, чтобы скрыть]"] = "⚠️ Script errors (visible only in Studio and to the game creator). Take a screenshot. [click to hide]",
+	["Блюдо выдано:"] = "Dish given:",
+	["Выдано 7 блюд — по одному каждой редкости"] = "7 dishes given — one of each rarity",
+	["Нет такой редкости"] = "No such rarity",
+	["Только для создателя игры"] = "Game creator only",
+	["🎁 Все 7 редкостей"] = "🎁 All 7 rarities",
+	["🛠️ Для создателя: выдать блюда моментально (обычные игроки этого не видят)"] = "🛠️ Creator tools: give dishes instantly (regular players don't see this)",
 }
