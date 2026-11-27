@@ -1,4 +1,4 @@
---!strict
+--!nonstrict
 -- Restaurant Island Tycoon - global configuration
 -- ВАЖНО: после создания Game Pass / Developer Products на сайте Roblox
 -- впишите их реальные ID ниже (см. docs/MONETIZATION.md).
