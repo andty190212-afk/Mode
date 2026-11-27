@@ -1,0 +1,116 @@
+--!strict
+-- Restaurant Island Tycoon - global configuration
+-- ВАЖНО: после создания Game Pass / Developer Products на сайте Roblox
+-- впишите их реальные ID ниже (см. docs/MONETIZATION.md).
+
+local Config = {}
+
+Config.GameName = "Restaurant Island Tycoon"
+Config.Version = "1.0.0"
+
+-- ===================== MONETIZATION =====================
+Config.GamePasses = {
+	Chef = 0, -- Шеф-повар, 80 Robux  -> впишите ID Game Pass
+	Director = 0, -- Директор ресторана, 100 Robux -> впишите ID Game Pass
+}
+Config.GamePassPrices = { Chef = 80, Director = 100 }
+
+-- В Roblox Studio (и только в Studio) платные профессии можно выдать для теста.
+-- На опубликованном сервере это НИКОГДА не работает (проверка RunService:IsStudio()).
+Config.StudioGrantGamePasses = true
+
+-- Developer Products. id = 0 означает "не настроено" (покупка не будет предложена).
+Config.Products = {
+	{ key = "cash_small", id = 0, robux = 25, kind = "cash", amount = 1500, title = "Горсть монет" },
+	{ key = "cash_medium", id = 0, robux = 99, kind = "cash", amount = 7500, title = "Мешок монет" },
+	{ key = "cash_large", id = 0, robux = 399, kind = "cash", amount = 40000, title = "Сундук монет" },
+	{ key = "cash_huge", id = 0, robux = 999, kind = "cash", amount = 120000, title = "Сокровищница" },
+	{ key = "boost_x2_30", id = 0, robux = 79, kind = "boost", mult = 2, minutes = 30, title = "Заработок x2 (30 мин)" },
+	{ key = "boost_x3_30", id = 0, robux = 149, kind = "boost", mult = 3, minutes = 30, title = "Заработок x3 (30 мин)" },
+	{ key = "boost_x2_120", id = 0, robux = 249, kind = "boost", mult = 2, minutes = 120, title = "Заработок x2 (2 часа)" },
+}
+
+-- ===================== SERVER LIMITS =====================
+Config.MaxRestaurants = 8
+Config.MaxPlayersPerRestaurant = 2
+Config.MaxServerPlayers = 16
+
+-- ===================== DATA =====================
+Config.DataStoreName = "RIT_PlayerData_v1"
+Config.LeaderboardStoreName = "RIT_TopEarnings_v1"
+Config.LeaderboardStarsStoreName = "RIT_TopStars_v1"
+Config.AutosaveInterval = 90 -- seconds
+Config.SessionLockTimeout = 300 -- seconds: lock older than this is considered stale
+Config.DataRetries = 5
+
+-- ===================== ECONOMY =====================
+Config.StartMoney = 250
+Config.StartBudget = 800
+Config.WorkerShare = 0.15 -- доля от продажи блюда, идущая в личный баланс исполнителю
+Config.SelfServeTipMult = 0.4 -- чаевые, если еду выдал не официант
+Config.FriendDailySpendLimit = 5000
+Config.OwnerWithdrawFee = 0.10 -- комиссия при выводе из бюджета ресторана в личный баланс
+Config.MaxPriceMult = 2.0
+Config.MinPriceMult = 0.5
+Config.IngredientPack = 10 -- закупка упаковками
+Config.FurnitureRefund = 0.5
+Config.MaxFurniture = 80
+Config.MaxDecor = 120
+Config.VisitorMealPrice = 40
+Config.FerryTicket = 60
+
+-- ===================== GUESTS =====================
+Config.GuestTickRate = 1 -- seconds per restaurant simulation tick
+Config.BaseSpawnInterval = 16 -- секунд между группами гостей при репутации 50
+Config.MaxGuestsGlobal = 140
+Config.OrderAutoDelay = 14 -- через сколько гость сам закажет через планшет (если нет официанта)
+Config.AutoCookTime = 24 -- автокухня (если нет повара)
+Config.AutoCookSlots = { 1, 1, 2, 2, 2 } -- одновременно готовящихся блюд по уровню звёзд
+Config.AutoCookQuality = 0.42
+Config.AutoDrinkTime = 10
+Config.AutoDrinkSlots = 2
+Config.AutoDrinkQuality = 0.5
+Config.SelfPickupDelay = 12 -- гость сам забирает готовое блюдо (если нет официанта)
+Config.TabletFallbackDelay = 32 -- даже при официанте: гость, которого игнорируют, закажет через планшет
+Config.SelfPickupFallbackDelay = 30 -- даже при официанте: остывающее блюдо гость заберёт сам
+Config.AutoCleanDelay = 20
+Config.EatTime = 14
+Config.IdleTimeout = 300 -- секунд без активности команды
+Config.IdleGuestMult = 0.25
+
+-- ===================== WORLD =====================
+Config.WaterLevel = 0
+Config.IslandTopY = 6
+Config.HelicopterUnlockStars = 3
+Config.MaxFlightHeight = 420
+Config.WorldRadius = 1700
+
+-- ===================== PLAYER PROGRESSION =====================
+function Config.XpForLevel(level: number): number
+	return math.floor(100 * level ^ 1.45)
+end
+function Config.XpForProfLevel(level: number): number
+	return math.floor(60 * level ^ 1.35)
+end
+Config.MaxPlayerLevel = 100
+Config.MaxProfLevel = 50
+
+-- ===================== SOUNDS =====================
+-- Встроенные звуки движка (rbxasset://) работают всегда.
+-- Для музыки/вертолёта/природы впишите ID аудио из Creator Store (см. docs/EXTERNAL_RESOURCES.md).
+Config.Sounds = {
+	Click = "rbxasset://sounds/electronicpingshort.wav",
+	Buy = "rbxasset://sounds/electronicpingshort.wav",
+	Error = "rbxasset://sounds/button.wav",
+	Cash = "", -- кассовый аппарат
+	Upgrade = "", -- улучшение
+	Cooking = "", -- шипение сковороды
+	Door = "", -- дверь
+	Crowd = "", -- гул посетителей
+	Helicopter = "", -- цикл вертолёта
+	Ocean = "", -- шум океана
+	Birds = "", -- птицы
+	Music = "", -- фоновая музыка
+}
+
+return Config
