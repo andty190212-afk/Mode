@@ -73,7 +73,13 @@ local function fireFrames(upTo)
 	if not rs then
 		return
 	end
+	if nextFrame < now then
+		nextFrame = now -- no backlog of frames from before
+	end
 	while nextFrame <= upTo do
+		if nextFrame > now then
+			now = nextFrame -- the clock moves with the frames
+		end
 		local d = DATA[rs] and DATA[rs].props
 		if d then
 			for _, name in ipairs({ "Stepped", "Heartbeat", "RenderStepped" }) do
