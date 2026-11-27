@@ -165,6 +165,7 @@ local function spawnFor(player)
 		end)
 		seat:GetPropertyChangedSignal("Occupant"):Connect(function()
 			local hum = seat.Occupant
+			prompt.Enabled = hum == nil
 			if not hum then
 				return
 			end

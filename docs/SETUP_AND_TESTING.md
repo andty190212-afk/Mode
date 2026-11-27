@@ -73,7 +73,7 @@
 cargo install lune --locked
 lune run tools/check.luau src              # компиляция всех скриптов
 lune run tools/build_place.luau            # сборка build/*.rbxl(x)
-lune run tools/test/server_test.luau       # сценарий сервера (144 проверки)
+lune run tools/test/server_test.luau       # сценарий сервера (145 проверок)
 lune run tools/test/client_test.luau       # интерфейс и мини-игры (67 проверок)
 lune run tools/test/balance_sim.luau 10    # баланс экономики
 ./tools/package.sh                         # всё сразу + dist/

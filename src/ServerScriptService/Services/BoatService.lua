@@ -111,6 +111,7 @@ local function spawnBoat(island)
 		end)
 		seat:GetPropertyChangedSignal("Occupant"):Connect(function()
 			local hum = seat.Occupant
+			prompt.Enabled = hum == nil -- подсказка видна только у пустой лодки
 			if hum then
 				local who = Players:GetPlayerFromCharacter(hum.Parent)
 				entry.lastOccupied = os.clock()

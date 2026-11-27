@@ -45,6 +45,9 @@ local function buildTerrain()
 		terrain:FillCylinder(CFrame.new(x, -2.5, z), 7, r + 14, Enum.Material.Sand) -- top -> +1
 		terrain:FillCylinder(CFrame.new(x, -3, z), 6, r + 20, Enum.Material.Sand) -- top ->  0
 		terrain:FillCylinder(CFrame.new(x, -4, z), 6, r + 26, Enum.Material.Sand) -- top -> -1
+		-- вырезать террейн под островом, чтобы песок никогда не проступал сквозь траву и пляж
+		terrain:FillCylinder(CFrame.new(x, 6, z), 8, r - 2, Enum.Material.Air) -- y 2..10 под пляжем
+		terrain:FillCylinder(CFrame.new(x, 5, z), 12, MapLayout.IslandRadius + 4, Enum.Material.Air) -- y -1..11 под газоном
 		-- a few coral rocks in the lagoon
 		local rng = Random.new(i * 97)
 		for _ = 1, 6 do

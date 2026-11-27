@@ -75,6 +75,14 @@ local function placeModel(island, kind, entry)
 	model:SetAttribute("ItemId", entry.id)
 	model.Parent = island.buildFolder
 	island.build[kind][entry.uid] = model
+	-- бассейн: настоящая вода Roblox (в ней можно плавать)
+	for _, d in ipairs(model:GetDescendants()) do
+		if d:IsA("BasePart") and d:GetAttribute("TerrainWater") then
+			pcall(function()
+				workspace.Terrain:FillBlock(d.CFrame, d.Size, Enum.Material.Water)
+			end)
+		end
+	end
 	if kind == "furniture" then
 		S.GuestService.registerTable(island, entry, model)
 	end
@@ -83,6 +91,15 @@ end
 
 local function removeModel(island, kind, uid)
 	local model = island.build[kind][uid]
+	if model then
+		for _, d in ipairs(model:GetDescendants()) do
+			if d:IsA("BasePart") and d:GetAttribute("TerrainWater") then
+				pcall(function()
+					workspace.Terrain:FillBlock(d.CFrame, d.Size + Vector3.new(4, 4, 4), Enum.Material.Air)
+				end)
+			end
+		end
+	end
 	if kind == "furniture" then
 		S.GuestService.unregisterTable(island, uid)
 	end

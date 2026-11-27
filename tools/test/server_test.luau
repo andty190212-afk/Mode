@@ -410,6 +410,7 @@ Mock.call(function()
 end)
 Mock.advance(0.5)
 check(bseat.Occupant ~= nil and boat.PrimaryPart.Anchored == false, "player sits and the boat is released for driving")
+check(bseat.BoatPrompt.Enabled == false, "drive prompt hidden while somebody is driving")
 bseat.Occupant = nil
 Mock.advance(3)
 check(boat.PrimaryPart.Anchored == true, "boat parks again when the driver leaves")
