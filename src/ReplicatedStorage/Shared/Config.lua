@@ -10,8 +10,8 @@ Config.Version = "1.0.2"
 
 -- ===================== MONETIZATION =====================
 Config.GamePasses = {
-	Chef = 0, -- Шеф-повар, 80 Robux  -> впишите ID Game Pass
-	Director = 0, -- Директор ресторана, 100 Robux -> впишите ID Game Pass
+	Chef = 2101051301, -- Шеф-повар, 80 Robux
+	Director = 2100247249, -- Директор ресторана, 100 Robux
 }
 Config.GamePassPrices = { Chef = 80, Director = 100 }
 
