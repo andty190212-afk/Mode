@@ -64,6 +64,33 @@ function task.cancel(co)
 end
 Mock.task = task
 
+local DATA, services -- forward declarations (assigned further below)
+-- frame events (Stepped / Heartbeat / RenderStepped) are fired every frameStep of virtual time
+Mock.frameStep = 1 / 20
+local nextFrame = 0
+local function fireFrames(upTo)
+	local rs = services and services.RunService
+	if not rs then
+		return
+	end
+	while nextFrame <= upTo do
+		local d = DATA[rs] and DATA[rs].props
+		if d then
+			for _, name in ipairs({ "Stepped", "Heartbeat", "RenderStepped" }) do
+				local sig = d[name]
+				if sig then
+					if name == "Stepped" then
+						sig:Fire(nextFrame, Mock.frameStep)
+					else
+						sig:Fire(Mock.frameStep)
+					end
+				end
+			end
+		end
+		nextFrame += Mock.frameStep
+	end
+end
+
 function Mock.advance(seconds, step)
 	local target = now + seconds
 	step = step or 0.05
@@ -79,6 +106,7 @@ function Mock.advance(seconds, step)
 		end
 		table.remove(queue, bestI)
 		if best.t > now then
+			fireFrames(best.t)
 			now = best.t
 		end
 		if best.args then
@@ -87,6 +115,7 @@ function Mock.advance(seconds, step)
 			resume(best.co, now)
 		end
 	end
+	fireFrames(target)
 	now = target
 end
 
@@ -164,7 +193,7 @@ end
 Mock.Signal = Signal
 
 -- ===================== INSTANCES =====================
-local DATA = setmetatable({}, { __mode = "k" })
+DATA = setmetatable({}, { __mode = "k" })
 local MT = {}
 local Instance = {}
 Mock.Instance = Instance
@@ -737,7 +766,7 @@ end
 local game = Instance.new("DataModel")
 game.Name = "Game"
 Mock.game = game
-local services = {}
+services = {}
 local function service(name, class)
 	local s = Instance.new(class or name)
 	s.Name = name

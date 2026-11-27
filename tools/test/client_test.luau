@@ -381,6 +381,14 @@ do
 			Mock.advance(0.6)
 		end
 		do
+			-- per-skill character motion is layered on Motor6D.Transform
+			shoulder.Transform = Mock.env.CFrame.new()
+			RS.Remotes.Fx.OnClientEvent:Fire("ability", { ability = "meteor", userId = me.UserId, rarity = "Epic", from = Mock.env.Vector3.new(0, 5, 0), point = Mock.env.Vector3.new(0, 3, -10), delay = 0.3 })
+			Mock.advance(0.15)
+			check(shoulder.Transform ~= Mock.env.CFrame.new(), "ability moves the character (Transform layer, no C0)")
+			Mock.advance(1.5)
+		end
+		do
 			local Weapons = Mock.env.require(RS.Shared.Data.Weapons)
 			local E = Mock.env
 			for _, w in ipairs(Weapons.List) do

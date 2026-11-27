@@ -1055,6 +1055,10 @@ local function buildTool(uid, def)
 	if src then
 		local m = src:Clone()
 		m.Name = "Model"
+		-- a bit bigger in the hand: more readable and impressive
+		pcall(function()
+			m:ScaleTo(1.3)
+		end)
 		local old = m:FindFirstChild("Handle") or m.PrimaryPart
 		if old then
 			old.Name = "Grip"
@@ -1093,26 +1097,36 @@ function CombatService.syncTools(player)
 	if not p then
 		return
 	end
-	local bp = backpackOf(player)
-	local have = {}
-	for _, where in ipairs({ player.Character, bp }) do
-		if where then
-			for _, t in ipairs(where:GetChildren()) do
-				local uid = t:IsA("Tool") and t:GetAttribute("WeaponUid")
-				if uid then
-					if p.data.weapons[uid] and not have[uid] then
-						have[uid] = t
-					else
-						t:Destroy()
+	-- StarterGear: Roblox copies these into the Backpack on EVERY respawn, so weapons never
+	-- vanish when the backpack is reset. Backpack/character get the live copies.
+	local gear = player:FindFirstChild("StarterGear")
+	if not gear then
+		gear = Instance.new("StarterGear")
+		gear.Parent = player
+	end
+	for _, container in ipairs({ gear, "live" }) do
+		local wheres = container == "live" and { player.Character, backpackOf(player) } or { gear }
+		local have = {}
+		for _, where in ipairs(wheres) do
+			if where then
+				for _, t in ipairs(where:GetChildren()) do
+					local uid = t:IsA("Tool") and t:GetAttribute("WeaponUid")
+					if uid then
+						if p.data.weapons[uid] and not have[uid] then
+							have[uid] = t
+						else
+							t:Destroy()
+						end
 					end
 				end
 			end
 		end
-	end
-	for uid, w in pairs(p.data.weapons) do
-		local def = Weapons.ById[w.id]
-		if def and not have[uid] then
-			buildTool(uid, def).Parent = bp
+		local target = container == "live" and backpackOf(player) or gear
+		for uid, w in pairs(p.data.weapons) do
+			local def = Weapons.ById[w.id]
+			if def and not have[uid] then
+				buildTool(uid, def).Parent = target
+			end
 		end
 	end
 end
@@ -1703,6 +1717,15 @@ function CombatService.Start()
 			local p = profileOf(player)
 			watchTools(player, char)
 			CombatService.syncTools(player)
+			task.delay(1, function()
+				if player.Parent and player.Character == char then
+					CombatService.syncTools(player)
+					local pp = profileOf(player)
+					if pp and pp.data.equipped ~= "" and pp.data.weapons[pp.data.equipped] and not char:FindFirstChildOfClass("Tool") then
+						equipModel(player, pp.data.equipped)
+					end
+				end
+			end)
 			if p and p.data.equipped ~= "" and p.data.weapons[p.data.equipped] then
 				equipModel(player, p.data.equipped)
 			end

@@ -771,7 +771,7 @@ function AbilityFx.play(d)
 		return false
 	end
 	local rank = Rarities.rank(d.rarity or "Common")
-	local S = 1 + 0.18 * math.max(0, rank - 1) -- size/intensity scale by rarity
+	local S = 1.2 + 0.2 * math.max(0, rank - 1) -- size/intensity scale by rarity (Common 1.2 ... Secret 2.4)
 	local c = col(d.color)
 	d.from = d.from or Vector3.zero
 	d.dir = d.dir or Vector3.new(0, 0, -1)

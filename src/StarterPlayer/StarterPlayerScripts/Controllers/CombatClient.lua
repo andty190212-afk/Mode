@@ -20,6 +20,7 @@ local UI = require(Controllers.UI)
 local State = require(Controllers.State)
 local WeaponAnim = require(Controllers.WeaponAnim)
 local AbilityFx = require(Controllers.AbilityFx)
+local AbilityMotion = require(Controllers.AbilityMotion)
 local T = UI.Theme
 
 local CombatClient = {}
@@ -397,6 +398,7 @@ end
 function CombatClient.init(build)
 	Build = build
 	WeaponAnim.init()
+	AbilityMotion.init()
 	buildHud()
 	UI.window("arena", "Арена", "⚔️", { render = renderArena, width = 720, height = 520 })
 
@@ -501,6 +503,7 @@ function CombatClient.init(build)
 			end
 		elseif name == "ability" then
 			WeaponAnim.ability(d.userId, d.ability)
+			AbilityMotion.play(d.userId, d.ability) -- unique character motion per skill
 			-- big unique effect per skill (falls back to the simple one)
 			if not AbilityFx.play(d) then
 				abilityFx(d)

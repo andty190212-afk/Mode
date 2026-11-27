@@ -450,6 +450,14 @@ do
 		owned += 1
 	end
 	check(tools == owned, "inventory hotbar has one tool per owned weapon (" .. tools .. "/" .. owned .. ")")
+	local gear = bob:FindFirstChild("StarterGear")
+	local gearTools = 0
+	for _, t in ipairs(gear and gear:GetChildren() or {}) do
+		if t.ClassName == "Tool" then
+			gearTools += 1
+		end
+	end
+	check(gearTools == owned, "weapons also stored in StarterGear (survive respawns)")
 	moveTo(bob, Vector3.new(0, MapLayout.BridgeY + 3, 40))
 	Mock.advance(1.2)
 	attack(bob, carol)
