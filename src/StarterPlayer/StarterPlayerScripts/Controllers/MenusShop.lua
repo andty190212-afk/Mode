@@ -363,6 +363,13 @@ local function renderStore(c)
 		b.Position = UDim2.new(1, -200, 0.5, -21)
 	end
 	section(c, "💰 Игровая валюта и множители")
+	local configured = 0
+	for _, prod in ipairs(p.products or {}) do
+		if prod.id ~= 0 then
+			configured += 1
+		end
+	end
+	UI.label(c, string.format("<font color='#7F89A8'>Версия игры %s · товаров настроено: %d из %d</font>", Config.Version, configured, #(p.products or {})), 13)
 	if p.boost and p.boost.remaining > 0 then
 		UI.label(c, string.format("⚡ Активен множитель x%d — осталось %s", p.boost.mult, Util.formatTime(p.boost.remaining)), 16, { color = T.gold })
 	end
@@ -375,7 +382,7 @@ local function renderStore(c)
 				if p.passes and p.passes.studio then
 					UI.request(Net, "StudioTestProduct", { key = prod.key }, "🧪 Studio: тестовая покупка выдана (Robux не списаны)")
 				else
-					UI.toast("Товар ещё не настроен: создайте Developer Product на сайте Roblox и впишите ID в Config.Products", "warn")
+					UI.toast("Товар ещё не настроен (в этой версии игры ID = 0). Опубликуйте версию с ID: File → Publish to Roblox", "warn")
 				end
 				return
 			end
