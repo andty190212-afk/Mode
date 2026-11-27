@@ -1,5 +1,5 @@
--- Procedural weapon animations (no animation assets needed). Every client animates every
--- character locally through the R15 Motor6D joints (C0), so all players see the swings.
+-- Weapon visuals on the client: swing trails and the rarity aura. The swing/idle/ability
+-- MOTION is played by the server (Shared.WeaponPoses), so it replicates to every player.
 --   * idle hold pose while a weapon is equipped
 --   * attack animations by weapon style: fast thrust, heavy overhead slam, wide slash,
 --     ranged aim + recoil, magic cast
@@ -76,30 +76,9 @@ local function base(motor)
 	return b
 end
 
--- play keyframes: list of { time, { rs = ang, ls = ..., re = ..., waist = ... } }
-local function play(char, frames)
-	local mo, r6 = motors(char)
-	if not mo.rs or animating[char] then
-		return
-	end
-	animating[char] = true
-	task.spawn(function()
-		pcall(function()
-			for _, f in ipairs(frames) do
-				local dur, pose = f[1], f[2]
-				for key, motor in pairs(mo) do
-					local b = base(motor)
-					if b then
-						local v = pose[key] or (key == "rs" and IDLE or ang())
-						TweenService:Create(motor, TweenInfo.new(dur, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { C0 = b * toCF(key, v, r6) }):Play()
-					end
-				end
-				task.wait(dur)
-			end
-		end)
-		animating[char] = nil
-	end)
-end
+-- the body/weapon motion itself is played by the SERVER (CombatService + Shared.WeaponPoses)
+-- so every player sees it; the client only adds trails and the rarity aura
+local function play() end
 
 -- ===================== TRAIL & AURA =====================
 local function weaponModel(char)
@@ -370,23 +349,11 @@ end
 -- keep the idle hold pose on everyone who holds a weapon (and drop it when they don't)
 local function idleLoop()
 	for _, p in ipairs(Players:GetPlayers()) do
-		local char = p.Character
-		if char then
-			local mo, r6 = motors(char)
-			local model = weaponModel(char)
-			local carrying = char:GetAttribute("CarryingFrom") ~= nil
-			if mo.rs and not animating[char] and not carrying then
-				if model then
-					mo.rs.C0 = base(mo.rs) * toCF("rs", IDLE, r6)
-					local id = model:GetAttribute("WeaponId")
-					local def = id and Weapons.ById[id]
-					if def then
-						ensureAura(model, def)
-					end
-				elseif baseC0[mo.rs] then
-					mo.rs.C0 = baseC0[mo.rs]
-				end
-			end
+		local model = p.Character and weaponModel(p.Character)
+		local id = model and model:GetAttribute("WeaponId")
+		local def = id and Weapons.ById[id]
+		if def then
+			ensureAura(model, def)
 		end
 	end
 end

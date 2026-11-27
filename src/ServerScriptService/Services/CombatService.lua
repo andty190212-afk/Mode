@@ -14,6 +14,7 @@ local Data = Shared.Data
 local Weapons = require(Data.Weapons)
 local Creatures = require(Data.Creatures)
 local Rarities = require(Data.Rarities)
+local Poses = require(Shared.WeaponPoses)
 
 local CombatService = {}
 local S
@@ -911,6 +912,8 @@ local function unequipModel(player)
 	local old = char and char:FindFirstChild("EquippedWeapon")
 	if old then
 		old:Destroy()
+		Poses.interrupt(char)
+		Poses.setIdle(char, false)
 	end
 end
 
@@ -957,11 +960,16 @@ local function equipModel(player, def)
 			w.Parent = p
 		end
 	end
-	local w = Instance.new("WeldConstraint")
-	w.Part0, w.Part1 = hand, handle
-	w.Parent = handle
+	-- the handle hangs on a Motor6D so the server can flick the weapon on every swing
+	local grip = Instance.new("Motor6D")
+	grip.Name = "WeaponGrip"
+	grip.Part0, grip.Part1 = hand, handle
+	grip.C0 = hand.CFrame:ToObjectSpace(handle.CFrame)
+	grip.C1 = CFrame.new()
+	grip.Parent = handle
 	m:SetAttribute("WeaponId", def.id)
 	m.Parent = char
+	Poses.setIdle(char, true)
 end
 
 -- ===================== STATE PUSH =====================
@@ -1079,6 +1087,10 @@ local function registerRemotes()
 		local uid = grantWeapon(player, def.id)
 		p.data.pvp.dishesEaten += 1
 		local _, root = charParts(player)
+		if player.Character then
+			Poses.interrupt(player.Character)
+			Poses.play(player.Character, Poses.EAT)
+		end
 		if root then
 			Net.fxAll("eatDish", { userId = player.UserId, dish = dish.id, pos = root.Position })
 		end
@@ -1146,6 +1158,7 @@ local function registerRemotes()
 			return
 		end
 		s.cd.attack = now + def.cooldown
+		Poses.play(player.Character, Poses.attackFrames(def)) -- swing animation (replicates to all)
 		local dir = aimOf(root, payload)
 		local origin = root.Position
 		Net.fxAll("swing", { userId = player.UserId, weapon = def.id, kind = def.kind, dir = dir, from = origin, range = def.range, projectile = def.projectile, color = def.color })
@@ -1209,6 +1222,11 @@ local function registerRemotes()
 			return fail("Способность недоступна")
 		end
 		s.cd.ability = now + def.ability.cooldown
+		local frames = Poses.ABILITY_ANIM[def.ability.id]
+		if frames then
+			Poses.interrupt(player.Character)
+			Poses.play(player.Character, frames)
+		end
 		local dir = aimOf(root, payload)
 		local point = typeof(payload.point) == "Vector3" and payload.point or (root.Position + dir * 25)
 		local maxRange = 55

@@ -391,6 +391,29 @@ Mock.request(bob, "JoinArena", {})
 local swordPrompt = Workspace.Map.Islands.Island2.WeaponStand.starter_sword.TakePrompt
 swordPrompt.Triggered:Fire(bob)
 check(pb.data.equipped ~= "", "Bob took the free sword")
+do
+	-- give Bob a real shoulder joint and check the SERVER plays the swing on it
+	local E = Mock.env
+	local torso = E.Instance.new("Part")
+	torso.Name = "UpperTorso"
+	torso.Parent = bob.Character
+	local upper = E.Instance.new("Part")
+	upper.Name = "RightUpperArm"
+	upper.Parent = bob.Character
+	local sh = E.Instance.new("Motor6D")
+	sh.Name = "RightShoulder"
+	sh.C0 = E.CFrame.new(1, 0.5, 0)
+	sh.Parent = upper
+	local grip = bob.Character:FindFirstChild("WeaponGrip", true)
+	check(grip ~= nil and grip:IsA("Motor6D"), "weapon hangs on a WeaponGrip joint")
+	local shBase, gripBase = sh.C0, grip and grip.C0
+	moveTo(bob, Vector3.new(0, MapLayout.BridgeY + 3, 40))
+	attack(bob, carol)
+	Mock.advance(0.15)
+	check(sh.C0 ~= shBase, "server swing moves the shoulder (seen by everyone)")
+	check(grip and grip.C0 ~= gripBase, "server swing flicks the weapon")
+	Mock.advance(1)
+end
 Mock.advance(0.5)
 moveTo(bob, Vector3.new(0, MapLayout.BridgeY + 3, 0))
 moveTo(carol, Vector3.new(0, MapLayout.BridgeY + 3, 3))

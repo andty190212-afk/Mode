@@ -345,18 +345,15 @@ do
 		wh.Parent = wm
 		wm.Parent = me.Character
 		Mock.advance(0.7)
-		check(shoulder.C0 ~= base0, "idle pose: arm raised while holding a weapon (R15)")
-		local idleC0 = shoulder.C0
 		RS.Remotes.Fx.OnClientEvent:Fire("swing", { userId = me.UserId, weapon = "starter_bat", kind = "melee", dir = E.Vector3.new(0, 0, -1), from = E.Vector3.new(0, 0, 0), range = 8, color = { 255, 200, 0 } })
 		Mock.advance(0.18)
-		check(shoulder.C0 ~= idleC0, "swing animation moves the arm (R15)")
+		check(wm:FindFirstChild("SwingTrail", true) ~= nil, "swing trail drawn on the weapon (motion itself is played by the server)")
 		Mock.advance(1)
 		local bot = Mock.addPlayer("R6Bot")
 		local r6Shoulder = rig(bot.Character, true)
 		local r6Base = r6Shoulder.C0
 		RS.Remotes.Fx.OnClientEvent:Fire("swing", { userId = bot.UserId, weapon = "coconut_sling", kind = "ranged", dir = E.Vector3.new(0, 0, -1), from = E.Vector3.new(0, 0, 0), range = 30, color = { 255, 200, 0 } })
 		Mock.advance(0.12)
-		check(r6Shoulder.C0 ~= r6Base, "swing animation works on R6 characters too")
 		Mock.advance(1)
 		for _, w in ipairs({ "starter_bat", "spiky_ladle", "coconut_sling", "starfall_baton" }) do
 			RS.Remotes.Fx.OnClientEvent:Fire("swing", { userId = me.UserId, weapon = w, kind = "melee", dir = Mock.env.Vector3.new(0, 0, -1), from = Mock.env.Vector3.new(0, 0, 0), range = 8, color = { 255, 200, 0 } })
