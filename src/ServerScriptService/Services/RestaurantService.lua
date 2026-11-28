@@ -847,12 +847,18 @@ local function registerRemotes()
 		if not island then
 			return fail("Нет такого острова")
 		end
-		if not S.BarrierService.canEnter(player, island) then
-			return fail("Владелец закрыл остров барьером")
-		end
 		if playerIsland[player] ~= island then
 			if not S.Economy.spend(player, Config.FerryTicket, "Паром") then
 				return fail("Билет на паром стоит $" .. Config.FerryTicket)
+			end
+		end
+		-- strangers can enter an owned island only through its laboratory
+		if island.owner and not S.BarrierService.canEnter(player, island) then
+			local cf = S.LabService.entryCFrame(island)
+			if cf then
+				RS.teleport(player, cf)
+				Net.toast(player, "⛴️ Паром у входа в лабораторию. На остров можно пройти только через неё", "info")
+				return ok()
 			end
 		end
 		RS.teleport(player, RS.spawnCFrame(island))

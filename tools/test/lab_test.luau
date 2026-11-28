@@ -282,6 +282,38 @@ local thiefSpeed = bob.Character.Humanoid.WalkSpeed
 check(thiefSpeed < normalOutside and thiefSpeed >= normalOutside * 0.75, "thief is a bit slower than normal (" .. thiefSpeed .. " vs " .. normalOutside .. ")", thiefSpeed)
 check(pa.data.creatures[uid] ~= nil, "ownership does not change while carried")
 
+section("Barrier: through the open lab only; a closed lab is sealed")
+do
+	local center = aliceIsland.center
+	local function dist(p)
+		local pos = p.Character.HumanoidRootPart.Position
+		return (Vector3.new(pos.X, 0, pos.Z) - Vector3.new(center.X, 0, center.Z)).Magnitude
+	end
+	-- Carol (stranger) jumps straight onto the island -> sent back to the lab
+	moveTo(carol, center + Vector3.new(20, 4, 20))
+	Mock.advance(0.6)
+	check(dist(carol) > 185, "stranger landing on the island is sent back to the lab entrance")
+	-- through the OPEN lab: inside the lab, then onto the island
+	local wasState = aliceLab.state
+	aliceLab.state = "open"
+	local interior = labsFolder.Lab1.Interior
+	moveTo(carol, interior.Position)
+	Mock.advance(0.6)
+	moveTo(carol, center + Vector3.new(0, 4, -150))
+	Mock.advance(0.6)
+	check(dist(carol) < 185, "stranger who walked through the open lab may enter the island")
+	-- the owner closes the lab: strangers can't be inside it at all
+	moveTo(carol, interior.Position)
+	aliceLab.state = "closed"
+	Mock.advance(0.6)
+	local cpos = carol.Character.HumanoidRootPart.Position
+	local rel = interior.CFrame:PointToObjectSpace(cpos)
+	check(math.abs(rel.X) > interior.Size.X / 2 or math.abs(rel.Z) > interior.Size.Z / 2, "a closed lab pushes strangers out (can't even enter)")
+	aliceLab.state = wasState
+	moveTo(carol, Vector3.new(0, 200, 0))
+	Mock.advance(0.5)
+end
+
 section("Owner hits the thief -> creature returns")
 local bat = labsFolder.Parent.Islands.Island1.WeaponStand.starter_bat.TakePrompt
 moveTo(alice, bob.Character.HumanoidRootPart.Position + Vector3.new(0, 0, 3))
@@ -307,7 +339,7 @@ local cHp = carol.Character.Humanoid.Health
 Mock.advance(1.2)
 attack(alice, carol)
 Mock.advance(0.5)
-check(carol.Character.Humanoid.Health == cHp, "no PvP damage outside the arena")
+check(carol.Character.Humanoid.Health < cHp, "PvP works outside the arena too (everywhere)")
 
 section("Steal cooldown, thief leaves, delivery")
 moveTo(bob, pod1.Position + Vector3.new(3, 2, 0))
@@ -357,16 +389,16 @@ check(pb.data.pvp.steals == 1 and pa.data.pvp.stolenFrom == 1, "theft stats save
 check(lastFx(alice, "theft", "stolen") ~= nil, "Alice notified about the loss")
 
 section("Speed: 2.5x outside the cafe, normal inside")
-moveTo(carol, Vector3.new(0, 200, 0))
+moveTo(alice, Vector3.new(0, 200, 0))
 Mock.advance(0.6)
-check(carol.Character.Humanoid.WalkSpeed == 45, "outside the cafe: 45 (18 x 2.5)", carol.Character.Humanoid.WalkSpeed)
+check(alice.Character.Humanoid.WalkSpeed == 45, "outside the cafe: 45 (18 x 2.5)", alice.Character.Humanoid.WalkSpeed)
 local door = Rest.buildingCFrame(1) * CFrame.new(0, 3, -8)
-moveTo(carol, door.Position)
+moveTo(alice, door.Position)
 Mock.advance(0.6)
-check(carol.Character.Humanoid.WalkSpeed == 18, "inside the cafe: normal 18", carol.Character.Humanoid.WalkSpeed)
-moveTo(carol, Vector3.new(0, 200, 0))
+check(alice.Character.Humanoid.WalkSpeed == 18, "inside the cafe: normal 18", alice.Character.Humanoid.WalkSpeed)
+moveTo(alice, Vector3.new(0, 200, 0))
 Mock.advance(0.6)
-check(carol.Character.Humanoid.WalkSpeed == 45, "back outside: fast again")
+check(alice.Character.Humanoid.WalkSpeed == 45, "back outside: fast again")
 
 section("Thief disconnects / owner disconnects while carrying")
 pa.data.money = 1e7

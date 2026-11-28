@@ -204,7 +204,7 @@ end
 local function renderArena(c)
 	local s = State.combat and State.combat.stats or {}
 	local kd = (s.arenaKills or 0) / math.max(1, s.arenaDeaths or 0)
-	UI.label(c, "⚔️ Центральная арена соединена мостами со всеми 8 островами. На арене разрешены PvP-бои, на точках появления действует защита 6 секунд. Вне арены бить можно только вора с вашим существом (и вор может защищаться).", 14, { auto = true, color = T.sub })
+	UI.label(c, "⚔️ PvP разрешено везде: на островах, в лабораториях, на мостах и на арене (кроме небесной площадки ожидания). После появления — 5 секунд защиты, на точках арены — 6 секунд. Чужой остров окружён постоянным барьером: попасть на него можно только через его лабораторию, пока она открыта.", 14, { auto = true, color = T.sub })
 	UI.label(c, string.format("🏆 Победы: <b>%d</b> • 💀 Поражения: <b>%d</b> • K/D %.2f • Лучшая серия: %d", s.arenaKills or 0, s.arenaDeaths or 0, kd, s.bestStreak or 0), 16, { auto = true })
 	local row = UI.row(c, 50)
 	UI.button(row, "⚔️ На арену", T.bad, function()

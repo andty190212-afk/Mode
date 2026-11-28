@@ -1568,3 +1568,9 @@ VIP-зона	VIP area
 Только для создателя игры	Game creator only
 🎁 Все 7 редкостей	🎁 All 7 rarities
 🛠️ Для создателя: выдать блюда моментально (обычные игроки этого не видят)	🛠️ Creator tools: give dishes instantly (regular players don't see this)
+). На чужой остров можно пройти только через его лабораторию: паром привезёт вас к её входу.	). You can enter someone else's island only through its laboratory: the ferry takes you to its entrance.
+⚔️ PvP разрешено везде: на островах, в лабораториях, на мостах и на арене (кроме небесной площадки ожидания). После появления — 5 секунд защиты, на точках арены — 6 секунд. Чужой остров окружён постоянным барьером: попасть на него можно только через его лабораторию, пока она открыта.	⚔️ PvP is allowed everywhere: on islands, in labs, on bridges and in the arena (except the sky lobby). 5 seconds of protection after spawning, 6 seconds at arena spawns. Every island has a permanent barrier: you can get onto someone else's island only through its laboratory while it is open.
+⛴️ Паром у входа в лабораторию. На остров можно пройти только через неё	⛴️ The ferry is at the lab entrance. You can enter the island only through the lab
+🛡️ Барьер! На чужой остров можно пройти только через лабораторию	🛡️ Barrier! You can enter someone else's island only through its laboratory
+🛡️ Закрытая плитой лаборатория запечатана: посторонние не могут войти внутрь, а значит, не могут попасть и на ваш остров (вокруг него постоянный барьер, путь только через лабораторию). Когда она открывается по таймеру, войти могут все: это главная механика и её нельзя отключить.	🛡️ A lab closed with the plate is sealed: strangers can't get inside, so they can't reach your island either (it has a permanent barrier, the only way in is through the lab). When it opens on the timer, anyone can enter: this is the core mechanic and can't be disabled.
+🛡️ Лаборатория закрыта — войти нельзя	🛡️ The lab is closed — you can't enter

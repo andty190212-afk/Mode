@@ -353,16 +353,22 @@ local train = Mock.request(alice, "TrainStaff", { uid = cookNpc.uid })
 check(train.ok and cookNpc.level == 2, "train NPC to level 2", train.err)
 check(Mock.request(alice, "SetWage", { uid = cookNpc.uid, mult = 1.3 }).ok and cookNpc.wageMult == 1.3, "set wage")
 
-section("Visiting (island barrier removed in 2.1)")
-check(not Mock.request(alice, "SetBarrier", { on = true }).ok, "the island barrier no longer exists")
+section("Permanent island barrier: strangers enter only through the lab")
+check(not Mock.request(alice, "SetBarrier", { on = true }).ok, "the old on/off barrier switch no longer exists")
 local dave = Mock.addPlayer("Dave")
 Mock.advance(2)
 dave.Character.HumanoidRootPart.CFrame = CFrame.new(island.center + Vector3.new(10, 3, 10))
 Mock.advance(1)
 local dpos = dave.Character.HumanoidRootPart.Position
-check((Vector3.new(dpos.X, 0, dpos.Z) - Vector3.new(island.center.X, 0, island.center.Z)).Magnitude < 30, "strangers may walk on any island")
+check((Vector3.new(dpos.X, 0, dpos.Z) - Vector3.new(island.center.X, 0, island.center.Z)).Magnitude > 185, "a stranger who didn't come through the lab is sent back out")
 Services.DataService.get(dave).data.money = 500
-check(Mock.request(dave, "Visit", { island = island.index }).ok, "anyone can visit by ferry")
+check(Mock.request(dave, "Visit", { island = island.index }).ok, "ferry works")
+dpos = dave.Character.HumanoidRootPart.Position
+check((Vector3.new(dpos.X, 0, dpos.Z) - Vector3.new(island.center.X, 0, island.center.Z)).Magnitude > 185, "ferry brings strangers to the lab entrance, not onto the island")
+bob.Character.HumanoidRootPart.CFrame = CFrame.new(island.center + Vector3.new(-10, 3, 5))
+Mock.advance(1)
+local bpos = bob.Character.HumanoidRootPart.Position
+check((Vector3.new(bpos.X, 0, bpos.Z) - Vector3.new(island.center.X, 0, island.center.Z)).Magnitude < 30, "team members walk freely")
 
 section("Helicopters")
 rest.stars = 3

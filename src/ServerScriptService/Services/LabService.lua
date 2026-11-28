@@ -898,6 +898,32 @@ local function labUnlocked(island)
 	return island.owner ~= nil and island.rest ~= nil and (island.rest.stars or 1) >= LabData.UnlockStars
 end
 
+-- used by the island barrier (BarrierService)
+function LabService.labOf(island)
+	return island and labs[island.index]
+end
+
+function LabService.isOpen(island)
+	local lab = labs[island.index]
+	return lab ~= nil and lab.state ~= "closed"
+end
+
+function LabService.isTrustedOn(player, island)
+	local lab = labs[island.index]
+	return lab ~= nil and isTrusted(player, lab)
+end
+
+function LabService.inLab(island, pos)
+	local lab = labs[island.index]
+	return lab ~= nil and insideInterior(lab, pos)
+end
+
+function LabService.entryCFrame(island)
+	local model = labModel(island.index)
+	local entry = model and model:FindFirstChild("Entry")
+	return entry and entry.CFrame * CFrame.new(0, 3, 0)
+end
+
 function LabService.setupIsland(island)
 	if not labUnlocked(island) then
 		setLabVisible(island.index, false)
@@ -1124,15 +1150,16 @@ local function fastTick()
 					end
 				end
 			end
-			local st = labSettings(lab)
-			if lab.state == "closed" and st and st.access == "private" then
+			-- a protected (closed) lab is sealed: strangers can't stay inside, so they also
+			-- can't pass through it to the island
+			if lab.state == "closed" then
 				local entry = lab.model:FindFirstChild("Entry")
 				for _, p in ipairs(Players:GetPlayers()) do
 					if not isTeam(p, lab) and not isTrusted(p, lab) then
 						local root = rootOf(p)
 						if root and entry and insideInterior(lab, root.Position) then
 							S.RestaurantService.teleport(p, entry.CFrame * CFrame.new(0, 3, 0))
-							Net.toast(p, "🛡️ Лаборатория закрыта владельцем", "warn")
+							Net.toast(p, "🛡️ Лаборатория закрыта — войти нельзя", "warn")
 						end
 					end
 				end

@@ -92,10 +92,13 @@ function CombatService.canDamage(attacker, victim)
 	if vchar:FindFirstChildOfClass("ForceField") then
 		return false
 	end
-	if CombatService.inArena(attacker) and CombatService.inArena(victim) then
-		return true
+	-- PvP everywhere (islands, labs, bridges, arena) except the sky lobby
+	local _, ar = charParts(attacker)
+	local _, vr = charParts(victim)
+	if ar.Position.Y > 120 or vr.Position.Y > 120 then
+		return false
 	end
-	return S.LabService.canFightThief(attacker, victim)
+	return true
 end
 
 -- enemies of attacker (players it may damage) within radius of a point
@@ -1713,6 +1716,10 @@ function CombatService.Start()
 		if not player:GetAttribute("BaseSpeed") then
 			player:SetAttribute("BaseSpeed", 18)
 		end
+		-- spawn protection (PvP is enabled everywhere)
+		local ff = Instance.new("ForceField")
+		ff.Parent = char
+		Debris:AddItem(ff, 5)
 		task.defer(function()
 			local p = profileOf(player)
 			watchTools(player, char)

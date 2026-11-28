@@ -227,7 +227,7 @@ local function renderIsland(c)
 		end, { size = UDim2.fromOffset(220, 40) })
 	end
 	section(c, "🗺️ Посетить другие острова")
-	UI.label(c, "Летайте на вертолёте или воспользуйтесь паромом ($" .. Config.FerryTicket .. ").", 14, { color = T.sub, auto = true })
+	UI.label(c, "Летайте на вертолёте или воспользуйтесь паромом ($" .. Config.FerryTicket .. "). На чужой остров можно пройти только через его лабораторию: паром привезёт вас к её входу.", 14, { color = T.sub, auto = true })
 	if not w then
 		return
 	end
