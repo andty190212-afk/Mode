@@ -18,7 +18,7 @@ Stars.Levels = {
 -- Требования для перехода НА уровень (ключ = новая звезда)
 Stars.Requirements = {
 	[2] = { served = 40, reputation = 55, satisfaction = 0.60, menu = 5, interior = 25, equipment = 7, cleanliness = 60, staffLevel = 2, critics = 0, fee = 1000 },
-	[3] = { served = 160, reputation = 63, satisfaction = 0.66, menu = 9, interior = 90, equipment = 12, cleanliness = 70, staffLevel = 5, critics = 0, fee = 10000 },
+	[3] = { served = 110, reputation = 63, satisfaction = 0.66, menu = 9, interior = 90, equipment = 12, cleanliness = 70, staffLevel = 5, critics = 0, fee = 10000 },
 	[4] = { served = 420, reputation = 71, satisfaction = 0.72, menu = 13, interior = 260, equipment = 20, cleanliness = 78, staffLevel = 10, critics = 1, fee = 50000 },
 	[5] = { served = 1000, reputation = 80, satisfaction = 0.79, menu = 17, interior = 650, equipment = 28, cleanliness = 85, staffLevel = 16, critics = 3, fee = 200000 },
 }
@@ -56,5 +56,9 @@ function Stars.check(nextStar, metrics)
 	end
 	return all, rows
 end
+
+-- money multiplier for every guest payment (revenue, tips, worker shares) by star level:
+-- each new star noticeably increases income
+Stars.MoneyMult = { 1.3, 2.0, 2.6, 3.2, 4.0 }
 
 return Stars

@@ -102,6 +102,22 @@ check(Mock.request(alice, "ClaimIsland", { index = 1 }).ok, "Alice claims island
 check(Mock.request(bob, "ClaimIsland", { index = 2 }).ok, "Bob claims island 2")
 Mock.advance(2)
 local aliceIsland = Rest.islandOf(alice)
+do
+	local w1 = Workspace.Map.Islands.Island1:FindFirstChild("BarrierWalls")
+	local w5 = Workspace.Map.Islands.Island5:FindFirstChild("BarrierWalls")
+	local solid1 = w1 and w1:GetChildren()[1].CanCollide
+	local solid5 = w5 and w5:GetChildren()[1].CanCollide
+	check(w1 ~= nil and #w1:GetChildren() >= 96, "solid barrier wall around the island")
+	check(solid1 == true and solid5 == false, "wall is solid on owned islands, open on free ones")
+	local gap = 0
+	for _, p in ipairs(w1:GetChildren()) do
+		local rel = Rest.islandCFrame(1):PointToObjectSpace(p.Position)
+		if rel.Z < 0 and math.abs(rel.X) < 8 then
+			gap += 1
+		end
+	end
+	check(gap == 4, "the only gap is at the lab walkway (wall below and above it)", gap)
+end
 check(Lab.Labs[1] == nil, "no lab below 3★")
 check(labsFolder.Lab1.Pods.Pod1.Transparency == 1 and labsFolder.Lab1.Floor.Transparency < 1, "lab building hidden, platform/bridge stays")
 local lockGui = labsFolder.Lab1.LockSign:FindFirstChildWhichIsA("SurfaceGui")

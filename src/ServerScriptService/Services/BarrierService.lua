@@ -66,8 +66,82 @@ local function sendToLab(player, island)
 	end
 end
 
+-- ===================== SOLID WALLS (collision groups) =====================
+local PhysicsService = game:GetService("PhysicsService")
+local groupsReady = false
+
+local function setupGroups()
+	local ok = pcall(function()
+		for i = 1, MapLayout.IslandCount do
+			local wallGroup, teamGroup = "Barrier_" .. i, "Team_" .. i
+			pcall(function()
+				PhysicsService:RegisterCollisionGroup(wallGroup)
+			end)
+			pcall(function()
+				PhysicsService:RegisterCollisionGroup(teamGroup)
+			end)
+			PhysicsService:CollisionGroupSetCollidable(wallGroup, teamGroup, false)
+		end
+	end)
+	groupsReady = ok
+end
+
+local function wallsOf(island)
+	return island.model and island.model:FindFirstChild("BarrierWalls")
+end
+
+-- walls are solid only while the island has an owner
+local function updateWalls(island)
+	local walls = wallsOf(island)
+	if not walls then
+		return
+	end
+	local solid = island.owner ~= nil
+	if walls:GetAttribute("Solid") == solid then
+		return
+	end
+	walls:SetAttribute("Solid", solid)
+	for _, p in ipairs(walls:GetChildren()) do
+		if p:IsA("BasePart") then
+			p.CanCollide = solid
+			if groupsReady then
+				pcall(function()
+					p.CollisionGroup = "Barrier_" .. island.index
+				end)
+			end
+		end
+	end
+end
+
+-- team members' characters ignore their own island's walls
+local function updateCharacterGroup(player)
+	local char = player.Character
+	if not char or not groupsReady then
+		return
+	end
+	local island = S.RestaurantService.islandOf(player)
+	local want = island and ("Team_" .. island.index) or "Default"
+	if char:GetAttribute("BarrierGroup") == want then
+		return
+	end
+	char:SetAttribute("BarrierGroup", want)
+	for _, d in ipairs(char:GetDescendants()) do
+		if d:IsA("BasePart") then
+			pcall(function()
+				d.CollisionGroup = want
+			end)
+		end
+	end
+end
+
 local function tick()
 	local now = os.clock()
+	for _, island in pairs(S.RestaurantService.Islands) do
+		updateWalls(island)
+	end
+	for _, player in ipairs(Players:GetPlayers()) do
+		updateCharacterGroup(player)
+	end
 	for _, player in ipairs(Players:GetPlayers()) do
 		local char = player.Character
 		local root = char and char:FindFirstChild("HumanoidRootPart")
@@ -101,6 +175,7 @@ local function tick()
 end
 
 function BarrierService.Start()
+	setupGroups()
 	Players.PlayerRemoving:Connect(function(p)
 		lastLab[p], inside[p], lastToast[p] = nil, nil, nil
 	end)

@@ -708,8 +708,9 @@ function GuestService.finishParty(island, party)
 	-- money: revenue to budget minus worker shares; tips
 	local shares = {}
 	local budgetPart = 0
+	local starMult = Stars.MoneyMult[rest.stars] or 1 -- more money with every star
 	for _, it in ipairs(served) do
-		local share = it.price * Config.WorkerShare
+		local share = it.price * starMult * Config.WorkerShare
 		local cookPlayer = it.cookedBy and Players:GetPlayerByUserId(it.cookedBy)
 		local waiterPlayer = it.servedBy and Players:GetPlayerByUserId(it.servedBy)
 		local cut = 0
@@ -721,7 +722,7 @@ function GuestService.finishParty(island, party)
 			shares[waiterPlayer] = (shares[waiterPlayer] or 0) + share * 0.4
 			cut += share * 0.4
 		end
-		budgetPart += it.price - cut
+		budgetPart += it.price * starMult - cut
 	end
 	budgetPart *= S.LabService.mult(island, "profit") -- бонус существ лаборатории
 	S.Economy.budgetIncome(island, budgetPart, "sale", "Гости", "Продажи")
@@ -729,7 +730,7 @@ function GuestService.finishParty(island, party)
 		S.Economy.earn(player, amount, "Работа")
 	end
 	-- tips go to the player waiter who served most items
-	local tipBase = total * party.type.tip * (0.3 + 1.4 * sat * sat) * S.LabService.mult(island, "tips")
+	local tipBase = total * party.type.tip * (0.3 + 1.4 * sat * sat) * S.LabService.mult(island, "tips") * starMult
 	local waiterCounts = {}
 	for _, it in ipairs(served) do
 		if it.servedBy and not it.selfServe then
