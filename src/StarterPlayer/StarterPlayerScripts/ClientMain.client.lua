@@ -50,6 +50,7 @@ start("Heli", Heli.init)
 start("Effects", Effects.init, Minigames, HUD)
 start("Lab", LabClient.init, Effects)
 start("Combat", CombatClient.init, Build)
+start("Admin", require(Controllers.AdminClient).init)
 
 MenusShop.onBuildSelect = function(kind, id)
 	Build.place(kind, id)

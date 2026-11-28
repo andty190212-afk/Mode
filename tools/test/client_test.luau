@@ -295,7 +295,7 @@ do
 		-- a dish cooked after the last combat push must still be listed (lab state is the source)
 		do
 			local labState = table.clone(ls.lab)
-			labState.dishes = { glow_jelly = 1 }
+			labState.dishes = { dino_burger = 1 }
 			local combatState = table.clone(ls.combat)
 			combatState.dishes = {}
 			push("combat", combatState)
@@ -319,12 +319,12 @@ do
 		UI.close("arena")
 		local LabClient = Mock.env.require(sps.Controllers.LabClient)
 		Mock.call(function()
-			Mock.env.task.spawn(LabClient.showCreatureReveal, { id = "sunphoenix", uid = "1", rarity = "Legendary", chest = "basic" })
+			Mock.env.task.spawn(LabClient.showCreatureReveal, { id = "lobstero", uid = "1", rarity = "Legendary", chest = "basic" })
 		end)
 		Mock.advance(3)
 		check(gui:FindFirstChild("RevealOverlay") ~= nil, "chest opening animation shows the creature")
 		Mock.call(function()
-			Mock.env.task.spawn(LabClient.showWeaponReveal, { id = "starfall_baton", uid = "2", rarity = "Secret", dish = "moon_mochi" })
+			Mock.env.task.spawn(LabClient.showWeaponReveal, { id = "starfall_baton", uid = "2", rarity = "Secret", dish = "star_mochi" })
 		end)
 		Mock.advance(3)
 		check(gui:FindFirstChild("RevealOverlay") ~= nil, "eating animation reveals the weapon")

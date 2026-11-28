@@ -328,6 +328,7 @@ function Economy.buildPlayerState(player)
 	end
 	return {
 		lang = d.settings and d.settings.lang or "",
+		admin = S.AdminService and S.AdminService.isAdmin(player) or false,
 		userId = player.UserId,
 		money = d.money,
 		level = d.level,

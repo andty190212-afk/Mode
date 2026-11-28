@@ -867,8 +867,8 @@ local function registerRemotes()
 
 	-- Только для Roblox Studio: ускорение теста прогрессии (на живых серверах недоступно)
 	Net.onRequest("DebugBoost", function(player)
-		if not game:GetService("RunService"):IsStudio() then
-			return fail("Недоступно")
+		if not S.AdminService.isAdmin(player) then
+			return fail("Только для админов")
 		end
 		local island = playerIsland[player]
 		if not island or island.owner ~= player then

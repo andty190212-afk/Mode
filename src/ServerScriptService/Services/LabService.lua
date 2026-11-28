@@ -668,6 +668,19 @@ local function deliver(carry, thiefIsland)
 	return newUid
 end
 
+-- admin tool: a random creature of the chosen rarity into the admin's collection
+function LabService.adminGiveCreature(player, rarity)
+	local profile = profileOf(player)
+	local pool = Creatures.ByRarity[rarity]
+	if not profile or not pool or collectionSize(profile) >= LabData.MaxCollection then
+		return nil
+	end
+	local def = pool[rng:NextInteger(1, #pool)]
+	local uid = newCreature(profile, def.id, 1)
+	LabService.push(player)
+	return { uid = uid, id = def.id, rarity = rarity, chest = "basic" }
+end
+
 function LabService.isCarrying(player)
 	return carries[player] ~= nil
 end
@@ -774,6 +787,8 @@ function LabService.trySteal(thief, lab, i)
 		Net.fx(member, "theft", { kind = "alarm", name = def.name, rarity = def.rarity, thief = thief.DisplayName, thiefId = thief.UserId })
 	end
 	Net.fx(thief, "theft", { kind = "start", name = def.name, rarity = def.rarity })
+	-- the creature cries out while being carried away (heard by everyone nearby)
+	Net.fxAll("creatureCry", { userId = thief.UserId, id = def.id, pitch = def.sound or 1 })
 	markDirty(lab)
 	return true
 end

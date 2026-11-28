@@ -497,8 +497,8 @@ local function renderDishes(c)
 	UI.label(c, "🍽️ Взрослые существа в капсулах готовят особые блюда. Съешьте блюдо — и получите случайное оружие <b>той же редкости</b>, что и существо.", 14, { auto = true, color = T.sub })
 	-- creator / Studio tools (the server checks it again)
 	local RunService = game:GetService("RunService")
-	if RunService:IsStudio() or player.UserId == game.CreatorId then
-		UI.label(c, "🛠️ Для создателя: выдать блюда моментально (обычные игроки этого не видят)", 14, { font = UI.Font, color = T.warn })
+	if RunService:IsStudio() or (State.player and State.player.admin) then
+		UI.label(c, "🛠️ Для админов: выдать блюда моментально (обычные игроки этого не видят)", 14, { font = UI.Font, color = T.warn })
 		local row = UI.row(c, 40)
 		UI.button(row, "🎁 Все 7 редкостей", T.warn, function()
 			UI.request(Net, "DevGiveDishes", { rarity = "all" }, "Выдано 7 блюд — по одному каждой редкости")
@@ -973,6 +973,40 @@ function LabClient.init(effects)
 				end
 			elseif kind == "stolen" then
 				bigAlert("😢 " .. (data.thief or "Вор") .. " украл «" .. (data.name or "") .. "»", T.bad, 4)
+			end
+		elseif name == "creatureCry" then
+			-- the stolen creature screams while being carried away (3D sound on the thief)
+			local thief = Players:GetPlayerByUserId(data.userId or 0)
+			local root = thief and thief.Character and thief.Character:FindFirstChild("HumanoidRootPart")
+			if root then
+				task.spawn(function()
+					for k = 1, 4 do
+						local snd = Instance.new("Sound")
+						snd.SoundId = Config.Sounds.CreatureCry
+						snd.Volume = 0.9
+						snd.PlaybackSpeed = (data.pitch or 1) * (0.8 + k * 0.12)
+						snd.RollOffMaxDistance = 140
+						snd.Parent = root
+						snd:Play()
+						game:GetService("Debris"):AddItem(snd, 2)
+						task.wait(0.22)
+					end
+				end)
+				local head = thief.Character:FindFirstChild("Head")
+				if head then
+					local bb = Instance.new("BillboardGui")
+					bb.Size = UDim2.fromOffset(70, 50)
+					bb.StudsOffset = Vector3.new(2.5, 3, 0)
+					bb.AlwaysOnTop = true
+					local l = Instance.new("TextLabel")
+					l.Size = UDim2.fromScale(1, 1)
+					l.BackgroundTransparency = 1
+					l.TextScaled = true
+					l.Text = "😱"
+					l.Parent = bb
+					bb.Parent = head
+					game:GetService("Debris"):AddItem(bb, 2.5)
+				end
 			end
 		elseif name == "dishReady" then
 			local d = Creatures.DishById[data.dish]

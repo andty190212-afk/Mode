@@ -92,8 +92,8 @@ end
 
 -- Только для Roblox Studio: сразу выбрать уровень ресторана 1..5 (без условий и взноса)
 function RatingService.debugSetStars(player, stars)
-	if not game:GetService("RunService"):IsStudio() then
-		return { ok = false, err = "Доступно только в Roblox Studio" }
+	if not S.AdminService.isAdmin(player) then
+		return { ok = false, err = "Только для админов" }
 	end
 	local island = S.RestaurantService.islandOf(player)
 	if not island or island.owner ~= player then

@@ -1469,8 +1469,8 @@ local function registerRemotes()
 	-- creator / Studio only: instantly give special dishes (for testing weapons)
 	Net.setRate("DevGiveDishes", 2, 3)
 	Net.onRequest("DevGiveDishes", function(player, payload)
-		if not CombatService.isCreator(player) then
-			return fail("Только для создателя игры")
+		if not S.AdminService.isAdmin(player) then
+			return fail("Только для админов")
 		end
 		local p = profileOf(player)
 		if not p then

@@ -163,9 +163,24 @@ local function migrate(data)
 	if #data.restaurant.furniture == 0 and (data.restaurant.stats.served or 0) == 0 then
 		newRestaurantLayout(data.restaurant)
 	end
+	-- 3.0: creatures were replaced -> map old creature/dish ids to new ones of the same rarity
+	local Creatures = require(Shared.Data.Creatures)
+	for _, rec in pairs(data.creatures or {}) do
+		if Creatures.Legacy[rec.id] then
+			rec.id = Creatures.Legacy[rec.id]
+		end
+	end
+	for oldId, n in pairs(table.clone(data.dishes or {})) do
+		local newId = Creatures.LegacyDish[oldId]
+		if newId then
+			data.dishes[oldId] = nil
+			data.dishes[newId] = (data.dishes[newId] or 0) + n
+		end
+	end
 	data.schema = DataService.SCHEMA
 	return data
 end
+DataService.migrateForTest = migrate
 
 local function retry(fn, attempts)
 	local lastErr

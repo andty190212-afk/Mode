@@ -161,11 +161,11 @@ local function renderRestaurant(c, win)
 				UI.request(Net, "ReleaseIsland", {}, "Ресторан сохранён и закрыт")
 			end, { size = UDim2.fromOffset(170, 38), textSize = 14 })
 		end
-		if isOwner and State.player and State.player.passes and State.player.passes.studio then
-			UI.button(c, "🧪 Studio: ускорить тест (+100 гостей, +$250k, репутация)", T.purple, function()
+		if isOwner and State.player and ((State.player.passes and State.player.passes.studio) or State.player.admin) then
+			UI.button(c, "🛡️ Админ: ускорить (+100 гостей, +$250k, репутация)", T.purple, function()
 				UI.request(Net, "DebugBoost", {}, "Тестовые показатели добавлены")
 			end, { size = UDim2.fromOffset(460, 36), textSize = 13 })
-			UI.label(c, "🧪 Studio: выбрать уровень ресторана (сразу, без условий и взноса)", 14, { color = T.purple })
+			UI.label(c, "🛡️ Админ: выбрать уровень ресторана (сразу, без условий и взноса)", 14, { color = T.purple })
 			local starRow = UI.row(c, 42)
 			for n = 1, 5 do
 				UI.button(starRow, string.rep("★", n), n == r.stars and T.gold or T.purple, function()

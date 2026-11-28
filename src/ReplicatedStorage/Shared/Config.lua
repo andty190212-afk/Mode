@@ -6,7 +6,7 @@
 local Config = {}
 
 Config.GameName = "Restaurant Island Tycoon"
-Config.Version = "2.5.3"
+Config.Version = "3.0.0"
 
 -- ===================== MONETIZATION =====================
 Config.GamePasses = {
@@ -177,6 +177,8 @@ Config.Sounds = {
 	Swing = "rbxasset://sounds/swordslash.wav",
 	Hit = "rbxasset://sounds/swordlunge.wav",
 	Ability = "rbxasset://sounds/button.wav",
+	-- крик существа, когда его крадут (лучше вписать свой звук из Creator Store: "rbxassetid://ID")
+	CreatureCry = "rbxasset://sounds/button.wav",
 }
 
 return Config

@@ -48,132 +48,81 @@ Creatures.Caps = {
 	growth = 50, dishes = 50, xp = 40, reputation = 3, luck = 40, guard = 60, alarm = 10,
 }
 
+-- 30 original meme-style food creatures (absurd "Italian" names), 7 rarities
+local function C(id, name, rarity, anim, sound, desc, ab, ab2, dish)
+	return { id = id, name = name, rarity = rarity, anim = anim, sound = sound, desc = desc, ability = ab, ability2 = ab2, dish = dish }
+end
+local function A(kind, value)
+	return { kind = kind, value = value }
+end
+local function D(id, name, icon)
+	return { id = id, name = name, icon = icon }
+end
+
 Creatures.List = {
-	-- ===== COMMON =====
-	{ id = "glowslug", name = "Светослизень", rarity = "Common", anim = "crawl", sound = 0.8,
-		desc = "Мягкий слизень, светящийся в темноте. Оставляет сладкий след.",
-		ability = { kind = "profit", value = 3 }, ability2 = { kind = "dishes", value = 6 },
-		dish = { id = "glow_jelly", name = "Светящееся желе", icon = "🟢" } },
-	{ id = "crumbcrab", name = "Крошкокраб", rarity = "Common", anim = "hop", sound = 1.2,
-		desc = "Краб с панцирем из хрустящей булки. Обожает хлебные крошки.",
-		ability = { kind = "tips", value = 4 }, ability2 = { kind = "ingredients", value = 1 },
-		dish = { id = "crumb_toast", name = "Тост Крошкокраба", icon = "🍞" } },
-	{ id = "puffshroom", name = "Пыхогриб", rarity = "Common", anim = "wobble", sound = 1.0,
-		desc = "Ходячий гриб, который пыхает облачками ароматных спор.",
-		ability = { kind = "growth", value = 5 }, ability2 = { kind = "xp", value = 4 },
-		dish = { id = "spore_soup", name = "Споровый суп", icon = "🍄" } },
-	{ id = "pebblemole", name = "Камнекрот", rarity = "Common", anim = "hop", sound = 0.7,
-		desc = "Крот с кристаллом на спине. Выкапывает продукты из-под земли.",
-		ability = { kind = "ingredients", value = 1 }, ability2 = { kind = "guard", value = 8 },
-		dish = { id = "crystal_fries", name = "Кристальная картошка", icon = "🥔" } },
+	-- ===== COMMON (6) =====
+	C("burgerosauro", "Бургерозавро Гриллини", "Common", "hop", 0.8, "Динозавр из бургера. Рычит котлетой и машет листиком салата.", A("profit", 3), A("dishes", 6), D("dino_burger", "Динобургер", "🍔")),
+	C("tostero", "Тостеро Кошкарини", "Common", "wobble", 1.3, "Кот-тостер. Когда радуется — из него выпрыгивают тосты.", A("tips", 4), A("xp", 4), D("cat_toast", "Кото-тост", "🍞")),
+	C("pelmenino", "Пельменини Ниндзяччо", "Common", "hop", 1.4, "Пельмень-ниндзя. Бесшумно прячется в тарелке.", A("service", 4), A("guard", 8), D("ninja_dumplings", "Пельмени-сюрикены", "🥟")),
+	C("sosiskino", "Сосискино Роллерини", "Common", "crawl", 1.2, "Сосиска на роликах с полосой горчицы. Самая быстрая на острове.", A("guests", 3), A("tips", 4), D("roller_hotdog", "Хот-дог на колёсах", "🌭")),
+	C("kartofello", "Картофелло Ворчуни", "Common", "wobble", 0.7, "Ворчливая картошка в берете и с усами. Ворчит, но работает.", A("ingredients", 1), A("growth", 5), D("grumpy_mash", "Пюре ворчуна", "🥔")),
+	C("kapustino", "Капустино Барабанни", "Common", "spin", 1.0, "Кочан-барабанщик. Стучит ритм для всей кухни.", A("growth", 5), A("reputation", 0.2), D("drum_borscht", "Барабанный борщ", "🥬")),
 
-	-- ===== UNCOMMON =====
-	{ id = "jellybell", name = "Медузвон", rarity = "Uncommon", anim = "float", sound = 1.4,
-		desc = "Медуза-колокольчик. Её звон ускоряет официантов.",
-		ability = { kind = "service", value = 5 }, ability2 = { kind = "tips", value = 5 },
-		dish = { id = "bell_pudding", name = "Пудинг-колокольчик", icon = "🍮" } },
-	{ id = "pepperimp", name = "Перчёный бесёнок", rarity = "Uncommon", anim = "hop", sound = 1.3,
-		desc = "Озорной бесёнок с рожками-перчиками. Подогревает плиты.",
-		ability = { kind = "cook", value = 5 }, ability2 = { kind = "profit", value = 4 },
-		dish = { id = "imp_chili", name = "Адский чили", icon = "🌶️" } },
-	{ id = "cloudpup", name = "Облачный щенок", rarity = "Uncommon", anim = "float", sound = 1.6,
-		desc = "Пушистый щенок из облака. Гости не могут пройти мимо.",
-		ability = { kind = "guests", value = 4 }, ability2 = { kind = "reputation", value = 0.3 },
-		dish = { id = "cloud_cake", name = "Облачный бисквит", icon = "☁️" } },
-	{ id = "clockbeetle", name = "Часовой жук", rarity = "Uncommon", anim = "crawl", sound = 0.9,
-		desc = "Заводной жук с шестерёнками. Всё вокруг него тикает быстрее.",
-		ability = { kind = "dishes", value = 8 }, ability2 = { kind = "growth", value = 6 },
-		dish = { id = "gear_cookies", name = "Печенье-шестерёнки", icon = "⚙️" } },
+	-- ===== UNCOMMON (5) =====
+	C("arbuzino", "Арбузино Слонелли", "Uncommon", "hop", 0.6, "Слон из арбуза. Хоботом раздаёт гостям семечки.", A("guests", 4), A("profit", 4), D("melon_sorbet", "Слоновий арбузный сорбет", "🍉")),
+	C("spagettino", "Спагеттино Осьминоччи", "Uncommon", "float", 1.0, "Осьминог-тефтелька с щупальцами из спагетти. Варит восемь блюд сразу.", A("cook", 5), A("dishes", 8), D("eight_arm_pasta", "Паста восьми рук", "🍝")),
+	C("chaynikus", "Чайникус Драконелло", "Uncommon", "flap", 1.2, "Дракон-чайник. Пыхтит паром и свистит, когда рядом вор.", A("service", 5), A("alarm", 4), D("dragon_tea", "Драконий чай", "🫖")),
+	C("ponchikko", "Пончикко Космонавти", "Uncommon", "float", 1.5, "Пончик-космонавт в шлеме и с ракетным ранцем.", A("xp", 6), A("luck", 3), D("cosmo_donut", "Космо-пончик", "🍩")),
+	C("limonchello", "Лимончелло Скейтерини", "Uncommon", "crawl", 1.6, "Лимон-скейтер в тёмных очках. Самый крутой фрукт.", A("tips", 6), A("service", 4), D("skater_lemonade", "Лимонад скейтера", "🍋")),
 
-	-- ===== RARE =====
-	{ id = "lanternfox", name = "Фонарный лис", rarity = "Rare", anim = "hop", sound = 1.1,
-		desc = "Лис с фонариком на хвосте. Приводит щедрых гостей.",
-		ability = { kind = "tips", value = 8 }, ability2 = { kind = "luck", value = 4 },
-		dish = { id = "lantern_ramen", name = "Рамен фонарного лиса", icon = "🍜" } },
-	{ id = "coralgolem", name = "Коралловый голем", rarity = "Rare", anim = "wobble", sound = 0.6,
-		desc = "Тяжёлый страж из живых кораллов. Мешает ворам.",
-		ability = { kind = "guard", value = 12 }, ability2 = { kind = "ingredients", value = 2 },
-		dish = { id = "coral_sushi", name = "Коралловые суши", icon = "🍣" } },
-	{ id = "mushowl", name = "Грибосова", rarity = "Rare", anim = "flap", sound = 1.0,
-		desc = "Мудрая сова со шляпкой гриба. Учит всех вокруг.",
-		ability = { kind = "xp", value = 10 }, ability2 = { kind = "synergy", value = 6 },
-		dish = { id = "owl_pie", name = "Пирог мудрости", icon = "🥧" } },
-	{ id = "bubbledrake", name = "Пузырчатый дракончик", rarity = "Rare", anim = "float", sound = 1.5,
-		desc = "Маленький дракон, выдыхающий мыльные пузыри.",
-		ability = { kind = "service", value = 8 }, ability2 = { kind = "cook", value = 6 },
-		dish = { id = "bubble_tea", name = "Драконий бабл-ти", icon = "🧋" } },
+	-- ===== RARE (5) =====
+	C("sushino", "Сушино Самурайчи", "Rare", "hop", 0.9, "Ролл-самурай в доспехах из лосося с катаной-палочкой.", A("guard", 12), A("cook", 6), D("samurai_roll", "Самурайский ролл", "🍣")),
+	C("pitstsagatto", "Пиццагатто Диджеини", "Rare", "wobble", 1.1, "Кот-пицца в наушниках. Ставит музыку — гости танцуют.", A("guests", 7), A("synergy", 5), D("party_pizza", "Пицца-вечеринка", "🍕")),
+	C("morozhenello", "Мороженелло Пингвини", "Rare", "hop", 1.4, "Пингвин из рожка мороженого. Никогда не тает.", A("dishes", 10), A("growth", 8), D("penguin_icecream", "Пингвиний пломбир", "🍦")),
+	C("krevetto", "Креветто Боксини", "Rare", "hop", 1.0, "Креветка-боксёр в перчатках. Отправляет воров в нокаут.", A("alarm", 6), A("profit", 6), D("knockout_shrimp", "Креветки нокаут", "🍤")),
+	C("kofeino", "Кофеино Совиньоли", "Rare", "flap", 1.2, "Сова-чашка кофе. Не спит никогда и учит всех вокруг.", A("xp", 10), A("service", 6), D("owl_espresso", "Совиный эспрессо", "☕")),
 
-	-- ===== EPIC =====
-	{ id = "magmatoad", name = "Магможаба", rarity = "Epic", anim = "hop", sound = 0.5,
-		desc = "Жаба с лавой внутри. На её спине можно жарить стейки.",
-		ability = { kind = "cook", value = 9 }, ability2 = { kind = "alarm", value = 10 },
-		dish = { id = "lava_steak", name = "Лавовый стейк", icon = "🥩" } },
-	{ id = "prismstag", name = "Призменный олень", rarity = "Epic", anim = "wobble", sound = 1.2,
-		desc = "Олень с рогами из радужного стекла. Приносит удачу.",
-		ability = { kind = "luck", value = 6 }, ability2 = { kind = "profit", value = 6 },
-		dish = { id = "prism_parfait", name = "Радужное парфе", icon = "🌈" } },
-	{ id = "nebulamoth", name = "Туманная моль", rarity = "Epic", anim = "flap", sound = 1.7,
-		desc = "Мотылёк с крыльями-галактиками. Усиливает соседей.",
-		ability = { kind = "synergy", value = 8 }, ability2 = { kind = "dishes", value = 10 },
-		dish = { id = "nebula_macaron", name = "Галактические макаруны", icon = "🌌" } },
-	{ id = "thunderhog", name = "Громоёж", rarity = "Epic", anim = "spin", sound = 0.9,
-		desc = "Ёж с иголками-молниями. Бьёт током любого вора.",
-		ability = { kind = "alarm", value = 15 }, ability2 = { kind = "guests", value = 6 },
-		dish = { id = "thunder_pops", name = "Громовой попкорн", icon = "⚡" } },
+	-- ===== EPIC (4) =====
+	C("tortello", "Тортелло Бегемотти", "Epic", "wobble", 0.5, "Бегемот-торт со свечками на спине. Каждый день — праздник.", A("profit", 9), A("reputation", 0.5), D("hippo_cake", "Бегемотский торт", "🎂")),
+	C("perchello", "Перчелло Вулканини", "Epic", "spin", 0.8, "Перец-вулкан. Извергает острую лаву прямо на плиты.", A("cook", 9), A("alarm", 6), D("volcano_chili", "Вулканический чили", "🌶️")),
+	C("bagettino", "Багеттино Рыцарелли", "Epic", "hop", 0.9, "Рыцарь-багет со щитом-круассаном. Защищает лабораторию.", A("guard", 18), A("tips", 8), D("knight_sandwich", "Рыцарский сэндвич", "🥖")),
+	C("meduzino", "Медузино Желатини", "Epic", "float", 1.6, "Медуза из фруктового желе. Дрожит и светится.", A("synergy", 8), A("dishes", 12), D("jelly_medusa", "Желе-медуза", "🍮")),
 
-	-- ===== LEGENDARY =====
-	{ id = "sunphoenix", name = "Солнечный феникс", rarity = "Legendary", anim = "flap", sound = 1.3,
-		desc = "Птица из солнечного пламени. Ресторан сияет от её света.",
-		ability = { kind = "profit", value = 10 }, ability2 = { kind = "reputation", value = 0.6 },
-		dish = { id = "phoenix_wings", name = "Крылышки феникса", icon = "🔥" } },
-	{ id = "tidekraken", name = "Кракен прилива", rarity = "Legendary", anim = "float", sound = 0.6,
-		desc = "Карликовый кракен. Щупальцами таскает продукты из океана.",
-		ability = { kind = "ingredients", value = 3 }, ability2 = { kind = "tips", value = 10 },
-		dish = { id = "kraken_paella", name = "Паэлья кракена", icon = "🦑" } },
-	{ id = "crystalwyrm", name = "Кристальный змей", rarity = "Legendary", anim = "crawl", sound = 0.8,
-		desc = "Змей из живого кристалла. Его сияние ускоряет рост.",
-		ability = { kind = "growth", value = 15 }, ability2 = { kind = "luck", value = 6 },
-		dish = { id = "wyrm_candy", name = "Кристальный леденец", icon = "💎" } },
-	{ id = "luckycat", name = "Кот удачи Манэ", rarity = "Legendary", anim = "wobble", sound = 1.4,
-		desc = "Золотой кот, машущий лапкой. Гости идут к нему толпами.",
-		ability = { kind = "guests", value = 10 }, ability2 = { kind = "synergy", value = 8 },
-		dish = { id = "golden_dumplings", name = "Золотые пельмени", icon = "🥟" } },
+	-- ===== LEGENDARY (4) =====
+	C("lobstero", "Лобстеро Императоре", "Legendary", "crawl", 0.7, "Лобстер-император в короне и мантии. Правит всеми кухнями.", A("profit", 11), A("guests", 8), D("emperor_lobster", "Императорский лобстер", "🦞")),
+	C("blinchello", "Блинчелло Башнери", "Legendary", "wobble", 0.9, "Великан из стопки блинов с короной из масла и сиропом.", A("ingredients", 3), A("growth", 14), D("pancake_tower", "Башня блинов", "🥞")),
+	C("ramento", "Раменто Драконини", "Legendary", "float", 1.1, "Дракон из лапши, вылетающий из миски рамена.", A("cook", 13), A("xp", 12), D("dragon_ramen", "Драконий рамен", "🍜")),
+	C("formaggio", "Формаджо Лунаре", "Legendary", "float", 1.4, "Мышь-луна из сыра. Приносит удачу по ночам.", A("luck", 7), A("synergy", 8), D("moon_cheese", "Лунный сыр", "🧀")),
 
-	-- ===== MYTHICAL =====
-	{ id = "voidwhale", name = "Кит Пустоты", rarity = "Mythical", anim = "float", sound = 0.4,
-		desc = "Парящий кит из звёздной пустоты. Его песня усиливает всех.",
-		ability = { kind = "synergy", value = 14 }, ability2 = { kind = "guard", value = 20 },
-		dish = { id = "void_caviar", name = "Икра Пустоты", icon = "🫧" } },
-	{ id = "astroqilin", name = "Звёздный цилинь", rarity = "Mythical", anim = "hop", sound = 1.1,
-		desc = "Небесный зверь с гривой из звёзд. Притягивает удачу.",
-		ability = { kind = "luck", value = 10 }, ability2 = { kind = "xp", value = 15 },
-		dish = { id = "star_noodles", name = "Звёздная лапша", icon = "✨" } },
-	{ id = "chronoturtle", name = "Хроночерепаха", rarity = "Mythical", anim = "crawl", sound = 0.5,
-		desc = "Черепаха с часами на панцире. Замедляет время для себя и ускоряет для кухни.",
-		ability = { kind = "dishes", value = 20 }, ability2 = { kind = "growth", value = 15 },
-		dish = { id = "time_tart", name = "Тарт вечности", icon = "⏳" } },
-	{ id = "emberseraph", name = "Пламенный серафим", rarity = "Mythical", anim = "flap", sound = 1.5,
-		desc = "Шестикрылый дух огня. Плиты горят ярче в его присутствии.",
-		ability = { kind = "cook", value = 14 }, ability2 = { kind = "profit", value = 8 },
-		dish = { id = "seraph_souffle", name = "Огненное суфле", icon = "🕯️" } },
+	-- ===== MYTHICAL (3) =====
+	C("takotitan", "Такотитан Галактико", "Mythical", "float", 0.5, "Титан-тако с начинкой из галактик и планетами вокруг.", A("synergy", 14), A("guard", 20), D("galaxy_taco", "Галактическое тако", "🌮")),
+	C("fenikssone", "Фениксоне Фламбе", "Mythical", "flap", 1.3, "Феникс из пылающего крем-брюле. Возрождается из десерта.", A("profit", 13), A("reputation", 0.8), D("flambe_fire", "Огненное фламбе", "🔥")),
+	C("krakenetti", "Кракенетти Карбонара", "Mythical", "float", 0.6, "Кракен из пасты карбонара. Утаскивает продукты из глубин.", A("cook", 15), A("ingredients", 4), D("abyss_carbonara", "Карбонара бездны", "🦑")),
 
-	-- ===== SECRET =====
-	{ id = "glitchling", name = "Глитчик", rarity = "Secret", anim = "spin", sound = 2.0,
-		desc = "Существо-ошибка из другой реальности. Ломает шансы в вашу пользу.",
-		ability = { kind = "luck", value = 14 }, ability2 = { kind = "alarm", value = 20 },
-		dish = { id = "glitch_bytes", name = "Пиксельные кусочки", icon = "👾" } },
-	{ id = "chefbeast", name = "Шеф-Чудище", rarity = "Secret", anim = "wobble", sound = 0.6,
-		desc = "Огромное чудище в поварском колпаке. Лучший повар островов.",
-		ability = { kind = "cook", value = 18 }, ability2 = { kind = "tips", value = 15 },
-		dish = { id = "beast_feast", name = "Пир Чудища", icon = "🍖" } },
-	{ id = "moonsquid", name = "Лунный кальмар", rarity = "Secret", anim = "float", sound = 0.7,
-		desc = "Светящийся кальмар с луны. О ресторане говорят на всех островах.",
-		ability = { kind = "reputation", value = 1 }, ability2 = { kind = "synergy", value = 12 },
-		dish = { id = "moon_mochi", name = "Лунные моти", icon = "🌙" } },
-	{ id = "hydrabloom", name = "Гидра-цветок", rarity = "Secret", anim = "wobble", sound = 1.0,
-		desc = "Трёхглавый цветочный змей. Каждая голова приносит прибыль.",
-		ability = { kind = "profit", value = 15 }, ability2 = { kind = "guests", value = 10 },
-		dish = { id = "hydra_salad", name = "Салат трёх голов", icon = "🥗" } },
+	-- ===== SECRET (3) =====
+	C("shefissimo", "Шефиссимо Супремо", "Secret", "wobble", 0.6, "Четырёхрукий золотой шеф-гигант. Лучший повар всех миров.", A("cook", 18), A("tips", 15), D("supremo_feast", "Пир Шефиссимо", "🍖")),
+	C("glitchetto", "Глитчетто Пиццелли", "Secret", "spin", 2.0, "Пицца-призрак-ошибка из другого измерения. Ломает шансы.", A("luck", 14), A("alarm", 10), D("glitch_pizza", "Глитч-пицца", "👾")),
+	C("lunamoti", "Лунамоти Кавайни", "Secret", "float", 1.5, "Лунный дух-моти с ушками кролика. О ресторане говорят все острова.", A("reputation", 1), A("synergy", 12), D("star_mochi", "Звёздные моти", "🍡")),
+}
+
+-- old creature ids (before 3.0) -> new ids of the same rarity (save migration)
+Creatures.Legacy = {
+	glowslug = "burgerosauro", crumbcrab = "tostero", puffshroom = "pelmenino", pebblemole = "kartofello",
+	jellybell = "arbuzino", pepperimp = "spagettino", cloudpup = "chaynikus", clockbeetle = "ponchikko",
+	lanternfox = "sushino", coralgolem = "pitstsagatto", mushowl = "morozhenello", bubbledrake = "kofeino",
+	magmatoad = "tortello", prismstag = "perchello", nebulamoth = "bagettino", thunderhog = "meduzino",
+	sunphoenix = "lobstero", tidekraken = "blinchello", crystalwyrm = "ramento", luckycat = "formaggio",
+	voidwhale = "takotitan", astroqilin = "fenikssone", chronoturtle = "krakenetti", emberseraph = "takotitan",
+	glitchling = "glitchetto", chefbeast = "shefissimo", moonsquid = "lunamoti", hydrabloom = "shefissimo",
+}
+Creatures.LegacyDish = {
+	glow_jelly = "dino_burger", crumb_toast = "cat_toast", spore_soup = "ninja_dumplings", crystal_fries = "grumpy_mash",
+	bell_pudding = "melon_sorbet", imp_chili = "eight_arm_pasta", cloud_cake = "dragon_tea", gear_cookies = "cosmo_donut",
+	lantern_ramen = "samurai_roll", coral_sushi = "party_pizza", owl_pie = "penguin_icecream", bubble_tea = "owl_espresso",
+	lava_steak = "hippo_cake", prism_parfait = "volcano_chili", nebula_macaron = "knight_sandwich", thunder_pops = "jelly_medusa",
+	phoenix_wings = "emperor_lobster", kraken_paella = "pancake_tower", wyrm_candy = "dragon_ramen", golden_dumplings = "moon_cheese",
+	void_caviar = "galaxy_taco", star_noodles = "flambe_fire", time_tart = "abyss_carbonara", seraph_souffle = "galaxy_taco",
+	glitch_bytes = "glitch_pizza", beast_feast = "supremo_feast", moon_mochi = "star_mochi", hydra_salad = "supremo_feast",
 }
 
 Creatures.ById = {}

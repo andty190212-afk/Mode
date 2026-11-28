@@ -578,6 +578,35 @@ end
 check(okAll, "all " .. #Weapons.List .. " abilities activate once and respect their cooldown")
 check(#Mock.errors == errs0, "no runtime errors from abilities", Mock.errors[errs0 + 1])
 
+section("Admin panel and save migration")
+do
+	local AdminS = Services.AdminService
+	check(AdminS.isAdmin(bob), "in Studio (mock) every player is admin")
+	local m0 = pb.data.money
+	check(Mock.request(bob, "AdminGiveMoney", { amount = 5000 }).ok and pb.data.money == m0 + 5000, "admin gives money")
+	local g = Mock.request(bob, "AdminGiveCreature", { rarity = "Secret" })
+	check(g.ok and Creatures.ById[g.id] and Creatures.ById[g.id].rarity == "Secret", "admin gives a creature of the chosen rarity")
+	check(Mock.request(bob, "AdminAddAdmin", { name = "Carol" }).ok, "head admin grants admin rights by name")
+	local st = Mock.request(bob, "AdminState", {})
+	local found = false
+	for _, a in ipairs(st.state.admins or {}) do
+		if a.name == "Carol" then
+			found = true
+		end
+	end
+	check(found, "Carol is in the admin list")
+	check(Mock.request(bob, "AdminRemoveAdmin", { userId = carol.UserId }).ok, "head admin removes admin rights")
+	-- old saves: creature/dish ids from before 3.0 are mapped to the new creatures
+	local DataS2 = Services.DataService
+	local fake = DataS2.defaultData()
+	fake.creatures = { ["1"] = { id = "sunphoenix", lvl = 3, grow = 10, pod = 0, dish = 0 } }
+	fake.dishes = { glow_jelly = 2 }
+	local migrated = DataS2.migrateForTest and DataS2.migrateForTest(fake)
+	if migrated then
+		check(migrated.creatures["1"].id == "lobstero" and migrated.dishes.dino_burger == 2, "old creatures/dishes migrated to the new ones")
+	end
+end
+
 section("Exploits")
 check(not Mock.request(carol, "UpgradeLab").ok, "non-owner can't upgrade a lab")
 check(not Mock.request(carol, "LabSettings", { access = "private" }).ok, "non-owner can't change lab settings")
@@ -588,7 +617,7 @@ check(not Mock.request(carol, "EquipWeapon", { uid = "1" }).ok, "can't equip a w
 do
 	local fs = require("@lune/fs")
 	local serde = require("@lune/serde")
-	pb.data.dishes = { glow_jelly = 2, phoenix_wings = 1, hydra_salad = 1 }
+	pb.data.dishes = { dino_burger = 2, emperor_lobster = 1, supremo_feast = 1 }
 	local dump = { lab = Lab.buildState(bob), combat = Combat.buildState(bob), arena = Mock.lastPush(bob, "arena") }
 	fs.writeFile("build/lab_states.json", serde.encode("json", dump, true))
 end

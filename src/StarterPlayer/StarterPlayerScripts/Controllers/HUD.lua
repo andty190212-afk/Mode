@@ -28,6 +28,7 @@ local MENU = {
 	{ id = "weapons", icon = "🗡️", text = "Оружие" },
 	{ id = "arena", icon = "⚔️", text = "Арена" },
 	{ id = "settings", icon = "⚙️", text = "Настройки" },
+	{ id = "admin", icon = "🛡️", text = "Админ" },
 	{ id = "shop", icon = "🛒", text = "Продукты", key = Enum.KeyCode.Five },
 	{ id = "upgrades", icon = "⚙️", text = "Улучшения", key = Enum.KeyCode.Six },
 	{ id = "build", icon = "🔨", text = "Стройка", key = Enum.KeyCode.B },
@@ -114,12 +115,22 @@ function HUD.build()
 			LayoutOrder = i,
 			Parent = side,
 		})
+		b.Name = "Menu_" .. m.id
+		if m.id == "admin" then
+			b.Visible = false -- shown only to admins (see below)
+		end
 		UI.corner(b, 12)
 		UI.label(b, m.icon, 24, { align = Enum.TextXAlignment.Center, sizeUDim = UDim2.new(1, 0, 0, 34) }).Position = UDim2.fromOffset(0, 4)
 		UI.label(b, m.text, 11, { align = Enum.TextXAlignment.Center, font = UI.Font, sizeUDim = UDim2.new(1, 0, 0, 18), color = T.sub }).Position = UDim2.fromOffset(0, 40)
 		b.Activated:Connect(function()
 			UI.click()
-			if m.id == "team" and State.myIsland() == 0 then
+			if m.id == "admin" then
+				if UI.isOpen("admin") then
+					UI.close("admin")
+				else
+					require(script.Parent.AdminClient).open()
+				end
+			elseif m.id == "team" and State.myIsland() == 0 then
 				UI.toggle("lobby")
 			elseif m.id == "weapons" then
 				-- weapons & special dishes live in the lab window
@@ -134,6 +145,16 @@ function HUD.build()
 			end
 		end)
 	end
+
+	-- the admin button appears only for admins
+	State.Changed:Connect(function(key)
+		if key == "player" then
+			local btn = side:FindFirstChild("Menu_admin")
+			if btn then
+				btn.Visible = State.player ~= nil and State.player.admin == true
+			end
+		end
+	end)
 
 	-- language switch (RU / EN)
 	local Localizer = require(script.Parent.Localizer)
