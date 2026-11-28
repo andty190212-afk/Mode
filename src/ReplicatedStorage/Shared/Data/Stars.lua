@@ -5,7 +5,7 @@ local Stars = {}
 Stars.Levels = {
 	[1] = { name = "Дешёвая забегаловка", maxGuestsSeats = 8, spawnMult = 0.35, maxParty = 2, guestBudget = 1.0, staffSlots = 2,
 		desc = "Маленькое помещение, простая кухня, обычные посетители." },
-	[2] = { name = "Небольшое кафе", maxGuestsSeats = 12, spawnMult = 0.45, maxParty = 3, guestBudget = 1.6, staffSlots = 3,
+	[2] = { name = "Небольшое кафе", maxGuestsSeats = 14, spawnMult = 0.6, maxParty = 3, guestBudget = 1.6, staffSlots = 3,
 		desc = "Красивее интерьер, новые столы и блюда, гости богаче." },
 	[3] = { name = "Хороший ресторан", maxGuestsSeats = 18, spawnMult = 0.65, maxParty = 3, guestBudget = 2.6, staffSlots = 4,
 		desc = "Просторный зал, профессиональная кухня, вертолёты." },
@@ -18,7 +18,7 @@ Stars.Levels = {
 -- Требования для перехода НА уровень (ключ = новая звезда)
 Stars.Requirements = {
 	[2] = { served = 40, reputation = 55, satisfaction = 0.60, menu = 5, interior = 25, equipment = 7, cleanliness = 60, staffLevel = 2, critics = 0, fee = 1000 },
-	[3] = { served = 110, reputation = 63, satisfaction = 0.66, menu = 9, interior = 90, equipment = 12, cleanliness = 70, staffLevel = 5, critics = 0, fee = 10000 },
+	[3] = { served = 110, reputation = 63, satisfaction = 0.66, menu = 9, interior = 90, equipment = 12, cleanliness = 70, staffLevel = 5, critics = 0, fee = 5000 },
 	[4] = { served = 420, reputation = 71, satisfaction = 0.72, menu = 13, interior = 260, equipment = 20, cleanliness = 78, staffLevel = 10, critics = 1, fee = 50000 },
 	[5] = { served = 1000, reputation = 80, satisfaction = 0.79, menu = 17, interior = 650, equipment = 28, cleanliness = 85, staffLevel = 16, critics = 3, fee = 200000 },
 }
