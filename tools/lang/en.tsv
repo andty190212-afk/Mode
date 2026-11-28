@@ -1,0 +1,1708 @@
+# Russian<TAB>English. Regenerate the game module with: python3 tools/lang/gen.py
+! Бонус $	! Bonus $
+! Выберите профессию в меню «Профессии».	! Choose a profession in the «Professions» menu.
+! Откройте свой ресторан на свободном острове или присоединитесь к другу.	! Open your own restaurant on a free island or join a friend.
+(день	(day
+(лимит растёт с рейтингом). Зарплата списывается из бюджета каждую минуту.	(the limit grows with your rating). Wages are paid from the budget every minute.
+(не в сети)	(offline)
+(продукты	(ingredients
+(сейчас	(now
+(ур.	(lvl
+) будет восстановлен на выбранном острове.	) will be restored on the selected island.
+) • Мотивация	) • Motivation
+), чтобы выбрать	) to choose
+). Закрытые барьером острова недоступны.	). Islands closed by a barrier are unavailable.
+). Улучшите склад.	). Upgrade your storage.
++10% к качеству блюд	+10% dish quality
++25% гостей во всех ресторанах	+25% guests in all restaurants
++80 мест на складе/ур.	+80 storage slots/lvl
+, осталось	, left
+. Максимальный уровень оборудования = количество звёзд ресторана.	. Max equipment level = your restaurant's star count.
+. Очки = выручка за раунд + репутация + красота острова.	. Score = round revenue + reputation + island beauty.
+... и ещё	... and
+/мин (x	/min (x
+/шт • качество	/pc • quality
+: уровень	: level
+DJ-пульт	DJ booth
+Game Pass ещё не настроен разработчиком (Config.GamePasses.	Game Pass is not set up by the developer yet (Config.GamePasses.
+Game Pass не настроен (Config.GamePasses.	Game Pass is not set up (Config.GamePasses.
+NPC-бармен	NPC bartender
+NPC-официант	NPC waiter
+NPC-повар	NPC cook
+NPC-повар готовит вместо вас	An NPC cook cooks instead of you
+NPC-повар готовит за вас, фирменные рецепты, +10% качества.	An NPC cook cooks for you, signature recipes, +10% quality.
+VIP-визит	VIP visit
+VIP-гостей	VIP guests
+VIP-гостей:	VIP guests:
+VIP-гость	VIP guest
+VIP-зона	VIP area
+· товаров настроено:	· products configured:
+» закрыт защитным барьером	» is closed by a protective barrier
+» куплен! Профессия разблокирована навсегда.	» purchased! Profession unlocked forever.
+» откроется на	» unlocks at
+» по двойной цене! (4 мин)	» at double price! (4 min)
+» получил	» received
+». Выберите свободную профессию.	». Choose a free profession.
+Аквариум	Aquarium
+Алекс	Alex
+Алиса	Alice
+Английский завтрак	English breakfast
+Анна	Anna
+Аня	Anya
+Апельсиновый сок	Orange juice
+Апельсины	Oranges
+Артём	Artyom
+Атмосфера	Atmosphere
+Ахмед	Ahmed
+Бамбук в горшке	Potted bamboo
+Бананы	Bananas
+Баранина	Lamb
+Бармен Лео	Bartender Leo
+Бармен года	Bartender of the year
+Бармен уже работает в ресторане бесплатно	The bartender already works in the restaurant for free
+Барное оборудование	Bar equipment
+Барные	Bar
+Барные стулья	Bar stools
+Бархатный диван	Velvet sofa
+Барьер	Barrier
+Барьер ВКЛЮЧЁН	Barrier ON
+Барьер выключен	Barrier off
+Барьером управляет владелец острова.	The barrier is controlled by the island owner.
+Барьером управляет только владелец	Only the owner controls the barrier
+Бассейн (можно плавать)	Pool (swimmable)
+Бекон	Bacon
+Белый костюм	White suit
+Беседка	Gazebo
+Бесплатно, работает всегда	Free, always working
+Билет на паром стоит $	A ferry ticket costs $
+Блинчики	Pancakes
+Блюд и напитков в меню	Dishes and drinks on the menu
+Богатый интерьер, VIP-гости и большие чаевые.	Rich interior, VIP guests and big tips.
+Больше не приду.	I won't come back.
+Больше чаевых, VIP-клиенты	More tips, VIP clients
+Бруно	Bruno
+Булочки	Buns
+Бумажный фонарь	Paper lantern
+Бургеры	Burgers
+Быстрая уборка, чистота (+15%/ур.)	Fast cleaning, cleanliness (+15%/lvl)
+Быстрее жарка и варка (+8%/ур.)	Faster frying and boiling (+8%/lvl)
+Быстрее подготовка (+6%/ур.)	Faster prep (+6%/lvl)
+Быстрый и устойчивый.	Fast and stable.
+Бюджет:	Budget:
+В меню ✓	On menu ✓
+В процессе	In progress
+В ресторане 4 уникальные должности. Одну должность может занимать только один игрок. Сначала выбирает владелец, затем приглашённый друг.	The restaurant has 4 unique roles. Each role can be taken by only one player. The owner picks first, then the invited friend.
+В ресторане уже 2 игрока	The restaurant already has 2 players
+В этом ресторане нет свободного места	There is no free spot in this restaurant
+Ваза с цветами	Flower vase
+Ваниль	Vanilla
+Ванильный крем-брюле	Vanilla crème brûlée
+Варка	Boiling
+Ваша профессия:	Your profession:
+Ваши данные ещё используются другим сервером. Перезайдите через минуту.	Your data is still being used by another server. Rejoin in a minute.
+Вера	Vera
+Версия игры	Game version
+Вертолёт	Helicopter
+Вертолёт «	Helicopter «
+Вертолёт ждёт на площадке. Сядьте в кресло пилота!	The helicopter is waiting on the pad. Take the pilot seat!
+Вертолётная площадка	Helipad
+Вертолёты	Helicopters
+Вертолёты открываются на	Helicopters unlock at
+Ветряная мельница	Windmill
+Вечернее платье	Evening dress
+Взнос за повышение	Upgrade fee
+Витрина напитков	Drinks display
+Витрина с десертами	Dessert display
+Витрина с наградами	Trophy case
+Вклад	Contribution
+Вклад в ресторан	Contribution to the restaurant
+Включайте блюда и задавайте наценку. Высокая цена = больше прибыли, но меньше заказов и ниже удовлетворённость.	Enable dishes and set a markup. Higher price = more profit, but fewer orders and lower satisfaction.
+Включить барьер	Turn barrier on
+Владелец ещё не выбрал профессию	The owner hasn't chosen a profession yet
+Владелец закрыл остров барьером	The owner closed the island with a barrier
+Владелец закрыл ресторан.	The owner closed the restaurant.
+Владелец отклонил ваш запрос	The owner declined your request
+Владелец покинул ресторан. Вы перенесены в зал ожидания.	The owner left the restaurant. You were moved to the lobby.
+Владелец удалил вас из команды.	The owner removed you from the team.
+Вместе веселее	More fun together
+Внести	Deposit
+Возврат	Refund
+Восхитительно! Обязательно вернусь.	Delicious! I'll definitely come back.
+Время в игре:	Time in game:
+Все острова заняты. Попросите владельца пригласить вас или подождите.	All islands are taken. Ask an owner to invite you or wait.
+Всего заработано:	Total earned:
+Вы не в ресторане	You are not in a restaurant
+Вы не в ресторане.	You are not in a restaurant.
+Вы не владелец	You are not the owner
+Вы не участник команды	You are not a team member
+Вы пока не в ресторане.	You are not in a restaurant yet.
+Вы покинули ресторан.	You left the restaurant.
+Вы уже в ресторане	You are already in a restaurant
+Вы уже готовите	You are already cooking
+Вы уже состоите в ресторане	You are already a member of a restaurant
+Выбор острова	Choose an island
+Выбрано:	Selected:
+Выбрать	Choose
+Вывести (−10%)	Withdraw (−10%)
+Вывод	Withdrawal
+Вывод владельцем	Owner withdrawal
+Вывод из ресторана	Withdraw from restaurant
+Выводить деньги может только владелец	Only the owner can withdraw money
+Выключено	Off
+Выключить	Turn off
+Выпечка	Baking
+Выпечка лучше (+4% качества/ур.)	Better baking (+4% quality/lvl)
+Выполните все условия	Complete all requirements
+Выручка:	Revenue:
+Высокий столик	High table
+ГОТОВО	DONE
+Газированная вода	Sparkling water
+Гамак	Hammock
+Гирлянда	Garland
+Говядина	Beef
+Горсть монет	Handful of coins
+Горячий какао	Hot cocoa
+Горячий сэндвич с сыром	Grilled cheese sandwich
+Горячий чай	Hot tea
+Гостей в 2 раза больше на 2 минуты.	Twice as many guests for 2 minutes.
+Гостеприимство	Hospitality
+Гости	Guests
+Гость	Guest
+Гость хочет особое блюдо за двойную цену.	A guest wants a special dish at double price.
+Готовить блюда может только повар	Only the cook can cook dishes
+Готовить заказ	Cook order
+Готовка	Cooking
+Грета	Greta
+Грибной крем-суп	Cream of mushroom soup
+Группа пальм	Palm cluster
+Грязные столы, не понравилось.	Dirty tables, didn't like it.
+Д	D
+ДЕРЖАТЬ	HOLD
+ДОСТАТЬ	TAKE OUT
+Даниил	Daniel
+Данные ещё загружаются	Data is still loading
+Дегустационный сет шефа	Chef's tasting set
+Декор	Decor
+Декоративный мостик	Decorative bridge
+Декораций на острове:	Decorations on the island:
+Деньги внесены в бюджет	Money deposited to the budget
+Деревянный настил	Wooden deck
+Деревянный стол на 4	Wooden table for 4
+Деревянный столик на 2	Wooden table for 2
+Десерт «Дракон»	«Dragon» dessert
+Десерты	Desserts
+Дешёвая забегаловка	Cheap diner
+Джакузи	Hot tub
+Диваны	Sofas
+Дизайнер острова	Island designer
+Директор	Director
+Директор ресторана	Restaurant director
+Для избранных	For the chosen few
+Для напитков	For drinks
+Дневной лимит трат друга: $	Friend's daily spending limit: $
+Добро пожаловать в	Welcome to
+Должность уже занята	This role is already taken
+Дорогие	Premium
+Дорожки	Paths
+Достигнут лимит предметов	Item limit reached
+Достижение	Achievement
+Достижения	Achievements
+Доступно только в Roblox Studio	Available only in Roblox Studio
+Друг: может тратить ✓	Friend: can spend ✓
+Друг: не может тратить	Friend: can't spend
+Другие игроки могут прилетать, посещать ресторан и покупать еду.	Other players can fly in, visit the restaurant and buy food.
+Духовка	Oven
+Ева	Eva
+Еда	Food
+Еда была холодной.	The food was cold.
+Ежедневная награда	Daily reward
+Жарка	Frying
+Жемчужная Бухта	Pearl Bay
+З/П +	Wage +
+З/П −	Wage −
+За столом гости — подождите	Guests at the table — wait
+Забрать	Collect
+Забрать $	Collect $
+Забрать блюда	Pick up dishes
+Заварка	Brewing
+Завтра	Tomorrow
+Завтраки	Breakfasts
+Загрузка островов...	Loading islands...
+Задание	Quest
+Задание ещё не выполнено	The quest is not completed yet
+Задание не найдено	Quest not found
+Задания	Quests
+Заказ отменён	Order canceled
+Заказов нет	No orders
+Закрыть ресторан	Close restaurant
+Закупает продукты и сам готовит блюда в мини-играх. Качество зависит от вашей точности.	Buys ingredients and cooks dishes in mini-games. Quality depends on your accuracy.
+Закупите	Buy
+Закуплено	Purchased
+Занято:	Taken:
+Занять	Take
+Запретить	Forbid
+Запрос не найден	Request not found
+Запрос отправлен владельцу	Request sent to the owner
+Заработайте $	Earn $
+Заработок x2 (2 часа)	Earnings x2 (2 hours)
+Заработок x2 (30 мин)	Earnings x2 (30 min)
+Заработок x3 (30 мин)	Earnings x3 (30 min)
+Зарплата	Wage
+Зарплаты	Wages
+Зарплаты и контроль расходов	Wages and expense control
+Защитный барьер	Protective barrier
+Звезда гастрономии	Gastronomy star
+Звезду нельзя купить — нужно выполнить все условия, после чего оплатить взнос из бюджета.	A star can't be bought — complete all requirements, then pay the fee from the budget.
+Здесь лестница на второй этаж	The stairs to the second floor are here
+Здесь место для ресторана и дорожки к причалу	This space is for the restaurant and the path to the pier
+Золотая статуя	Golden statue
+Золотой латте	Golden latte
+Золотой шоколадный торт	Golden chocolate cake
+Зоя	Zoya
+ИДЕАЛЬНО!	PERFECT!
+Иван	Ivan
+Игровой автомат	Arcade machine
+Игрок не на сервере	The player is not on the server
+Игрок не найден	Player not found
+Изумрудный Берег	Emerald Shore
+Имбирное печенье	Gingerbread cookies
+Инспекция	Inspection
+Интерьер	Interior
+К вам направляется важный гость.	An important guest is heading your way.
+Кабинка с диванами	Sofa booth
+Кактусы	Cacti
+Каменная плитка	Stone tiles
+Камин	Fireplace
+Камни	Stones
+Капучино	Cappuccino
+Карамель	Caramel
+Карамельный фраппе	Caramel frappe
+Каре ягнёнка	Rack of lamb
+Карлос	Carlos
+Карри «Феникс»	«Phoenix» curry
+Картина на мольберте	Easel painting
+Картофель	Potatoes
+Картофель фри	French fries
+Качели	Swings
+Качество:	Quality:
+Кетчуп	Ketchup
+Ким	Kim
+Кирилл	Kirill
+Классический бургер	Classic burger
+Клубника	Strawberries
+Клубничный милкшейк	Strawberry milkshake
+Клубничный торт	Strawberry cake
+Клумба	Flower bed
+Книжный шкаф	Bookshelf
+Коктейль «Тропический закат»	«Tropical Sunset» cocktail
+Коктейльное платье	Cocktail dress
+Колесо обозрения	Ferris wheel
+Коллекционер мебели	Furniture collector
+Команда	Team
+Команда и приглашения	Team and invites
+Комнатное растение	Houseplant
+Комнатный фонтан	Indoor fountain
+Конкурс	Contest
+Корица	Cinnamon
+Королевский стол на 6	Royal table for 6
+Костёр	Campfire
+Кофе	Coffee
+Кофейные зёрна	Coffee beans
+Кофемашина	Coffee machine
+Красивее интерьер, новые столы и блюда, гости богаче.	Nicer interior, new tables and dishes, richer guests.
+Красивый интерьер и вкусная еда.	Beautiful interior and tasty food.
+Красный ковёр	Red carpet
+Красота интерьера и острова	Interior and island beauty
+Креветки	Shrimp
+Кресло	Armchair
+Критик	Critic
+Круглый стол на 4	Round table for 4
+Круизёр	Cruiser
+Купить	Buy
+Купить и поставить	Buy and place
+Купить обед ($	Buy lunch ($
+Куриные наггетсы	Chicken nuggets
+Курица	Chicken
+Куст	Bush
+Кухонный боец	Kitchen fighter
+Кухонный робот	Kitchen robot
+Лагуна Заката	Sunset Lagoon
+Лаунж-диван	Lounge sofa
+Лев	Leo
+Легенда сервиса	Service legend
+Лесные ягоды	Wild berries
+Летайте на вертолёте или воспользуйтесь паромом ($	Fly by helicopter or take the ferry ($
+Летнее платье	Summer dress
+Летний смузи	Summer smoothie
+Лиза	Liza
+Лимонад	Lemonade
+Лимоны	Lemons
+Лиственное дерево	Leafy tree
+Лодка	Boat
+Лосось	Salmon
+Лосось с картофелем	Salmon with potatoes
+Лосось терияки	Teriyaki salmon
+Лук	Onion
+Лука	Luca
+Лучшее блюдо на островах!	The best dish on the islands!
+Лучший ресторан сервера	Best restaurant on the server
+Лючия	Lucia
+Лёгкий и манёвренный.	Light and agile.
+Лёд	Ice
+Магазин Robux	Robux Shop
+Магазин продуктов	Grocery shop
+Макс	Max
+Максимальный уровень	Max level
+Максимальный уровень — Мастер	Max level — Master
+Максимум	Max
+Максимум 20 игроков в списке	Max 20 players in the list
+Максимум сотрудников для	Max staff for
+Маленькое помещение, простая кухня, обычные посетители.	Small room, simple kitchen, ordinary visitors.
+Мама	Mom
+Манго	Mango
+Манго-смузи	Mango smoothie
+Мария	Maria
+Марк	Mark
+Марко	Marco
+Мастер	Master
+Мастер плиты	Stove master
+Маяк	Lighthouse
+Мебель	Furniture
+Мебель ставится внутри зала. Столы = места для гостей.	Furniture is placed inside the dining hall. Tables = seats for guests.
+Меню и цены	Menu and prices
+Меню управляет владелец или директор	The menu is managed by the owner or director
+Меню управляет владелец или директор.	The menu is managed by the owner or director.
+Меню, цены, статистика	Menu, prices, statistics
+Место друга уже занято	The friend spot is already taken
+Место занято другим предметом	The spot is taken by another item
+Мешок монет	Bag of coins
+Мила	Mila
+Миллионер	Millionaire
+Мимо...	Miss...
+Мини-игры: нарезка, жарка, варка, выпечка, сборка, украшение	Mini-games: slicing, frying, boiling, baking, assembly, decoration
+Мия	Mia
+Множитель заработка x	Earnings multiplier x
+Модель вертолёта не найдена	Helicopter model not found
+Молоко	Milk
+Молочное	Dairy
+Мороженое	Ice cream
+Морозильник	Freezer
+Морское ассорти шефа	Chef's seafood platter
+Мохито (безалкогольный)	Mojito (non-alcoholic)
+Моя статистика	My stats
+Мраморная говядина вагю	Marbled wagyu beef
+Мраморная дорожка	Marble path
+Мраморный стол	Marble table
+Музыкальный автомат	Jukebox
+Мука	Flour
+Мука и тесто	Flour and dough
+Мясо	Meat
+Мята	Mint
+НАЖАТЬ	PRESS
+На кухне работает ваш NPC-повар. Вы управляете кухней и открываете фирменные блюда.	Your NPC cook works in the kitchen. You manage the kitchen and unlock signature dishes.
+На раздаче нет готовых блюд	There are no ready dishes at the pass
+Награда уже получена	Reward already claimed
+Награда уже получена сегодня	Reward already claimed today
+Награды	Rewards
+Нажмите на предмет (	Click an item (
+Название обновлено	Name updated
+Название: от 3 до 28 символов	Name: 3 to 28 characters
+Найм NPC-персонала, зарплаты, полный контроль ресторана.	Hire NPC staff, wages, full control of the restaurant.
+Найм и обучение NPC (5 уровней)	Hire and train NPCs (5 levels)
+Найм:	Hiring:
+Налить	Pour
+Нанимает NPC-поваров, официантов и барменов, назначает зарплаты, управляет меню и ценами.	Hires NPC cooks, waiters and bartenders, sets wages, manages the menu and prices.
+Нанимать и управлять персоналом может игрок с профессией «Директор ресторана».	Hiring and managing staff is done by the player with the «Restaurant director» profession.
+Нанимать персонал может только директор ресторана	Only the restaurant director can hire staff
+Нанят сотрудник:	Staff hired:
+Нанять	Hire
+Напитки	Drinks
+Напитки быстрее и лучше (+6%/ур.)	Faster and better drinks (+6%/lvl)
+Напитки готовят повар или официант (или NPC-бармен)	Drinks are made by the cook or waiter (or the NPC bartender)
+Напитков:	Drinks:
+Напольные часы	Grandfather clock
+Нарезка	Slicing
+Настоящий ресторан	A real restaurant
+Не выполнено:	Not completed:
+Не удалось загрузить данные	Failed to load data
+Небольшое кафе	Small café
+Неверный результат	Invalid result
+Неверный сеанс	Invalid session
+Недостаточно бюджета на взнос	Not enough budget for the fee
+Недостаточно денег	Not enough money
+Недостаточно денег в бюджете ресторана	Not enough money in the restaurant budget
+Недостаточно денег в бюджете ресторана ($	Not enough money in the restaurant budget ($
+Недостаточно личных денег	Not enough personal money
+Недостаточно средств	Insufficient funds
+Недоступно	Unavailable
+Неизвестный предмет	Unknown item
+Некорректная позиция	Invalid position
+Некорректная покупка	Invalid purchase
+Некорректная профессия	Invalid profession
+Некорректная сумма	Invalid amount
+Некорректное имя	Invalid name
+Некорректные данные	Invalid data
+Некорректный игрок	Invalid player
+Некорректный остров	Invalid island
+Некорректный поворот	Invalid rotation
+Нельзя загораживать вход	You can't block the entrance
+Неоновая вывеска	Neon sign
+Неплохо	Not bad
+Неплохо, но есть куда расти.	Not bad, but there's room to grow.
+Нет активной готовки	No active cooking
+Нет заказов на кухне	No orders in the kitchen
+Нет заказов напитков	No drink orders
+Нет игроков без ресторана. Владельцы других ресторанов не могут вступить в ваш (у каждого свой).	No players without a restaurant. Owners of other restaurants can't join yours (each has their own).
+Нет прав	No permission
+Нет прав тратить бюджет ресторана	No permission to spend the restaurant budget
+Нет профессии	No profession
+Нет связи с сервером	No connection to the server
+Нет такого блюда	No such dish
+Нет такого оборудования	No such equipment
+Нет такого острова	No such island
+Нет такого товара	No such product
+Нет такой должности	No such role
+Нет такой модели	No such model
+Нет такой профессии	No such profession
+Нет участника для удаления	No member to remove
+Нечего докупать или не хватает бюджета/места	Nothing to restock or not enough budget/space
+Ника	Nika
+Новичок	Beginner
+Новое название	New name
+Нормально поели, цены адекватные.	Decent meal, fair prices.
+Носит до 4 заказов сразу	Carries up to 4 orders at once
+Нужен Game Pass «	Requires Game Pass «
+Нужен свой ресторан	You need your own restaurant
+Нужен шеф-повар	Requires a chef
+Нужно	Need
+Нужно $	Need $
+Нужно оборудование	Requires equipment
+Нужно опыта:	XP needed:
+ОГОНЬ	FIRE
+ОТБИТЬ	POUND
+Обед в ресторане	Lunch at the restaurant
+Обед гостя-игрока	Player guest's lunch
+Обед для гостей	Lunch for guests
+Обзор	Overview
+Облачное суфле	Cloud soufflé
+Оборудование	Equipment
+Обслужено гостей	Guests served
+Обслужено гостей:	Guests served:
+Обслуживать столы может только официант	Only the waiter can serve tables
+Обслужите	Serve
+Обучать может директор (шеф-повар — своего су-шефа, владелец — бармена и официанта)	The director can train (the chef trains their sous-chef, the owner trains the bartender and waiter)
+Обучение:	Training:
+Овощи	Vegetables
+Овощной салат	Vegetable salad
+Олег	Oleg
+Омар	Lobster
+Омар Термидор	Lobster Thermidor
+Омлет	Omelette
+Опыт команды (уровни профессий/персонала)	Team XP (profession/staff levels)
+Опыт:	XP:
+Опытный	Experienced
+Освещение	Lighting
+Оскар	Oscar
+Особый заказ	Special order
+Остров	Island
+Остров Бриза	Breeze Island
+Остров Кокосов	Coconut Island
+Остров Маяка	Lighthouse Island
+Остров закрыт барьером	The island is closed by a barrier
+Островная паэлья	Island paella
+Отдых	Leisure
+Отзывов пока нет — обслужите первых гостей!	No reviews yet — serve your first guests!
+Отзывы	Reviews
+Отклонить	Decline
+Откроется на	Unlocks at
+Откройте ресторан на свободном острове (меню слева → «Команда» / окно выбора)	Open a restaurant on a free island (menu on the left → «Team» / selection window)
+Открывает кофейные напитки	Unlocks coffee drinks
+Отлично!	Excellent!
+Отличный сервис и быстрая подача.	Great service and fast serving.
+Отменить	Cancel
+Официант	Waiter
+Официант Мила	Waiter Mila
+Очень долго ждали заказ...	We waited for the order way too long...
+Очень долго ждали, ушли голодными.	We waited way too long and left hungry.
+Ошибка	Error
+Ошибка сервера	Server error
+ПК: R — поворот, ЛКМ — поставить, Q/Esc — выход	PC: R — rotate, LMB — place, Q/Esc — exit
+Павлова с манго	Mango pavlova
+Пальма	Palm tree
+Пальма в кадке	Potted palm
+Папа	Dad
+Парковка	Parking
+Паром	Ferry
+Паста	Pasta
+Паста песто	Pesto pasta
+Паста с креветками	Shrimp pasta
+Паста с трюфелем	Truffle pasta
+Первое блюдо	First dish
+Переименовать	Rename
+Переименовать может только владелец	Only the owner can rename
+Перец	Pepper
+Персонал	Staff
+Персонала пока нет.	No staff yet.
+Песто	Pesto
+Пилот	Pilot
+Питахайя	Dragon fruit
+Пицца	Pizza
+Пицца Маргарита	Pizza Margherita
+Пицца с перцем и грибами	Pepper and mushroom pizza
+Пищевое золото	Edible gold
+Плита	Stove
+Плита 5 ур. → кухонный робот готовит за вас	Stove lvl 5 → a kitchen robot cooks for you
+Пляжный волейбол	Beach volleyball
+Пляжный зонт	Beach umbrella
+Повар	Cook
+Повар — настоящий волшебник!	The cook is a real wizard!
+Повысить рейтинг может владелец.	The owner can raise the rating.
+Повышать рейтинг может только владелец	Only the owner can raise the rating
+Повышение до	Upgrade to
+Повышение рейтинга	Rating upgrade
+Подать блюда	Serve dishes
+Подготовка мяса	Meat prep
+Подождите пару секунд	Wait a couple of seconds
+Подойдите к бару	Go to the bar
+Подойдите к кухне	Go to the kitchen
+Подсвечник	Candlestick
+Покинуть ресторан	Leave restaurant
+Покупка:	Purchase:
+Полина	Polina
+Поло и очки	Polo and sunglasses
+Получено	Received
+Получено:	Received:
+Получите $	Get $
+Помидоры	Tomatoes
+Попросить вступить	Ask to join
+Порадуйте	Please
+Посетитель	Visitor
+Постройте вертолётную площадку (Строительство → Остров → Транспорт)	Build a helipad (Build → Island → Transport)
+Посудомоечная машина	Dishwasher
+Предмет должен стоять внутри зала ресторана	The item must be inside the restaurant's dining hall
+Предмет не найден	Item not found
+Премиальные	Premium
+Премиальный ресторан	Premium restaurant
+Премиум-класс	Premium class
+Премия критика	Critic's award
+Прибыль:	Profit:
+Пригласить	Invite
+Приглашать может только владелец	Only the owner can invite
+Приглашение недействительно	The invite is no longer valid
+Приглашение отправлено	Invite sent
+Приготовить напиток	Make drink
+Приготовлено блюд:	Dishes cooked:
+Приготовьте	Cook
+Приезжает критик	A critic is coming
+Признание критиков	Critics' recognition
+Примите	Accept
+Принимает заказы, разносит блюда и напитки, убирает столы и получает чаевые.	Takes orders, delivers dishes and drinks, clears tables and earns tips.
+Принято заказов:	Orders taken:
+Принять	Accept
+Принять заказ	Take order
+Природа	Nature
+Проверка пройдена	Inspection passed
+Проверка чистоты: награда или штраф.	Cleanliness inspection: reward or fine.
+Продажа:	Sale:
+Продажи	Sales
+Продано блюд:	Dishes sold:
+Продано, возврат	Sold, refund
+Продукты	Ingredients
+Продукты на 30% дешевле 3 минуты.	Ingredients 30% cheaper for 3 minutes.
+Пройдено критиков:	Critics passed:
+Пройдено проверок критиков	Critic inspections passed
+Прокачка NPC-повара	NPC cook upgrades
+Просторный зал, профессиональная кухня, вертолёты.	Spacious hall, professional kitchen, helicopters.
+Профессии	Professions
+Профессионал	Professional
+Профессиональный отзыв: великолепная кухня и сервис. Рекомендую!	Professional review: magnificent cuisine and service. Recommended!
+Профессиональный отзыв: разочарование. Кухне и залу есть над чем работать.	Professional review: disappointing. The kitchen and dining hall have work to do.
+Профессия:	Profession:
+Пруд с рыбками	Koi pond
+Пьер	Pierre
+РЕЗАТЬ	SLICE
+Работа	Work
+Работник	Worker
+Рабочие поверхности	Work surfaces
+Разместите	Place
+Размещено предметов:	Items placed:
+Разносить блюда может только официант	Only the waiter can deliver dishes
+Разрешить	Allow
+Распродажа у поставщика	Supplier sale
+Растения	Plants
+Расходы:	Expenses:
+Расширить	Expand
+Редкие	Rare
+Редкий рецепт не открыт	Rare recipe not unlocked
+Рейтинг ★	Rating ★
+Репутация	Reputation
+Ресторан	Restaurant
+Ресторан больше недоступен	The restaurant is no longer available
+Ресторан не найден	Restaurant not found
+Ресторан сохранён и закрыт	Restaurant saved and closed
+Ресторанный критик	Restaurant critic
+Ресторанный критик уже в пути. Не подведите!	A restaurant critic is on the way. Don't let us down!
+Ризотто с шафраном	Saffron risotto
+Рис	Rice
+Рита	Rita
+Робот	Robot
+Робот работает на кухне	The robot works in the kitchen
+Робот уже на кухне!	The robot is already in the kitchen!
+Робот уже работает на кухне	The robot already works in the kitchen
+Робот уже работает на максимуме	The robot is already at maximum
+Розовый сад	Rose garden
+Роскошный и самый быстрый.	Luxurious and the fastest.
+Роскошь, редкие рецепты, критики и огромная прибыль.	Luxury, rare recipes, critics and huge profit.
+Роял	Grand piano
+Рояль	Grand piano
+Рубашка и пиджак	Shirt and jacket
+Руки заняты (макс.	Hands are full (max
+Рыба	Fish
+Рыбные блюда	Fish dishes
+СТОП	STOP
+Сад с живой изгородью	Hedge garden
+Салат-латук	Lettuce
+Салаты	Salads
+Сам улучшает плиту и кухню	Upgrades the stove and kitchen
+Санитарная проверка	Health inspection
+Сара	Sara
+Сахар	Sugar
+Сборка	Assembly
+Свежие продукты (+3% качества/ур.)	Fresh ingredients (+3% quality/lvl)
+Свежие травы	Fresh herbs
+Свободный остров	Free island
+Сезонное блюдо	Seasonal dish
+Сезонный продукт	Seasonal ingredient
+Секретный рецепт	Secret recipe
+Семейный стол	Family table
+Семья	Family
+Сервис	Service
+Сесть за штурвал	Take the helm
+Синий костюм	Blue suit
+Скалистый Риф	Rocky Reef
+Скамейка	Bench
+Скаут	Scout
+Склад заполнен (	Storage is full (
+Склад и закупка	Storage and purchasing
+Склад максимального уровня	Max level storage
+Склад ур.	Storage lvl
+Скорость	Speed
+Скорость передвижения растёт с уровнем	Movement speed grows with level
+Следующий уровень откроется на	The next level unlocks at
+Следующий уровень:	Next level:
+Сливки	Cream
+Сливочное масло	Butter
+Слишком дорого за такое качество.	Too expensive for this quality.
+Слишком часто. Подождите.	Too often. Please wait.
+Смокинг	Tuxedo
+Смотровая башня	Watch tower
+Сначала выберите предмет	Select an item first
+Сначала выберите свою профессию	Choose your profession first
+Сначала выберите свою профессию — после этого можно приглашать.	Choose your profession first — then you can invite.
+Сначала купите вертолёт	Buy a helicopter first
+Сначала откройте ресторан	Open a restaurant first
+Сначала откройте ресторан или вступите в команду	Open a restaurant or join a team first
+Сначала откройте ресторан или вступите в команду.	Open a restaurant or join a team first.
+Сначала улучшите плиту до	First upgrade the stove to
+Событие	Event
+События:	Events:
+Соевый соус	Soy sauce
+Сокровищница	Treasury
+Соль и перец	Salt and pepper
+Сооружения	Structures
+Соревнования	Competitions
+Состоятельный гость	Wealthy guest
+Сотня тысяч	A hundred thousand
+Сотрудник не найден	Staff member not found
+Сотрудники:	Staff:
+Соусы	Sauces
+Софья	Sofia
+Спагетти Болоньезе	Spaghetti Bolognese
+Специи	Spices
+Спортивный стиль	Sporty style
+Средне. Ждали немного долго.	Average. We waited a bit long.
+Средняя оценка:	Average rating:
+Средняя удовлетворённость	Average satisfaction
+Старый моряк поделился редким рецептом!	An old sailor shared a rare recipe!
+Статистика	Stats
+Статуя	Statue
+Стейк из вагю	Wagyu steak
+Стейк рибай	Ribeye steak
+Стейки	Steaks
+Стойка с досками для серфинга	Surfboard rack
+Стол для пикника	Picnic table
+Стол свободен	Table is free
+Стол-веранда с зонтом	Patio table with umbrella
+Столик бистро	Bistro table
+Столы	Tables
+Строительство	Build
+Строить может владелец (или друг с разрешением владельца)	The owner can build (or a friend with the owner's permission)
+Стройка	Construction
+Студент	Student
+Студент с рюкзаком	Student with backpack
+Студентка	Student
+Су-шеф	Sous-chef
+Сумма	Amount
+Сундук монет	Chest of coins
+Супы	Soups
+Суши-сет	Sushi set
+Сыр	Cheese
+Сэм	Sam
+Сюда нельзя	You can't place it here
+Сёрф-энд-тёрф	Surf and turf
+ТРЯСТИ	SHAKE
+Такой объект может быть только один	There can be only one such object
+Тартар из тунца	Tuna tartare
+Телевизор на стойке	TV on a stand
+Терраса	Terrace
+Тесто для пиццы	Pizza dough
+Тестовые показатели добавлены	Test stats added
+Тики-бар	Tiki bar
+Тики-факел	Tiki torch
+Тимур	Timur
+Тирамису	Tiramisu
+Товар ещё не настроен (в этой версии игры ID = 0). Опубликуйте версию с ID: File → Publish to Roblox	Product is not set up yet (ID = 0 in this game version). Publish the version with IDs: File → Publish to Roblox
+Только в пределах вашего острова	Only within your island
+Только владелец	Owner only
+Только директор	Director only
+Томатный соус	Tomato sauce
+Томатный суп	Tomato soup
+Торшер	Floor lamp
+Транспорт	Transport
+Трюфель	Truffle
+Тунец	Tuna
+Турист	Tourist
+Турист в панаме	Tourist in a panama hat
+Тыква	Pumpkin
+Тыквенный суп	Pumpkin soup
+У вас нет блюд для этого стола. Заберите их на раздаче.	You have no dishes for this table. Pick them up at the pass.
+У вас уже 5 звёзд!	You already have 5 stars!
+У острова нет владельца	The island has no owner
+УКРАСИТЬ	DECORATE
+Уберите	Clear
+Уборка	Cleaning
+Убрано столов:	Tables cleared:
+Убрать вертолёт	Remove helicopter
+Убрать стол	Clear table
+Уволить	Fire
+Удалить из команды	Remove from team
+Украшайте свой остров (только в его пределах).	Decorate your island (only within its borders).
+Украшение	Decoration
+Улучшение	Upgrade
+Улучшения	Upgrades
+Улучшения и рейтинг	Upgrades and rating
+Улучшите плиту до 5 уровня (нужен ресторан ★5)	Upgrade the stove to level 5 (requires a ★5 restaurant)
+Улучшить	Upgrade
+Управление: W/S — вперёд/назад, A/D — поворот, Пробел — вверх, Shift/Ctrl — вниз, прыжок — выйти. На телефоне — экранные кнопки.	Controls: W/S — forward/back, A/D — turn, Space — up, Shift/Ctrl — down, jump — exit. On phones — on-screen buttons.
+Управлять лодкой	Drive the boat
+Ур.	Lvl
+Уровень	Level
+Уровень игрока:	Player level:
+Уровень от 1 до 5	Level from 1 to 5
+Уровень ресторана:	Restaurant level:
+Уровень склада	Storage level
+Уровни оборудования (сумма)	Equipment levels (total)
+Условия не выполнены	Requirements not met
+Участник удалён	Member removed
+Ушли недовольными:	Left unhappy:
+Уютная атмосфера, всё понравилось.	Cozy atmosphere, liked everything.
+Уютное кафе	Cozy café
+Фестиваль островов	Island festival
+Фикус	Ficus
+Фильтр текста недоступен, попробуйте позже	Text filter unavailable, try later
+Финансы	Finances
+Фирменные рецепты шефа	Chef's signature recipes
+Фирменный бургер шефа	Chef's signature burger
+Фламинго	Flamingo
+Фонарь	Lantern
+Фонтан	Fountain
+Фрукты	Fruits
+Футболка и джинсы	T-shirt and jeans
+Хироши	Hiroshi
+Холодильник	Fridge
+Холодный чай	Iced tea
+Хороший ресторан	Good restaurant
+Хрустальная люстра	Crystal chandelier
+Худи	Hoodie
+Цветочная арка	Flower arch
+Цветочная стена	Flower wall
+Цветочный Остров	Flower Island
+Цезарь с курицей	Chicken Caesar
+Цена	Price
+Чаевые	Tips
+Чаевые:	Tips:
+Чайные листья	Tea leaves
+Час пик!	Rush hour!
+Чистота	Cleanliness
+Чужие игроки и вертолёты не могут попасть на остров и в ресторан.	Other players and helicopters can't reach the island and restaurant.
+Чёрный костюм	Black suit
+Шампиньоны	Champignons
+Шарф и шапка	Scarf and hat
+Шафран	Saffron
+Шезлонг	Sun lounger
+Шейкер	Shaker
+Шеф	Chef
+Шеф-повар	Chef
+Шеф-повар не готовит сам: на кухне работает ваш NPC-повар	The chef doesn't cook personally: your NPC cook works in the kitchen
+Шоколад	Chocolate
+Шоколадный милкшейк	Chocolate milkshake
+Шоколадный сандей	Chocolate sundae
+Штраф за грязь	Dirt fine
+Щедрые гости	Generous guests
+Эликсир дракона	Dragon elixir
+Элита островов	Island elite
+Элитный ресторан	Elite restaurant
+Эта должность уже занята игроком	This role is already taken by a player
+Это ваш ресторан — обслуживайте гостей!	This is your restaurant — serve the guests!
+Это не ваш ресторан	This is not your restaurant
+Это чужой вертолёт	This is someone else's helicopter
+Этот остров уже занят	This island is already taken
+Юки	Yuki
+Ягодный тарт	Berry tart
+Ягодный физз	Berry fizz
+Яйца	Eggs
+Яна	Yana
+активирован на	activated for
+бесплатно	free
+блюд	dishes
+блюд за неделю	dishes per week
+в бюджет	to the budget
+в бюджете ресторана	in the restaurant budget
+гостей	guests
+гостей (отзыв 4★+)	guests (review 4★+)
+гостей за неделю	guests per week
+гостей)	guests)
+готовит	cooks
+готовит вместо повара	cooks instead of the cook
+готовит заказы вместо повара. Нужно: плита	cooks orders instead of the cook. Requires: stove
+декор острова	island decor
+доступ разрешён	access granted
+ед. за	units for
+за неделю	per week
+заказов	orders
+зовёт в «	invites to «
+и -3 репутации. Убирайте столы!	and -3 reputation. Clear the tables!
+и готовит заказы вместо повара (качество мастера, бесплатно).	and cooks orders instead of the cook (master quality, free).
+и редкий рецепт «	and a rare recipe «
+и требуют вертолётную площадку на острове (Строительство → Остров → Транспорт). Покупка — за личные деньги (	and require a helipad on the island (Build → Island → Transport). Paid with personal money (
+из	of
+или присоединитесь к другу. Развивайте заведение от ★ до ★★★★★!	or join a friend. Grow your place from ★ to ★★★★★!
+личных денег	personal money
+мебель	furniture
+место	place
+место! +$	place! +$
+мин	min
+мин!	min!
+на	at
+на личный баланс	to personal balance
+напитков	drinks
+напитков:	drinks:
+не выбрана	not chosen
+не на смене	off shift
+не сезон	out of season
+нет продуктов	no ingredients
+ожидает	waiting
+отзывов)  •  Еда	reviews)  •  Food
+отклонил приглашение	declined the invite
+очков • выручка	points • revenue
+пообедал в вашем ресторане!	had lunch at your restaurant!
+предметов	items
+приглашает вас в ресторан «	invites you to the restaurant «
+принимает заказ	takes an order
+присоединился к вашему ресторану!	joined your restaurant!
+продуктов	ingredients
+просит присоединиться к ресторану (меню «Приглашения»)	asks to join the restaurant («Invites» menu)
+разносит	delivers
+разрешил вам посещать свой остров	allowed you to visit their island
+с)	s)
+свободен	free
+себест.	cost
+столов	tables
+теперь	now
+убирает	clears
+уже состоит в ресторане	is already in a restaurant
+ур.	lvl
+ур. •	lvl •
+уровня	level
+хочет присоединиться	wants to join
+чаевых	tips
+шефа	chef
+— ожидает ответа (	— waiting for reply (
+— осталось	— left
+— свободен	— free
+— спасибо за покупку!	— thank you for your purchase!
+•  Вертолётная площадка:	•  Helipad:
+•  Красота:	•  Beauty:
+•  Общая красота:	•  Total beauty:
+• Интерьер	• Interior
+• Набор высоты	• Climb
+• Обучение:	• Training:
+• Сейчас:	• Now:
+• Сервис	• Service
+• Скорость	• Speed
+• Управляемость	• Handling
+• Цена	• Price
+• вместимость	• capacity
+• зарплаты	• wages
+• красота	• beauty
+• маржа	• margin
+• на складе:	• in storage:
+• улучшения	• upgrades
+• цена	• price
+⏳ Владелец ещё не выбрал профессию.	⏳ The owner hasn't chosen a profession yet.
+⏳ Жду столик	⏳ Waiting for a table
+⏳ Ждут еду:	⏳ Waiting for food:
+★! Новый интерьер и возможности!	★! New interior and features!
+☕ Заварка: снимите с огня в идеальный момент	☕ Brewing: take it off the heat at the perfect moment
+♨️ Выпечка: достаньте из духовки, когда корочка золотистая!	♨️ Baking: take it out of the oven when the crust is golden!
+⚙️ автобар	⚙️ auto-bar
+⚙️ автокухня	⚙️ auto-kitchen
+⚠️ Гостям нечего заказать: закупите продукты или включите блюда в меню	⚠️ Guests have nothing to order: buy ingredients or enable dishes on the menu
+⚡ Активен множитель x	⚡ Active multiplier x
+⚡ Докупить всё для меню	⚡ Restock everything for the menu
+⚡ Множитель x	⚡ Multiplier x
+⛴️ Посетить	⛴️ Visit
+✅ Задание выполнено! Заберите награду в меню «Задания»	✅ Quest completed! Claim the reward in the «Quests» menu
+✅ НА РАЗДАЧЕ:	✅ AT THE PASS:
+✅ На раздаче:	✅ At the pass:
+✅ Получено	✅ Claimed
+✅ Поставить	✅ Place
+✅ Разрешённые игроки (могут входить при включённом барьере)	✅ Allowed players (can enter while the barrier is on)
+✅ Сюда	✅ Here
+✉️ Пригласить друга	✉️ Invite a friend
+✉️ Приглашения	✉️ Invites
+✋ Переместить	✋ Move
+✋ Переместить / удалить	✋ Move / remove
+✏️ Название	✏️ Name
+✓ Ваша профессия	✓ Your profession
+✓ Выбран	✓ Selected
+✓ Куплено	✓ Purchased
+✕ Выход	✕ Exit
+✕ Выход (Q)	✕ Exit (Q)
+✕ Отмена	✕ Cancel
+⟳ Повернуть (R)	⟳ Rotate (R)
+⬆️ Новый уровень игрока:	⬆️ New player level:
+⭐ Звёзды	⭐ Stars
+⭐ Особый заказ	⭐ Special order
+⭐ Особый заказ: гости хотят «	⭐ Special order: guests want «
+⭐ Репутация:	⭐ Reputation:
+🌍 Глобальный рейтинг: заработок	🌍 Global leaderboard: earnings
+🌍 Глобальный рейтинг: звёзды ресторанов	🌍 Global leaderboard: restaurant stars
+🌟 Ваш ресторан получил	🌟 Your restaurant got
+🌟 Ваш ресторан — элитный, 5 звёзд! Поддерживайте репутацию и украшайте остров.	🌟 Your restaurant is elite, 5 stars! Keep up the reputation and decorate the island.
+🌟 Повысить до	🌟 Upgrade to
+🌟 Ресторан «	🌟 Restaurant «
+🌴 Остров	🌴 Island
+🌿 Украшение: положите украшения точно в центр (2 раза)	🌿 Decoration: place the garnish exactly in the center (2 times)
+🍔 Сборка: запомните порядок...	🍔 Assembly: memorize the order...
+🍔 Сборка: нажмите ингредиенты в том же порядке	🍔 Assembly: press the ingredients in the same order
+🍲 Варка: лопайте пузырьки, пока суп не убежал!	🍲 Boiling: pop the bubbles before the soup boils over!
+🍳 Готовить заказ	🍳 Cook order
+🍸 Шейкер: трясите! Быстро жмите кнопку / пробел	🍸 Shaker: shake it! Press the button / space quickly
+🍹 БАР	🍹 BAR
+🍹 Бармен работает всегда и бесплатно. 🧑‍💼 Если в ресторане нет официанта, бесплатный NPC-официант работает сам.	🍹 The bartender always works for free. 🧑‍💼 If the restaurant has no waiter, a free NPC waiter works on their own.
+🍹 Сделать напиток	🍹 Make a drink
+🍽️ Блюдо на раздаче!	🍽️ Dish at the pass!
+🍽️ Вкусно! +15 опыта	🍽️ Tasty! +15 XP
+🍽️ Едят:	🍽️ Eating:
+🍽️ МЕНЮ	🍽️ MENU
+🎁 Ежедневная награда	🎁 Daily reward
+🎁 Ежедневная награда: $	🎁 Daily reward: $
+🎉 Фестиваль	🎉 Festival
+🎓 Обучить	🎓 Train
+🎖️ Профессия повышена: уровень	🎖️ Profession upgraded: level
+🎖️ Уровни профессий	🎖️ Profession levels
+🎩 Директор ресторана — 100 R$	🎩 Restaurant director — 100 R$
+🎫 Game Pass (навсегда)	🎫 Game Pass (forever)
+🏃 Час пик	🏃 Rush hour
+🏆 Достижение «	🏆 Achievement «
+🏆 Конкурс «Лучший ресторан сервера» — раунд	🏆 Contest «Best restaurant on the server» — round
+🏆 Конкурс ресторанов:	🏆 Restaurant contest:
+🏝️ Выбрать остров	🏝️ Choose an island
+🏝️ Добро пожаловать на	🏝️ Welcome to
+🏝️ Открыть ресторан	🏝️ Open a restaurant
+🏝️ Открыть ресторан (любой остров)	🏝️ Open a restaurant (any island)
+🏠 Вернуться домой	🏠 Go home
+🏦 Бюджет ресторана:	🏦 Restaurant budget:
+🏦 Бюджет:	🏦 Budget:
+🏷️ Распродажа	🏷️ Sale
+🏷️ Распродажа −30%!	🏷️ Sale −30%!
+👑 VIP-гость в ресторане! Большие чаевые за отличный сервис.	👑 A VIP guest is in the restaurant! Big tips for great service.
+👑 Владелец:	👑 Owner:
+👔 Выбрать профессию	👔 Choose a profession
+👥 Вы в команде ресторана «	👥 You are on the team of restaurant «
+👥 Гостей:	👥 Guests:
+👥 Команда ресторана (максимум 2 игрока)	👥 Restaurant team (max 2 players)
+👨‍🍳 Вы шеф-повар: ваш NPC-повар (Су-шеф) готовит заказы. Обучайте его, чтобы он работал быстрее и качественнее.	👨‍🍳 You are the chef: your NPC cook (Sous-chef) cooks the orders. Train them to work faster and better.
+👨‍🍳 Су-шеф	👨‍🍳 Sous-chef
+👨‍🍳 Шеф-повар — 80 R$	👨‍🍳 Chef — 80 R$
+💰 Игровая валюта и множители	💰 Game currency and multipliers
+💰 Общий счёт ресторана	💰 Restaurant shared account
+💵 Деньги	💵 Money
+💵 История доходов	💵 Income history
+💸 Не хватает бюджета на зарплаты персоналу! Мотивация падает.	💸 Not enough budget for staff wages! Motivation is dropping.
+💸 Слишком дорого!	💸 Too expensive!
+💾 Ваш сохранённый ресторан (	💾 Your saved restaurant (
+📋 Ежедневные задания (обновление через	📋 Daily quests (refresh in
+📋 Ждут заказ:	📋 Waiting to order:
+📒 История вкладов и расходов	📒 Contributions and expenses history
+📜 Меню и цены	📜 Menu and prices
+📜 Секретный рецепт открыт: «	📜 Secret recipe unlocked: «
+📜 редкий рецепт	📜 rare recipe
+📝 КРИТИК	📝 CRITIC
+📝 Ресторанный критик пришёл! Обслужите его идеально.	📝 A restaurant critic has arrived! Serve them perfectly.
+📝✅ Критик в восторге! +8 репутации и премия $	📝✅ The critic is delighted! +8 reputation and a bonus $
+📝❌ Критик недоволен. Репутация -6, гостей временно меньше.	📝❌ The critic is unhappy. Reputation -6, fewer guests for a while.
+📡 Сейчас в ресторане	📡 Now in the restaurant
+📦 Каталог	📦 Catalog
+📦 СКЛАД	📦 STORAGE
+📦 Склад	📦 Storage
+📦 Склад:	📦 Storage:
+📨 Отправленные приглашения	📨 Sent invites
+🔒 Купить за	🔒 Buy for
+🔒 Плита ур. 5	🔒 Stove lvl 5
+🔒 нужно	🔒 requires
+🔥 Жарка: удерживайте огонь в зелёной зоне (держите кнопку / пробел)	🔥 Frying: keep the flame in the green zone (hold the button / space)
+🔥 Кухня:	🔥 Kitchen:
+🔨 Украсить остров	🔨 Decorate the island
+🔪 Нарезка: жмите, когда нож над зелёной зоной (3 раза)	🔪 Slicing: press when the knife is over the green zone (3 times)
+🗑️ Продать (50%)	🗑️ Sell (50%)
+🗓️ Еженедельные задания	🗓️ Weekly quests
+🗺️ Острова сервера	🗺️ Server islands
+🗺️ Посетить другие острова	🗺️ Visit other islands
+😕 Долго ждать...	😕 Taking too long...
+😡 Нет продуктов!	😡 No ingredients!
+😡 Ухожу!	😡 I'm leaving!
+😤 Не платят!	😤 No pay!
+😬 Упс!	😬 Oops!
+🙋 Запросы на вступление	🙋 Join requests
+🚁 W/S — вперёд/назад, A/D — поворот, Пробел/E — вверх, Shift/Q — вниз. Прыжок — выйти.	🚁 W/S — forward/back, A/D — turn, Space/E — up, Shift/Q — down. Jump — exit.
+🚁 Вертолёт возвращён (вне зоны полётов)	🚁 Helicopter returned (outside the flight zone)
+🚁 Вы купили вертолёт «	🚁 You bought the helicopter «
+🚤 W/S — вперёд/назад, A/D — поворот. Прыжок — выйти.	🚤 W/S — forward/back, A/D — turn. Jump — exit.
+🛋️ Интерьер	🛋️ Interior
+🛎️ РАЗДАЧА	🛎️ PASS
+🛒 Продукты	🛒 Ingredients
+🛡️ Барьер включён — остров закрыт	🛡️ Barrier on — the island is closed
+🛡️ Остров «	🛡️ Island «
+🛡️ закрыт	🛡️ closed
+🛫 Вызвать вертолёт на площадку	🛫 Call the helicopter to the pad
+🟢 Барьер выключен — остров открыт для гостей	🟢 Barrier off — the island is open to guests
+🟢 открыт	🟢 open
+🤖 Кухонный робот	🤖 Kitchen robot
+🤖 Кухонный робот готовит заказы вместо повара!	🤖 The kitchen robot cooks orders instead of the cook!
+🤝 Друг:	🤝 Friend:
+🤝 Место друга свободно	🤝 Friend spot is free
+🥇 Лучший ресторан сервера: «	🥇 Best restaurant on the server: «
+🥇 Прошлый победитель: «	🥇 Last winner: «
+🥛 Налейте ровно до отметки!	🥛 Pour exactly to the mark!
+🥤 Бар:	🥤 Bar:
+🥤 НАПИТКИ:	🥤 DRINKS:
+🥤 Напиток готов!	🥤 Drink ready!
+🥩 Подготовка мяса: отбейте точно в цель (3 раза)	🥩 Meat prep: pound exactly on target (3 times)
+🧑‍🍳 Персонал	🧑‍🍳 Staff
+🧪 Studio: выбрать уровень ресторана (сразу, без условий и взноса)	🧪 Studio: choose restaurant level (instantly, no requirements or fee)
+🧪 Studio: тестовая покупка выдана (Robux не списаны)	🧪 Studio: test purchase granted (no Robux charged)
+🧪 Studio: ускорить тест (+100 гостей, +$250k, репутация)	🧪 Studio: speed up test (+100 guests, +$250k, reputation)
+🧪 Режим Studio: платные профессии доступны для теста (Config.StudioGrantGamePasses).	🧪 Studio mode: paid professions available for testing (Config.StudioGrantGamePasses).
+🧹 Грязных столов:	🧹 Dirty tables:
+🧽 Чистота:	🧽 Cleanliness:
+🧽✅ Санитарная проверка пройдена! Премия $	🧽✅ Health inspection passed! Bonus $
+🧽❌ Грязно! Штраф $	🧽❌ Dirty! Fine $
+🧾 ЗАКАЗЫ	🧾 ORDERS
+🪑 Мест:	🪑 Seats:
+(бесплатно)	(free)
+(взято в руки)	(now in hand)
+(ещё	(left
+) — существо игрока	) — creature of player
+). Деньги — с личного баланса (	). Paid from your personal balance (
+). Отпустите кого-нибудь	). Release someone
+). Разберите лишнее	). Scrap some
+, что и существо.	as the creature.
+. Бесплатные бита и меч — на стенде у моста на каждом острове. ПК: ЛКМ — удар, F — способность. Телефон: кнопки справа.	. Free bat and sword are on the stand by the bridge on every island. PC: LMB — attack, F — ability. Phone: buttons on the right.
+/мин •	/min •
+/мин • рост	/min • growth
+10 звёзд падают в область прицела в течение 2 секунд.	10 stars fall onto the aimed area over 2 seconds.
+2 секунды извергаете пламя конусом перед собой.	Breathe fire in a cone in front of you for 2 seconds.
+2 секунды получаете на 40% меньше урона.	Take 40% less damage for 2 seconds.
+3 с: получаете вдвое меньше урона, половина возвращается атакующему.	3 s: take half damage, half of it is returned to the attacker.
+3 секунды затягивает врагов в точку прицела и наносит урон.	Pulls enemies into the aimed point for 3 seconds and damages them.
+5 секунд вокруг вас бушует буря и бьёт всех врагов рядом.	A storm rages around you for 5 seconds and hits all nearby enemies.
+6 огненных стрел падают в область прицела и поджигают врагов.	6 fire arrows fall onto the aimed area and set enemies on fire.
+: открыта вторая способность!	: second ability unlocked!
+: серия из	: a streak of
+«Только свои»: пока лаборатория защищена, посторонние не могут зайти внутрь. Когда она открывается по таймеру, войти могут все: это главная механика и её нельзя отключить.	«Members only»: while the lab is protected, outsiders can't enter. When it opens on the timer, anyone can enter: this is the core mechanic and it can't be disabled.
+»! Бегите в свою лабораторию. Если владелец ударит вас — добыча выпадет.	»! Run to your own lab. If the owner hits you, the loot drops.
+»! Откройте 🧪 → Блюда	» is ready! Open 🧪 → Dishes
+». Догоните и ударьте его оружием!	». Catch them and hit them with a weapon!
+Ёж с иголками-молниями. Бьёт током любого вора.	A hedgehog with lightning quills. Shocks any thief.
+Адский чили	Hellfire chili
+Алебарда бури	Storm Halberd
+Арена	Arena
+Арена не найдена	Arena not found
+Бесплатное	Free
+Бестиарий	Bestiary
+Бита	Bat
+Блюд пока нет. Вырастите существо и подождите — блюдо появится автоматически.	No dishes yet. Grow a creature and wait — the dish will appear automatically.
+Блюда	Dishes
+Бросает взрывной кокос в точку прицела (15 урона по области).	Throws an explosive coconut at the aimed point (15 area damage).
+Буря	Storm
+Быстрое	Fast
+Быстрое обслуживание	Fast service
+В инвентарь	To inventory
+Ваша коллекция заполнена	Your collection is full
+Веер урагана	Hurricane Fan
+Взрослый	Adult
+Взять бесплатно	Take for free
+Вилка роя	Swarm Fork
+Вихрь половника	Ladle Whirl
+Владелец разрешил вам закрывать лабораторию плитой.	The owner allowed you to close the lab with the plate.
+Возвращает вас туда, где вы были 3 с назад, вместе со здоровьем.	Returns you to where you were 3 s ago, health included.
+Волна сносит всех впереди (14 урона и отбрасывание).	A wave knocks back everyone in front (14 damage and knockback).
+Вор	Thief
+Вор с добычей медленнее на	A thief with loot is slower by
+Восходящий поток	Updraft
+Вы ещё едите	You are still eating
+Вы оглушены	You are stunned
+Выгодная кухня	Profitable kitchen
+Выпускает 3 самонаводящиеся пчелы в ближайших врагов.	Launches 3 homing bees at the nearest enemies.
+Галактические макаруны	Galaxy macarons
+Гидра-цветок	Hydra Bloom
+Глефа цепей Бездны	Abyss Chain Glaive
+Глитчик	Glitchling
+Гости едят быстрее на	Guests eat faster by
+Готовка быстрее на	Cooking faster by
+Готово особое блюдо «	Special dish «
+Грибосова	Mushowl
+Громовой венчик	Thunder Whisk
+Громовой попкорн	Thunder popcorn
+Громоёж	Thunderhog
+Гурман	Gourmet
+ДО ЗАКРЫТИЯ ОСТАЛОСЬ:	TIME LEFT TO CLOSE:
+Дальнобойное	Ranged
+Добытчик	Forager
+Добыча вернулась к владельцу	The loot returned to its owner
+Доверенные игроки (входят всегда и не могут красть)	Trusted players (always allowed in, can't steal)
+Доверять	Trust
+Доступ	Access
+Доход существ	Creature income
+Драконий бабл-ти	Dragon bubble tea
+Драконий вок	Dragon Wok
+Друг не может закрывать плитой	Friend can't close with the plate
+Другие существа растут быстрее на	Other creatures grow faster by
+Дыхание дракона	Dragon Breath
+Жаба с лавой внутри. На её спине можно жарить стейки.	A toad with lava inside. You can grill steaks on its back.
+Жезл звездопада	Starfall Baton
+Заводной жук с шестерёнками. Всё вокруг него тикает быстрее.	A clockwork beetle with gears. Everything around it ticks faster.
+Загрузка...	Loading...
+Закрывать лабораторию может только владелец (или друг с разрешения).	Only the owner (or a friend with permission) can close the lab.
+Запирает ближайшего противника впереди в пузырь на 1.2 с.	Traps the nearest enemy in front in a bubble for 1.2 s.
+Защита	Defense
+Защитная стойка	Defensive Stance
+Защитное	Defensive
+Звездопад	Starfall
+Звёздная лапша	Star noodles
+Звёздный цилинь	Astral Qilin
+Здесь никого нет	Nobody is here
+Зеркало	Mirror
+Зеркальный щит-клинок	Mirror Shield-Blade
+Змей из живого кристалла. Его сияние ускоряет рост.	A serpent of living crystal. Its glow speeds up growth.
+Знаменитость	Celebrity
+Золотая волна вокруг: 20 урона, отбрасывание и оглушение на 0.8 с.	A golden wave around you: 20 damage, knockback and a 0.8 s stun.
+Золотая лопатка Королей	Golden Spatula of Kings
+Золотой кот, машущий лапкой. Гости идут к нему толпами.	A golden waving cat. Guests flock to it.
+Золотой сундук	Golden chest
+Золотые пельмени	Golden dumplings
+Икра Пустоты	Void caviar
+Инвентарь оружия заполнен	Weapon inventory is full
+Инвентарь оружия заполнен (	Weapon inventory is full (
+Каменный голем	Stone Golem
+Камнекрот	Pebble Mole
+Капсула	Pod
+Капсула занята	The pod is taken
+Капсулы	Pods
+Карликовый кракен. Щупальцами таскает продукты из океана.	A dwarf kraken. Drags ingredients from the ocean with its tentacles.
+Квантовые палочки	Quantum Chopsticks
+Квантовый шквал	Quantum Barrage
+Кит Пустоты	Void Whale
+Кокосовая бомба	Coconut Bomb
+Кокосовая праща	Coconut Sling
+Коллекция	Collection
+Коллекция заполнена (	Collection is full (
+Колючий половник	Spiky Ladle
+Контроль	Control
+Конус огня: 10 урона и поджог на 3 секунды.	A cone of fire: 10 damage and burning for 3 seconds.
+Коралловые суши	Coral sushi
+Коралловый голем	Coral Golem
+Королевский сундук	Royal chest
+Коса Пустоты	Void Scythe
+Кот удачи Манэ	Mane the Lucky Cat
+Краб с панцирем из хрустящей булки. Обожает хлебные крошки.	A crab with a crunchy bread-roll shell. Loves breadcrumbs.
+Кракен прилива	Tide Kraken
+Красть дольше на	Stealing takes longer by
+Кристальная картошка	Crystal fries
+Кристальный змей	Crystal Wyrm
+Кристальный леденец	Crystal candy
+Крот с кристаллом на спине. Выкапывает продукты из-под земли.	A mole with a crystal on its back. Digs up ingredients.
+Крошкокраб	Crumbcrab
+Крутитесь на месте и бьёте всех вокруг (14 урона).	Spin in place and hit everyone around you (14 damage).
+Крылышки феникса	Phoenix wings
+Купол-страж	Guardian Dome
+ЛАБОРАТОРИЯ ВСЁ ЕЩЁ ОТКРЫТА!	THE LAB IS STILL OPEN!
+ЛКМ — удар • F — способность	LMB — attack • F — ability
+Лаборатория	Laboratory
+Лаборатория защищена	The lab is protected
+Лаборатория улучшена!	Lab upgraded!
+Лаборатория ур.	Lab lvl
+Лавовый стейк	Lava steak
+Легендарное	Legendary
+Ледяная зона вокруг вас: враги замедлены на 50% и мёрзнут.	An ice zone around you: enemies are slowed by 50% and freeze.
+Ледяное поле	Ice Field
+Лиана-кнут	Vine Whip
+Лис с фонариком на хвосте. Приводит щедрых гостей.	A fox with a lantern on its tail. Brings generous guests.
+Лук феникса	Phoenix Bow
+Лунные моти	Moon mochi
+Лунный кальмар	Moon Squid
+Луч пробивает всех на линии (22 урона, дальность 60).	A beam pierces everyone on the line (22 damage, range 60).
+Магическое	Magic
+Магможаба	Magmatoad
+Маленький дракон, выдыхающий мыльные пузыри.	A little dragon that breathes soap bubbles.
+Малыш	Baby
+Массовое	Mass
+Мгновенно бьёт до 3 врагов по очереди (15 урона) и возвращается.	Instantly hits up to 3 enemies one after another (15 damage) and returns.
+Медуза-колокольчик. Её звон ускоряет официантов.	A jellyfish bell. Its chime speeds up the waiters.
+Медузвон	Jellybell
+Метеорит	Meteor
+Метеоритная булава	Meteor Mace
+Меч	Sword
+Мираж	Mirage
+Мифическое	Mythical
+Молния бьёт ближайшего врага (16 урона) и оглушает на 0.6 с.	Lightning strikes the nearest enemy (16 damage) and stuns for 0.6 s.
+Морозная лопатка	Frost Spatula
+Мотылёк с крыльями-галактиками. Усиливает соседей.	A moth with galaxy wings. Empowers its neighbours.
+Мощный удар отбрасывает противника далеко назад.	A powerful hit sends the enemy flying far back.
+Мудрая сова со шляпкой гриба. Учит всех вокруг.	A wise owl with a mushroom hat. Teaches everyone around.
+Мудрость	Wisdom
+Мягкий слизень, светящийся в темноте. Оставляет сладкий след.	A soft slug that glows in the dark. Leaves a sweet trail.
+Небесный зверь с гривой из звёзд. Притягивает удачу.	A celestial beast with a mane of stars. Attracts luck.
+Нельзя красть у своей команды	You can't steal from your own team
+Необычное	Uncommon
+Нет свободных капсул. Улучшите лабораторию	No free pods. Upgrade the lab
+Нет такого сундука	No such chest
+Нужен ресторан	Requires a restaurant
+Нужна своя лаборатория: откройте ресторан или вступите в команду	You need your own lab: open a restaurant or join a team
+Обаяние	Charm
+Облачный бисквит	Cloud sponge cake
+Облачный щенок	Cloud Pup
+Обычное	Common
+Обычный сундук	Basic chest
+Огненная волна	Flame Wave
+Огненное суфле	Fire soufflé
+Огненный дождь	Fire Rain
+Огромное чудище в поварском колпаке. Лучший повар островов.	A huge monster in a chef's hat. The best cook on the islands.
+Один сундук = одно случайное существо. Шансы зависят от сундука, уровня лаборатории и существ-удачников (сейчас удача +	One chest = one random creature. Odds depend on the chest, the lab level and lucky creatures (current luck +
+Озорной бесёнок с рожками-перчиками. Подогревает плиты.	A mischievous imp with chili-pepper horns. Heats up the stoves.
+Олень с рогами из радужного стекла. Приносит удачу.	A stag with rainbow-glass antlers. Brings luck.
+Оружие	Weapons
+Оружие не найдено	Weapon not found
+Особые блюда появляются быстрее на	Special dishes appear faster by
+Оставляет взрывающуюся копию, а вы становитесь невидимым и быстрым на 3 с.	Leaves an exploding copy while you become invisible and fast for 3 s.
+Открытый доступ	Open access
+Парящий кит из звёздной пустоты. Его песня усиливает всех.	A floating whale of starry void. Its song empowers everyone.
+Паэлья кракена	Kraken paella
+Перемещение	Mobility
+Перемотка	Rewind
+Перчатка голема	Golem Gauntlet
+Перчёный бесёнок	Pepper Imp
+Перчёный клинок	Chili Blade
+Печенье-шестерёнки	Gear cookies
+Пиксельные кусочки	Pixel bites
+Пир Чудища	Beast's feast
+Пирог мудрости	Pie of wisdom
+Питательная аура	Nourishing aura
+Плазменная ложка-пушка	Plasma Spoon Cannon
+Плазменный луч	Plasma Beam
+Пламенный серафим	Ember Seraph
+Победа на арене	Arena victory
+Подбрасывает вас вверх и вперёд, сдувает врагов, +35% скорости на 4 с.	Launches you up and forward, blows enemies away, +35% speed for 4 s.
+Подождите перед следующей попыткой	Wait before the next attempt
+Подойдите ближе	Get closer
+Подросток	Teen
+Пока нечего забирать	Nothing to collect yet
+Пока никто не сражался	Nobody has fought yet
+Пока никто не сражался.	Nobody has fought yet.
+Помощник повара	Cook's helper
+Призменный олень	Prism Stag
+Призыв	Summon
+Призывает голема-помощника на 10 с: он преследует и бьёт врагов.	Summons a helper golem for 10 s: it chases and hits enemies.
+Приливная волна	Tidal Wave
+Приманка	Lure
+Птица из солнечного пламени. Ресторан сияет от её света.	A bird of solar flame. The restaurant shines in its light.
+Пудинг-колокольчик	Bell pudding
+Пузырчатая палочка	Bubble Wand
+Пузырчатый дракончик	Bubble Drake
+Пузырь-ловушка	Bubble Trap
+Пусто. Купите сундук во вкладке «Сундуки».	Empty. Buy a chest in the «Chests» tab.
+Пушистый щенок из облака. Гости не могут пройти мимо.	A fluffy puppy made of cloud. Guests can't walk past.
+Пыхогриб	Puffshroom
+Радужное парфе	Rainbow parfait
+Разбор оружия	Weapon scrap
+Разряд	Discharge
+Рамен фонарного лиса	Lantern fox ramen
+Рапира миража	Mirage Rapier
+Редкое	Rare
+Резонанс	Resonance
+Рой	Swarm
+Рост:	Growth:
+Руки заняты добычей	Your hands are busy with loot
+Руки уже заняты	Your hands are already full
+Рывок вперёд: первый противник получает 14 урона и отлетает.	Dash forward: the first enemy takes 14 damage and flies back.
+Салат трёх голов	Three-headed salad
+Светослизень	Glowslug
+Светящееся желе	Glowing jelly
+Светящийся кальмар с луны. О ресторане говорят на всех островах.	A glowing squid from the moon. Every island talks about your restaurant.
+Сейчас на арене:	Now in the arena:
+Секретное	Secret
+Сирена	Siren
+Скалка-таран	Rolling Pin Ram
+Сковывает до 3 врагов рядом: 14 урона и опутывание на 1.2 с.	Binds up to 3 nearby enemies: 14 damage and rooted for 1.2 s.
+Сначала возьмите оружие	Take a weapon first
+Сначала возьмите оружие (🧪 → Оружие или стенд на острове)	Take a weapon first (🧪 → Weapons or the stand on your island)
+Сначала встаньте	Stand up first
+Сначала заберите его из капсулы	Take it out of the pod first
+Солнечный феникс	Sun Phoenix
+Споровый суп	Spore soup
+Способность недоступна	Ability unavailable
+Способность перезаряжается	Ability is on cooldown
+Ставит 3 ловушки: наступивший опутан на 1.5 с и получает 12 урона.	Places 3 traps: whoever steps on one is rooted for 1.5 s and takes 12 damage.
+Сторож	Watchman
+Сундук:	Chest:
+Сундуки	Chests
+Существа	Creatures
+Существо в капсуле — оно начало расти!	The creature is in a pod — it started growing!
+Существо в капсуле!	Creature placed in a pod!
+Существо не найдено	Creature not found
+Существо отпущено	Creature released
+Существо сейчас украдено!	The creature is being stolen right now!
+Существо-ошибка из другой реальности. Ломает шансы в вашу пользу.	A glitch creature from another reality. Bends the odds in your favour.
+Табло сервера	Server board
+Таран	Ram
+Тарт вечности	Eternity tart
+Телепорт за спину ближайшего врага и удар (20 урона).	Teleport behind the nearest enemy and strike (20 damage).
+Теневой шаг	Shadow Step
+Теневые кунаи	Shadow Kunai
+Только свои	Members only
+Тост Крошкокраба	Crumbcrab toast
+Трезубец прилива	Tide Trident
+Трёхглавый цветочный змей. Каждая голова приносит прибыль.	A three-headed flower serpent. Every head brings profit.
+Туманная моль	Nebula Moth
+Тяжёлое	Heavy
+Тяжёлый страж из живых кораллов. Мешает ворам.	A heavy guardian of living coral. Hinders thieves.
+У вас уже есть:	You already have:
+Убрать	Remove
+Ударная волна Мидаса	Midas Shockwave
+Удача	Luck
+Уже в капсуле	Already in a pod
+Уже взрослое	Already adult
+Украсть	Steal
+Улучшение существа	Creature upgrade
+Ускорение роста	Growth speed-up
+Фонарный лис	Lantern Fox
+Фонарь Эгиды	Aegis Lantern
+Ходячий гриб, который пыхает облачками ароматных спор.	A walking mushroom that puffs clouds of fragrant spores.
+Хоум-ран	Home Run
+Хроно-тесак	Chrono Cleaver
+Хроночерепаха	Chrono Turtle
+Цепи душ	Soul Chains
+Цепной крюк	Chain Hook
+Цепью притягивает первого противника на линии к вам.	A chain pulls the first enemy on the line to you.
+Часовой жук	Clock Beetle
+Через секунду в точку прицела падает метеорит (26 урона по области).	A meteor falls onto the aimed point after a second (26 area damage).
+Черепаха с часами на панцире. Замедляет время для себя и ускоряет для кухни.	A turtle with a clock on its shell. Slows time for itself and speeds it up for the kitchen.
+Чёрная дыра	Black Hole
+Шестикрылый дух огня. Плиты горят ярче в его присутствии.	A six-winged spirit of fire. Stoves burn brighter in its presence.
+Шеф-Чудище	Chef Beast
+Шипастые ловушки	Thorn Traps
+Щит на 45 урона и лечение вам и другу рядом в течение 5 с.	A 45-damage shield and healing for you and a nearby friend for 5 s.
+Эпическое	Epic
+Это ваше существо	This is your creature
+Этого блюда нет в инвентаре	You don't have this dish
+Эту лабораторию только что ограбили. Попробуйте позже	This lab was just robbed. Try later
+Яйцо	Egg
+Якорь-крюк	Anchor Hook
+из бюджета	from the budget
+ингредиентов в минуту на склад	ingredients per minute to storage
+к выручке ресторана	to restaurant revenue
+к доходу других существ	to other creatures' income
+к чаевым	to tips
+к шансу редких существ в сундуках	to the chance of rare creatures in chests
+м	m
+опыта игрока	player XP
+оружие	weapon
+оружие «	weapon «
+остров свободен	island is free
+от существа «	from creature «
+откроется через	opens in
+побед!	wins!
+получил	got
+пусто — поставьте существо из коллекции	empty — place a creature from your collection
+репутации ресторана в минуту	restaurant reputation per minute
+с •	s •
+с • дальность	s • range
+с):	s):
+существ. Существа в коллекции в безопасности, но не растут и не приносят доход. В капсулах они работают, но их можно украсть, пока лаборатория открыта.	creatures. Creatures in the collection are safe but don't grow or earn. In pods they work, but they can be stolen while the lab is open.
+существо «	creature «
+теперь ваше	is now yours
+той же редкости	of the same rarity
+украл «	stole «
+уносит «	is carrying off «
+урона •	damage •
+— нужен ресторан	— requires restaurant
+• Лучшая серия:	• Best streak:
+• Ур.	• Lvl
+• капсул:	• pods:
+• на арене:	• in the arena:
+• скорость	• speed
+• ⚔️ побед	• ⚔️ wins
+• 💀 Поражения:	• 💀 Losses:
+• 💀 поражений	• 💀 losses
+• 😢 Украли у вас:	• 😢 Stolen from you:
+• 🚔 Вас поймали:	• 🚔 You were caught:
+• 🚨 украдено!	• 🚨 stolen!
+• 🛡️ Вы вернули:	• 🛡️ You returned:
+☠️ ОПАСНОСТЬ!	☠️ DANGER!
+☠️ ОПАСНОСТЬ! Всё ещё открыта — бегите к плите!	☠️ DANGER! Still open — run to the plate!
+☠️ ОПАСНОСТЬ! ЛАБОРАТОРИЯ ВСЁ ЕЩЁ ОТКРЫТА!	☠️ DANGER! THE LAB IS STILL OPEN!
+☠️ ОПАСНОСТЬ! ЛАБОРАТОРИЯ ВСЁ ЕЩЁ ОТКРЫТА! Наступите на плиту!	☠️ DANGER! THE LAB IS STILL OPEN! Step on the plate!
+☠️ ОПАСНОСТЬ! Лаборатория всё ещё открыта!	☠️ DANGER! The lab is still open!
+♻️ Разобрать	♻️ Scrap
+⚔️ АРЕНА	⚔️ ARENA
+⚔️ АРЕНА →	⚔️ ARENA →
+⚔️ АРЕНА ⚔️	⚔️ ARENA ⚔️
+⚔️ На арену	⚔️ To the arena
+⚔️ Победа над	⚔️ Victory over
+⚔️ Центральная арена соединена мостами со всеми 8 островами. На арене разрешены PvP-бои, на точках появления действует защита 6 секунд. Вне арены бить можно только вора с вашим существом (и вор может защищаться).	⚔️ The central arena is connected by bridges to all 8 islands. PvP fights are allowed in the arena; spawn points give 6 seconds of protection. Outside the arena you can only hit a thief carrying your creature (and the thief can fight back).
+⚔️ урон	⚔️ damage
+⚡ Вырастить	⚡ Grow now
+✋ Убрать оружие из рук	✋ Put the weapon away
+✓ В руках	✓ In hand
+✓ Друг может закрывать плитой	✓ Friend can close with the plate
+✓ Открытый доступ	✓ Open access
+✓ Только свои	✓ Members only
+✨ Бонусы ресторану:	✨ Restaurant bonuses:
+⬆️ Лаборатория ур.	⬆️ Lab lvl
+⬆️ Улучшить	⬆️ Upgrade
+⬇️ ЗАКРЫТЬ ЛАБОРАТОРИЮ ⬇️	⬇️ CLOSE THE LAB ⬇️
+🌱 Рост:	🌱 Growth:
+🍽️ Взрослые существа в капсулах готовят особые блюда. Съешьте блюдо — и получите случайное оружие	🍽️ Adult creatures in pods cook special dishes. Eat a dish to get a random weapon
+🎁 Блюдо подарило оружие!	🎁 The dish gave you a weapon!
+🏆 Победы:	🏆 Wins:
+🏆 ТАБЛО АРЕНЫ	🏆 ARENA BOARD
+🏆 ТАБЛО АРЕНЫ  (победы / поражения)	🏆 ARENA BOARD  (wins / losses)
+👀 Смотреть бои	👀 Watch fights
+👋 Отпустить	👋 Release
+💀 Вас победил	💀 You were defeated by
+💰 Забрать доход	💰 Collect income
+📖 Все существа островов. Чем выше редкость, тем реже они выпадают и тем сильнее их способности.	📖 All creatures of the islands. The rarer they are, the less often they drop and the stronger their abilities.
+📦 В коллекцию	📦 To collection
+📦 Коллекция:	📦 Collection:
+🔒 Нужен ресторан	🔒 Requires restaurant
+🔒 Ур.	🔒 Lvl
+🔒 ур.	🔒 lvl
+🗡️ БЕСПЛАТНОЕ ОРУЖИЕ	🗡️ FREE WEAPONS
+🗡️ Взять	🗡️ Take
+🗡️ Взять в руки	🗡️ Hold it
+🗡️ Моё оружие	🗡️ My weapons
+🗡️ Оружие:	🗡️ Weapons:
+😋 Ням-ням...	😋 Nom-nom...
+😋 Съесть	😋 Eat
+🚔 ТЕБЯ ПОЙМАЛИ! Добыча выпала	🚔 YOU WERE CAUGHT! The loot dropped
+🚨 ВНИМАНИЕ! ЛАБОРАТОРИЯ ОТКРЫТА! ЗАКРОЙ ЕЁ!	🚨 WARNING! THE LAB IS OPEN! CLOSE IT!
+🚨 ВНИМАНИЕ! ТВОЁ СУЩЕСТВО КРАДУТ! (	🚨 WARNING! YOUR CREATURE IS BEING STOLEN! (
+🚨 ВОР! Несёт:	🚨 THIEF! Carrying:
+🚨 Каждые 2 минуты лаборатория автоматически открывается. Добегите до плиты «ЗАКРЫТЬ ЛАБОРАТОРИЮ» и наступите на неё. Если не успеть, лаборатория НЕ закроется сама: она останется открытой, пока вы не наступите на плиту.	🚨 Every 2 minutes the lab opens automatically. Run to the «CLOSE THE LAB» plate and step on it. If you're late, the lab will NOT close by itself: it stays open until you step on the plate.
+🚨 ЛАБОРАТОРИЯ ОТКРЫТА!	🚨 THE LAB IS OPEN!
+🚨 ЛАБОРАТОРИЯ ОТКРЫТА! ДО ЗАКРЫТИЯ ОСТАЛОСЬ:	🚨 THE LAB IS OPEN! TIME LEFT TO CLOSE:
+🚨 ОТКРЫТА! До закрытия:	🚨 OPEN! Time to close:
+🚨 ОТКРЫТА! До конца таймера	🚨 OPEN! Timer ends in
+🚨 УКРАДЕНО!	🚨 STOLEN!
+🛡️ Вне арены	🛡️ Outside the arena
+🛡️ ЗАЩИЩЕНО	🛡️ PROTECTED
+🛡️ Защищена • откроется через	🛡️ Protected • opens in
+🛡️ ЛАБОРАТОРИЯ ЗАЩИЩЕНА	🛡️ THE LAB IS PROTECTED
+🛡️ ЛАБОРАТОРИЯ ЗАЩИЩЕНА • откроется через	🛡️ THE LAB IS PROTECTED • opens in
+🛡️ ЛАБОРАТОРИЯ ЗАЩИЩЕНА!	🛡️ THE LAB IS PROTECTED!
+🛡️ Лаборатория закрыта владельцем	🛡️ The lab is closed by its owner
+🛡️ СУЩЕСТВО ВОЗВРАЩЕНО:	🛡️ CREATURE RETURNED:
+🛡️ Сейчас защищена. Следующее открытие через	🛡️ Protected now. Next opening in
+🦹 Вы схватили «	🦹 You grabbed «
+🦹 КРАЖА УДАЛАСЬ!	🦹 THEFT SUCCESSFUL!
+🦹 С ДОБЫЧЕЙ	🦹 WITH LOOT
+🦹 Украдено вами:	🦹 Stolen by you:
+🧪 В капсулу	🧪 To a pod
+🧪 ЛАБОРАТОРИЯ	🧪 LABORATORY
+🧪 Лаборатория	🧪 Laboratory
+🧪 Лаборатория · 🏝️ остров	🧪 Laboratory · 🏝️ island
+🧪 Лаборатория есть у каждого ресторана. Откройте ресторан на свободном острове или вступите в команду друга.	🧪 Every restaurant has a lab. Open a restaurant on a free island or join a friend's team.
+🧪 Лаборатория ур.	🧪 Lab lvl
+🧪 Лаборатория:	🧪 Lab:
+🧪 Поставить в капсулу	🧪 Put in a pod
+Выбор сохраняется и сработает при следующем входе. Быстро переключить язык можно и кнопкой 🌐 внизу меню.	Your choice is saved and applies on your next join. You can also switch quickly with the 🌐 button at the bottom of the menu.
+Настройки	Settings
+Неизвестный язык	Unknown language
+ПК: ЛКМ — удар, F — уникальная способность оружия.	PC: LMB — attack, F — the weapon's unique ability.
+Русский	Русский
+Телефон: кнопки ⚔️ (удар) и ✨ (способность) справа внизу.	Phone: ⚔️ (attack) and ✨ (ability) buttons at the bottom right.
+появится, когда ресторан получит 3★	will appear when the restaurant gets 3★
+★ — на острове появилась ЛАБОРАТОРИЯ! Откройте 🧪 в меню	★ — a LABORATORY appeared on the island! Open 🧪 in the menu
+★. Развивайте ресторан: «Улучшения → Рейтинг ★».	★. Grow your restaurant: «Upgrades → Rating ★».
+🌐 Язык / Language	🌐 Язык / Language
+🎮 Управление боем	🎮 Combat controls
+🔒 ЛАБОРАТОРИЯ	🔒 LABORATORY
+🔒 Лаборатория появится на вашем острове, когда ресторан получит	🔒 The lab will appear on your island when the restaurant gets
+🧪 Ресторан получил	🧪 The restaurant reached
+⚠️ Ошибки скриптов (видно только в Studio и создателю игры). Сделайте скриншот. [нажмите, чтобы скрыть]	⚠️ Script errors (visible only in Studio and to the game creator). Take a screenshot. [click to hide]
+Блюдо выдано:	Dish given:
+Выдано 7 блюд — по одному каждой редкости	7 dishes given — one of each rarity
+Нет такой редкости	No such rarity
+Только для создателя игры	Game creator only
+🎁 Все 7 редкостей	🎁 All 7 rarities
+🛠️ Для создателя: выдать блюда моментально (обычные игроки этого не видят)	🛠️ Creator tools: give dishes instantly (regular players don't see this)
+). На чужой остров можно пройти только через его лабораторию: паром привезёт вас к её входу.	). You can enter someone else's island only through its laboratory: the ferry takes you to its entrance.
+⚔️ PvP разрешено везде: на островах, в лабораториях, на мостах и на арене (кроме небесной площадки ожидания). После появления — 5 секунд защиты, на точках арены — 6 секунд. Чужой остров окружён постоянным барьером: попасть на него можно только через его лабораторию, пока она открыта.	⚔️ PvP is allowed everywhere: on islands, in labs, on bridges and in the arena (except the sky lobby). 5 seconds of protection after spawning, 6 seconds at arena spawns. Every island has a permanent barrier: you can get onto someone else's island only through its laboratory while it is open.
+⛴️ Паром у входа в лабораторию. На остров можно пройти только через неё	⛴️ The ferry is at the lab entrance. You can enter the island only through the lab
+🛡️ Барьер! На чужой остров можно пройти только через лабораторию	🛡️ Barrier! You can enter someone else's island only through its laboratory
+🛡️ Закрытая плитой лаборатория запечатана: посторонние не могут войти внутрь, а значит, не могут попасть и на ваш остров (вокруг него постоянный барьер, путь только через лабораторию). Когда она открывается по таймеру, войти могут все: это главная механика и её нельзя отключить.	🛡️ A lab closed with the plate is sealed: strangers can't get inside, so they can't reach your island either (it has a permanent barrier, the only way in is through the lab). When it opens on the timer, anyone can enter: this is the core mechanic and can't be disabled.
+🛡️ Лаборатория закрыта — войти нельзя	🛡️ The lab is closed — you can't enter
+Админ	Admin
+Админ-панель	Admin panel
+Арбузино Слонелли	Arbuzino Slonelli
+Багеттино Рыцарелли	Bagettino Ritsarelli
+Барабанный борщ	Drum borscht
+Башня блинов	Pancake tower
+Бегемот-торт со свечками на спине. Каждый день — праздник.	A cake hippo with candles on its back. Every day is a party.
+Бегемотский торт	Hippo cake
+Блинчелло Башнери	Blinchello Bashneri
+Бургерозавро Гриллини	Burgerosauro Grillini
+Бюджет пополнен	Budget topped up
+В бюджет ресторана	To the restaurant budget
+Введите ник игрока	Enter a player's name
+Великан из стопки блинов с короной из масла и сиропом.	A giant made of a pancake stack with a butter crown and syrup.
+Ворчливая картошка в берете и с усами. Ворчит, но работает.	A grumpy potato in a beret with a mustache. Grumbles, but works.
+Вулканический чили	Volcano chili
+Выдавать права может только создатель игры	Only the game creator can grant rights
+Выдано 7 блюд	7 dishes given
+Выдано игроку	Given to player
+Выдать деньги	Give money
+Выдать права админа	Grant admin rights
+Галактическое тако	Galaxy taco
+Глитч-пицца	Glitch pizza
+Глитчетто Пиццелли	Glitchetto Pizzelli
+Готово	Done
+Деньги выданы	Money given
+Динобургер	Dino burger
+Динозавр из бургера. Рычит котлетой и машет листиком салата.	A dinosaur made of a burger. Roars with its patty and waves a lettuce leaf.
+Дракон из лапши, вылетающий из миски рамена.	A noodle dragon flying out of a ramen bowl.
+Дракон-чайник. Пыхтит паром и свистит, когда рядом вор.	A teapot dragon. Puffs steam and whistles when a thief is near.
+Драконий рамен	Dragon ramen
+Драконий чай	Dragon tea
+Желе-медуза	Jelly medusa
+Звёздные моти	Star mochi
+Игрок с таким ником не найден	No player with that name was found
+Императорский лобстер	Emperor lobster
+Капустино Барабанни	Kapustino Barabanni
+Карбонара бездны	Abyss carbonara
+Картофелло Ворчуни	Kartofello Vorchuni
+Коллекция заполнена или данные ещё загружаются	Collection is full or data is still loading
+Космо-пончик	Cosmo donut
+Кот-пицца в наушниках. Ставит музыку — гости танцуют.	A pizza cat in headphones. Puts on music — the guests dance.
+Кот-тостер. Когда радуется — из него выпрыгивают тосты.	A toaster cat. When happy, toasts jump out of it.
+Кото-тост	Cat toast
+Кофеино Совиньоли	Kofeino Sovinyoli
+Кочан-барабанщик. Стучит ритм для всей кухни.	A cabbage drummer. Beats the rhythm for the whole kitchen.
+Кракен из пасты карбонара. Утаскивает продукты из глубин.	A carbonara pasta kraken. Drags ingredients up from the depths.
+Кракенетти Карбонара	Krakenetti Carbonara
+Креветка-боксёр в перчатках. Отправляет воров в нокаут.	A shrimp boxer in gloves. Knocks thieves out.
+Креветки нокаут	Knockout shrimp
+Креветто Боксини	Krevetto Boksini
+Лимон-скейтер в тёмных очках. Самый крутой фрукт.	A skater lemon in sunglasses. The coolest fruit.
+Лимонад скейтера	Skater lemonade
+Лимончелло Скейтерини	Limonchello Skaterini
+Лобстер-император в короне и мантии. Правит всеми кухнями.	A lobster emperor in a crown and mantle. Rules every kitchen.
+Лобстеро Императоре	Lobstero Imperatore
+Лунамоти Кавайни	Lunamoti Kawaini
+Лунный дух-моти с ушками кролика. О ресторане говорят все острова.	A mochi moon spirit with bunny ears. Every island talks about your restaurant.
+Лунный сыр	Moon cheese
+Медуза из фруктового желе. Дрожит и светится.	A jellyfish made of fruit jelly. Wobbles and glows.
+Медузино Желатини	Meduzino Gelatini
+Мороженелло Пингвини	Morozhenello Pinguini
+Мышь-луна из сыра. Приносит удачу по ночам.	A cheese moon mouse. Brings luck at night.
+Ник игрока Roblox	Roblox player name
+Огненное фламбе	Fire flambé
+Осьминог-тефтелька с щупальцами из спагетти. Варит восемь блюд сразу.	A meatball octopus with spaghetti tentacles. Cooks eight dishes at once.
+Паста восьми рук	Eight-arm pasta
+Пельмени-сюрикены	Shuriken dumplings
+Пельменини Ниндзяччо	Pelmenini Ninjaccio
+Пельмень-ниндзя. Бесшумно прячется в тарелке.	A ninja dumpling. Silently hides in the plate.
+Перец-вулкан. Извергает острую лаву прямо на плиты.	A volcano pepper. Erupts spicy lava right onto the stoves.
+Перчелло Вулканини	Perchello Vulcanini
+Пингвин из рожка мороженого. Никогда не тает.	A penguin made of an ice cream cone. Never melts.
+Пингвиний пломбир	Penguin ice cream
+Пир Шефиссимо	Shefissimo's feast
+Пицца-вечеринка	Party pizza
+Пицца-призрак-ошибка из другого измерения. Ломает шансы.	A glitch pizza ghost from another dimension. Breaks the odds.
+Пиццагатто Диджеини	Pizzagatto DJ-ini
+Пока нет других админов.	No other admins yet.
+Пончик-космонавт в шлеме и с ракетным ранцем.	A donut astronaut with a helmet and a jetpack.
+Пончикко Космонавти	Ponchikko Cosmonauti
+Права админа сняты	Admin rights removed
+Права выданы	Rights granted
+Права сняты	Rights removed
+Пюре ворчуна	Grumpy mash
+Раменто Драконини	Ramento Draconini
+Ролл-самурай в доспехах из лосося с катаной-палочкой.	A samurai roll in salmon armor with a chopstick katana.
+Рыцарский сэндвич	Knight's sandwich
+Рыцарь-багет со щитом-круассаном. Защищает лабораторию.	A baguette knight with a croissant shield. Guards the lab.
+Самурайский ролл	Samurai roll
+Себе	Myself
+Слон из арбуза. Хоботом раздаёт гостям семечки.	An elephant made of watermelon. Hands out seeds to guests with its trunk.
+Слоновий арбузный сорбет	Elephant watermelon sorbet
+Снимать права может только создатель игры	Only the game creator can remove rights
+Снять права	Remove rights
+Сова-чашка кофе. Не спит никогда и учит всех вокруг.	A coffee cup owl. Never sleeps and teaches everyone around.
+Совиный эспрессо	Owl espresso
+Сосиска на роликах с полосой горчицы. Самая быстрая на острове.	A sausage on roller skates with a mustard stripe. The fastest on the island.
+Сосискино Роллерини	Sosiskino Rollerini
+Спагеттино Осьминоччи	Spaghettino Octopucci
+Сумма от 1 до 100 000 000	Amount from 1 to 100,000,000
+Сумма, например 100000	Amount, e.g. 100000
+Сушино Самурайчи	Sushino Samuraichi
+Существо выдано в коллекцию	Creature added to the collection
+Такого админа нет	No such admin
+Такотитан Галактико	Takotitan Galactico
+Титан-тако с начинкой из галактик и планетами вокруг.	A taco titan filled with galaxies, with planets around it.
+Только для админов	Admins only
+Только для админов.	Admins only.
+Тортелло Бегемотти	Tortello Begemotti
+Тостеро Кошкарини	Tostero Koshkarini
+У игрока нет ресторана	The player has no restaurant
+Феникс из пылающего крем-брюле. Возрождается из десерта.	A phoenix of blazing crème brûlée. Reborn from dessert.
+Фениксоне Фламбе	Fenixone Flambé
+Формаджо Лунаре	Formaggio Lunare
+Хот-дог на колёсах	Hot dog on wheels
+Чайникус Драконелло	Chaynikus Dragonello
+Четырёхрукий золотой шеф-гигант. Лучший повар всех миров.	A four-armed golden chef giant. The best cook of all worlds.
+Шефиссимо Супремо	Shefissimo Supremo
+выдал вам $	gave you $
+⚡ +100 гостей, +$250k в бюджет, репутация	⚡ +100 guests, +$250k to budget, reputation
+⭐ Ресторан	⭐ Restaurant
+🍽️ Особые блюда и 🧪 существа (по редкости)	🍽️ Special dishes and 🧪 creatures (by rarity)
+🎁 Админ	🎁 Admin
+🎁 Блюда: все 7	🎁 Dishes: all 7
+👑 Вы создатель игры — главный админ	👑 You are the game creator — head admin
+🛠️ Для админов: выдать блюда моментально (обычные игроки этого не видят)	🛠️ Admin tools: give dishes instantly (regular players don't see this)
+🛡️ Админ: выбрать уровень ресторана (сразу, без условий и взноса)	🛡️ Admin: choose the restaurant level (instantly, no requirements or fee)
+🛡️ Админ: ускорить (+100 гостей, +$250k, репутация)	🛡️ Admin: boost (+100 guests, +$250k, reputation)
+🛡️ Админы (выдавать и снимать права может только создатель)	🛡️ Admins (only the creator can grant and remove rights)
+🛡️ Вам выданы права админа	🛡️ You were granted admin rights
+🛡️ Вы админ	🛡️ You are an admin
